@@ -20,7 +20,7 @@ const MoreEighteen = () => {
       w-full h-full  bg-bgBody/90 backdrop-blur-md z-[100] overflow-hidden`} >
         <div className="p-4 md:p-0 h-screen m-auto flex justify-center items-center">
           <div
-            className='p-4 md:p-5 md:min-w-[650px] h-auto max-w-2xl w-full relative bg-white dark:bg-gray-700 rounded-lg shadow'>
+            className='p-4 md:p-5 md:min-w-[650px] h-auto max-w-2xl w-full relative bg-gray-700 dark:bg-gray-700 rounded-lg shadow'>
             <div className='w-full flex flex-col items-center justify-between mb-4 gap-3'>
               <h2 className='text-4xl md:text-6xl'>Perfect<span className='text-pink-300'>Porn</span></h2>
               <h3 className='text-xl md:text-2xl'>Are you 18?</h3>
