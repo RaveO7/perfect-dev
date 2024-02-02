@@ -33,6 +33,6 @@ import { Metadata, ResolvingMetadata } from 'next'
     //         type: "website",
     //     }
     // };
-}
+// }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) { return (<>{children}</>) }
