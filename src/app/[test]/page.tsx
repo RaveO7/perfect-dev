@@ -1,42 +1,68 @@
-import React from 'react'
-import Test from './test';
-import { upperFirstLetter } from '@/components/Utils';
+"use client"
 
+import React, { useState, useEffect } from 'react'
+import PageListVideo from '@/components/PageListVideo'
 
-export async function generateMetadata({
-    params,
-}: {
-    params: {
-        test: string;
-    };
-}) {
-    try {
-        if (false) {
-            return {
-                title: "Not Found",
-                description: "The page you are looking for does not exist.",
-            }
-        }
-        return {
-            title: upperFirstLetter(params.test) + 's',
-            description: 'All ' + params.test + 's in Perfectporn'
-        }
-
-    } catch (error) {
-        console.log(error);
-        return {
-            title: "Not Found",
-            description: "The page you are looking for does not exist.",
-        };
-    }
-}
-
-export default function Page({ params, searchParams, }: {
+export default function Test({ params, searchParams, }: {
     params: { test: string; }
     searchParams: { page: number }
 }) {
 
+    const tableau = ["channel", "pornstar", "categorie"]
+    const [valueMenu, setValueMenu] = useState("A->Z");
+    const type = tableau.includes(params.test) ? params.test : "channel"
+    const pageNbr: number = searchParams.page && !isNaN(searchParams.page) ? Math.abs(searchParams.page) : 1
+
+    const [videos, setDatasVideos] = useState([])
+    const [nbrPage, setNbrPage] = useState(0)
+    const [nbrVideos, setNbrVideos] = useState()
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        async function getSelectedShoes() {
+            try {
+                setLoading(true)
+                const apiUrlEndpoint = "/api/type"
+
+                const postData: any = {
+                    method: "POST",
+                    header: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        type: type,
+                        pageNbr: pageNbr,
+                        order: valueMenu,
+                    })
+                }
+
+                const response = await fetch(apiUrlEndpoint, postData)
+                const res = await response.json()
+
+                if (!res.length) return;
+
+                setDatasVideos(res)
+                setNbrPage(Math.ceil(res[0].nbrTt / 48))
+                setNbrVideos(res[0].nbrTt)
+                setLoading(false)
+            }
+            catch {
+                setLoading(false)
+                return;
+            }
+        }
+        getSelectedShoes();
+
+    }, [pageNbr, valueMenu])
+
     return (
-        <Test test={params.test} page={searchParams.page} />
+        <PageListVideo
+            valueMenu={valueMenu}
+            setValueMenu={setValueMenu}
+            videos={videos}
+            page={pageNbr}
+            numberPage={nbrPage}
+            nomGroupe={type}
+            nbrVideo={nbrVideos}
+            loading={loading}
+        />
     )
 }

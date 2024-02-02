@@ -58,7 +58,6 @@ export function DroptownMenu(props: Props) {
             </button>
 
             {openDropdownMenu && (
-                // <div className={`bg-blue-400  ${openSearchBar ? "top-[96px]" : "top-[60px]" } overflow-hidden absolute flex flex-col items-start rounded-lg w-[140px]`}
                 <div className={`bg-pink-400 dark:bg-pink-400 absolute overflow-hidden  flex flex-col items-start rounded-lg w-[140px]`}
 
                     onClick={(e) => handleClick(e)} >

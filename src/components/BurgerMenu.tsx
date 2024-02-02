@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { X, Menu } from 'lucide-react';
+import Image from 'next/image';
 
 export default function BurgerMenu() {
     const [burgerMenu, setBurgerMenu] = useState(false);
     const ref = useRef(null);
+
     useEffect(() => {
         const handleOutSideClick = (event: any) => {
             const elementPrincipale: any = ref.current
@@ -15,6 +17,7 @@ export default function BurgerMenu() {
 
         return () => { window.removeEventListener("mousedown", handleOutSideClick); };
     }, [ref]);
+
     const classLink = 'whitespace-nowrap rounded flex h-8 w-full items-center p-2 hover:bg-[#292c33] dark:hover:bg-[#292c33]'
     return (
         <div ref={ref} className='relative flex flex-col'>
@@ -40,13 +43,12 @@ export default function BurgerMenu() {
                     <Link onClick={() => setBurgerMenu(false)} href={"/channel"} className={classLink}>Channels</Link>
                     <Link onClick={() => setBurgerMenu(false)} href={"/pornstar"} className={classLink}>Pornstars</Link>
                     <Link onClick={() => setBurgerMenu(false)} href={"/categorie"} className={classLink}>Categories</Link>
-                    <Link onClick={() => setBurgerMenu(false)} href={"/videos/random"} className={classLink}>Random Video</Link>
+                    {/* <Link onClick={() => setBurgerMenu(false)} href={"/videos/" + Math.floor(Math.random() * 74) + 1} className={classLink}>Random Video</Link> */}
                 </div>
                 <div className='hd:hidden flex flex-row justify-between  space-x-2 items-center border-t border-[#292C33] p-2'>
-                    <a href="https://www.buymeacoffee.com/perfectporn" target="_blank" className='w-full flex justify-center'>
-                        <img className='w-10 h-10' src='https://media.giphy.com/media/TDQOtnWgsBx99cNoyH/giphy.gif' alt='Buy me a coffee for help the developer' />
-                    </a>
-                    {/* <button role='button' type='button' className='whitespace-nowrap rounded-full bg-[#eff0f1] text-gray-700 px-[18px] min-h-10 h-10 w-auto text-sm hover:bg-[#dfe0e0]'>Sign Up</button> <button role='button' type='button' className='whitespace-nowrap rounded-full bg-[#2f333b] text-slate-50 px-[18px] min-h-10 h-10 w-auto text-sm hover:bg-[#383b44]'>Log in</button>*/}
+                    <Link href="https://www.buymeacoffee.com/perfectporn" target="_blank" className='w-full flex justify-center'>
+                        <Image width={40} height={40} className='w-10 h-10' src='https://media.giphy.com/media/TDQOtnWgsBx99cNoyH/giphy.gif' alt='Buy me a coffee for help the developer' loading='lazy' />
+                    </Link>
                 </div>
             </div>
         </div>

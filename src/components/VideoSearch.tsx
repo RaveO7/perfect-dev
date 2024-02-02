@@ -1,10 +1,9 @@
 import Link from 'next/link'
 import React from 'react'
-import { upperFirstLetter } from './Utils'
 import Image from 'next/image'
+import { formatString } from './Utils'
 
 export default function VideoPresentationSearch({ title, photo, type }: any) {
-
     return (
         <Link href={'/' + type + '/' + title}
             title={type + ' ' + title}
@@ -19,8 +18,6 @@ export default function VideoPresentationSearch({ title, photo, type }: any) {
                     height='1'
                     decoding="async"
                     data-nimg="1"
-
-
                     alt={title + ' Image ' + type}
                     loading="lazy" width="400"
                     src={photo}
@@ -28,7 +25,7 @@ export default function VideoPresentationSearch({ title, photo, type }: any) {
             </div>
 
             <h3 className="overflow-hidden  text-timeVideo group-hover:text-white text-[16px] font-[600] leading-5 tracking-wide mt-1 break-words max-h-10">
-                {upperFirstLetter(title)}
+                {formatString(title)}
             </h3>
         </Link>
     )

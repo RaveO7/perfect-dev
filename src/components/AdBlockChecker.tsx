@@ -20,21 +20,23 @@ const AdBlockChecker = () => {
 
     const hasAdblockByScript = async () => {
         const urls = [
-            //   "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
             "https://adblockanalytics.com",
         ];
 
         for (const url of urls) {
+
             const config: any = {
                 method: 'HEAD',
                 mode: 'no-cors',
             };
             const request = new Request(url, config);
 
+
             try {
-                await fetch(request);
+                const t = await fetch(request);
                 return false;
             } catch (error) {
+                console.clear()
                 // Blocked by script
             }
         }

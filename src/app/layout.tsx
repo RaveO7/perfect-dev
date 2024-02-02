@@ -5,6 +5,8 @@ import './globals.css'
 import Header from '../components/Header'
 import AdBlock from '@/components/AdBlock'
 import MoreEighteen from '@/components/MoreEighteen'
+import ModalPub from '@/components/ModalPub'
+import PageDontLeave from '@/components/PageDontLeave'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -37,10 +39,12 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <AdBlock />
+    <html lang="en" >
+      <body className={inter.className} suppressHydrationWarning={true}>
         <MoreEighteen />
+        {/* <AdBlock /> */}
+        {/* <ModalPub /> */}
+        {/* <PageDontLeave /> */}
         <main className="flex min-h-screen flex-col items-center ">
           <Header />
           <section className="w-full mt-[72px] py-6 lg:px-12 ">

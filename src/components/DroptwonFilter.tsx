@@ -7,6 +7,7 @@ import Link from 'next/link';
 interface Props {
     valueMenu: string
     setValueMenu: Dispatch<SetStateAction<string>>
+    list: Array<string>
 }
 
 export default function BurgerMenuIndexPage(props: Props) {
@@ -37,13 +38,8 @@ export default function BurgerMenuIndexPage(props: Props) {
         setBurgerMenu(false)
     }
 
-    var list = [
-        "Latest",
-        "More View",
-        "Most Popular",
-        "A->Z",
-        "Z->A",
-    ];
+    var list = props.list
+
 
     list = list.filter(list => list !== valueMenu);
 
@@ -57,7 +53,6 @@ export default function BurgerMenuIndexPage(props: Props) {
             </button>
 
             {burgerMenu && (
-                // shadow-[0px_4px_6px_#00ffff,0px_2px_22px_#00ffff0f]
                 <div className="min-w-full
                 absolute -right-1 top-12 flex origin-bottom-right flex-col rounded-2xl
                 shadow-[0px_4px_6px_#0f131a99,0px_2px_22px_#FFFFF0f] bg-[#1b1f24] text-[#f5f5f5] border-x-2 border-y-[1px] border-[#292C33]">

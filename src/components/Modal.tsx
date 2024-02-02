@@ -73,7 +73,7 @@ export function Modal(props: Props) {
     }, [ref]);
 
     return (
-        <div data-modal-backdrop="static" aria-hidden="true" className={`${openSearchBar ? "flex" : "hidden"}
+        <div data-modal-backdrop="static" className={`${openSearchBar ? "flex" : "hidden"}
         fixed top-0 right-0 left-0 justify-center items-center md:inset-0 
         w-full h-full bg-bgBody/90 backdrop-blur-md z-50 overflow-hidden`} >
             <div className="p-4 md:p-0">
@@ -81,7 +81,7 @@ export function Modal(props: Props) {
                     className='p-4 md:p-5 md:min-w-[650px] h-auto max-w-2xl w-full relative bg-gray-700 dark:bg-gray-700 rounded-lg shadow'>
 
                     <div className='flex justify-end mb-3 absolute right-1 top-1'>
-                        <button type="button" data-modal-hide="static-modal" onClick={searchStart}
+                        <button type="button" onClick={searchStart}
                             className="
                         w-8 h-8 text-sm rounded-lg
                         inline-flex justify-center items-center
@@ -106,12 +106,15 @@ export function Modal(props: Props) {
 
                     </div>
 
-                    <button type="button"
+                    <button
+                        type="submit"
+                        name='submit'
                         className="w-[95%] text block m-auto
                         focus:ring-4 focus:outline-none font-medium rounded-lg text-sm-center 
                         text-white bg-pink-600 hover:bg-pink-700 focus:ring-pink-300
                         dark:text-white dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
-                        <input type='submit' name='submit' value="Valider" className='w-full py-3  hover:cursor-pointer' />
+                        <p className='w-full py-3 hover:cursor-pointer'>Valider</p>
+                        {/* <input type='submit' name='submit' value="Valider" className='w-full py-3 hover:cursor-pointer' /> */}
                     </button>
 
                 </form>

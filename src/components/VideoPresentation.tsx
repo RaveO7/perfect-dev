@@ -3,25 +3,28 @@ import Image from 'next/image'
 import React from 'react'
 import { IoMdThumbsUp } from "react-icons/io";
 import { IoEyeSharp } from "react-icons/io5";
-import { upperFirstLetter } from './Utils';
+import { formatString, upperFirstLetter } from './Utils';
 
-export default function VideoPresentation({ id, type, title, url, channels, time, view, like, dislike }: any) {
+export default function
+    VideoPresentation({ id, type, title, url, channels, time, view, like, dislike }: any) {
     const channel = channels == undefined ? "" : upperFirstLetter(channels.replace(/,.*$/, ''))
     const rating = ((100 * like) / (like + dislike)) ? (100 * like) / (like + dislike) : 0;
 
     const classDiv = type == "video" ? "group p-1 md:p-2 w-1/3 flex flex-wrap overflow-hidden" : "group p-1 md:p-2  w-1/2 md:w-1/3 xl:w-1/4 flex flex-wrap overflow-hidden"
+
     return (
         <div className={classDiv}>
             <Link
                 href={'/videos/' + id + "?name=" + title} title={title}
                 className='w-full relative aspect-video overflow-hidden rounded-xl block'
                 role='link'
-                aria-label={'Go to' + title}>
+                aria-label={'Go to video ' + title}>
                 <Image
-                    className="block h-full w-full object-cover object-center sm:transition-transform sm:duration-[400ms] sm:ease-in-out sm:group-hover:scale-105"
+                    className="block w-full h-full object-fill object-center sm:transition-transform sm:duration-[400ms] sm:ease-in-out sm:group-hover:scale-105"
+                    // object-cover
                     alt={title}
                     loading="lazy"
-                    width='400'
+                    width='300'
                     quality={100}
                     height='1'
                     decoding="async"
@@ -39,7 +42,7 @@ export default function VideoPresentation({ id, type, title, url, channels, time
                 <Link href={'/chanelle/' + encodeURI(channel)}
                     title={channel}
                     role='link'
-                    aria-label={'Go to' + channel} className="hover:text-white w-full text-ellipsis overflow-hidden max-h-5">{channel}</Link>
+                    aria-label={'Go to channel ' + formatString(channel)} className="hover:text-white w-full text-ellipsis overflow-hidden max-h-5">{formatString(channel)}</Link>
                 <div className="flex items-center">
                     <IoEyeSharp className="mr-[2px] text-grey-500" />
                     <p className="mr-2 hover:cursor-auto">{view}</p>
@@ -49,7 +52,8 @@ export default function VideoPresentation({ id, type, title, url, channels, time
             </div>
 
             <Link href={'/videos/' + id + "?name=" + title} role='link' aria-label={'Go to video ' + title} className='overflow-hidden'>
-                <h3 className="text-timeVideo group-hover:text-white text-[16px] font-[600] leading-5 tracking-wide mt-1 break-words max-h-10">
+                <h3 className="text-timeVideo group-hover:text-white text-[16px] font-[600] leading-5 tracking-wide mt-1 break-words h-10">
+                    {/* max-h-10 */}
                     {title}
                 </h3>
             </Link>

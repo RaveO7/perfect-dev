@@ -39,9 +39,6 @@ model Channel {
 
   @@id([idVideo, name])
 }
-
-
-
 model Categorie {
   idVideo Int
   name    String

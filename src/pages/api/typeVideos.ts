@@ -10,25 +10,62 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
         const name = JSON.parse(req.body).name
 
-        let posts = []
+        let tab
+        let col
         switch (JSON.parse(req.body).type) {
             case "channel":
-                posts[0] = await prisma.videos.count({ where: { channels: { contains: name } } })
-                posts[1] = await prisma.videos.findMany({ skip: startSearchVideo, take: numberVideoByPage, where: { channels: { contains: name } }, })
+                tab = "Channel"
+                col = "channels"
+
                 break;
             case "pornstar":
-                posts[0] = await prisma.videos.count({ where: { actors: { contains: name } } })
-                posts[1] = await prisma.videos.findMany({ skip: startSearchVideo, take: numberVideoByPage, where: { actors: { contains: name } } })
+                tab = "Actor"
+                col = "actors"
                 break;
             case "categorie":
-                posts[0] = await prisma.videos.count({ where: { categories: { contains: name } } })
-                posts[1] = await prisma.videos.findMany({ skip: startSearchVideo, take: numberVideoByPage, where: { categories: { contains: name } } })
+                tab = "Categorie"
+                col = "categories"
                 break;
             default:
-                posts[0] = await prisma.videos.count({ where: { channels: { contains: name } } })
-                posts[1] = await prisma.videos.findMany({ skip: startSearchVideo, take: numberVideoByPage, where: { channels: { contains: name } } })
+                tab = "Channel"
+                col = "channels"
                 break;
         }
+
+        var order: string
+        switch (JSON.parse(req.body).order) {
+            case "Latest":
+                order = "ORDER BY id DESC"
+                break;
+            case "More View":
+                order = "ORDER BY view DESC"
+                break;
+            case "Most Popular":
+                order = "ORDER BY 'like' DESC"
+                break;
+            case "A->Z":
+                order = "ORDER BY title ASC"
+                break;
+            case "Z->A":
+                order = "ORDER BY title DESC"
+                break;
+            default:
+                order = "ORDER BY id DESC"
+                break;
+        }
+
+        let posts: any = await prisma.$queryRawUnsafe(`
+            SELECT
+                *, (SELECT COUNT(name)  FROM ${tab} WHERE name LIKE '%${name}%') AS nbr
+            FROM Videos
+            WHERE ${col} LIKE '%${name}%'
+            ${order}
+            LIMIT ${startSearchVideo}, ${numberVideoByPage}
+        `)
+
+        posts.forEach((element: { nbr: number; }) => {
+            element.nbr = Number(element.nbr)
+        });
 
         await prisma.$disconnect()
         res.json(posts)

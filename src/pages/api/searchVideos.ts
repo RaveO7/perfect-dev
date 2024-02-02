@@ -69,18 +69,20 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         }
 
         const posts: any = await prisma.$queryRawUnsafe(`
-    SELECT
-    (SELECT COUNT(*) FROM ${tab} WHERE ${col} LIKE '%${search}%') AS nbr, t.${col}, v.*
-    FROM
-    ${tab} t
-    INNER JOIN 
-        Videos v
-            WHERE t.${idType} = v.id
-            AND t.${col} LIKE '%${search}%'
-    GROUP BY t.${col}
-    ORDER BY t.${col} ASC
-    LIMIT ${startSearchVideo}, ${numberVideoByPage}
-  `)
+        SELECT
+        (SELECT COUNT(*) FROM ${tab} WHERE ${col} LIKE '%${search}%') AS nbr, t.${col}, v.*
+        FROM
+        ${tab} t
+        INNER JOIN 
+            Videos v
+                WHERE t.${idType} = v.id
+                AND t.${col} LIKE '%${search}%'
+        GROUP BY t.${col}
+        ${order}
+        LIMIT ${startSearchVideo}, ${numberVideoByPage}
+    `)
+    //         ORDER BY t.${col} ASC
+
 
         posts.forEach((element: { nbr: number; }) => {
             element.nbr = Number(element.nbr)

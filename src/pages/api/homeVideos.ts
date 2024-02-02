@@ -39,7 +39,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             element.nbr = Number(element.nbr)
         });
 
-
         await prisma.$disconnect()
         res.json(posts)
     }

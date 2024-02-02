@@ -36,26 +36,27 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
                 order = "ORDER BY t.name DESC"
                 break;
             default:
-                order = "ORDER BY t.idVideo DESC"
+                order = "ORDER BY t.name ASC"
                 break;
         }
 
         const posts: any = await prisma.$queryRawUnsafe(`
-        SELECT
-        (SELECT COUNT(DISTINCT name) FROM ${tab}) AS nbr,
-        t.name, v.imgUrl
-        FROM
-        ${tab} t
-        INNER JOIN 
-            Videos v
-                WHERE t.idVideo = v.id
-        GROUP BY t.name
-        ORDER BY t.name ASC
-        LIMIT ${startSearchVideo}, ${numberVideoByPage}
-      `)
+            SELECT
+                t.name, v.imgUrl, COUNT(*) AS nbr,
+            (SELECT COUNT(*) FROM (SELECT name FROM ${tab} GROUP BY name HAVING COUNT(*) >= 3) AS subquery) AS nbrTt
+            FROM ${tab} t
+            INNER JOIN Videos v ON t.idVideo = v.id
+            GROUP BY t.name
+            HAVING nbr >= 3
+            ${order}
+            LIMIT ${startSearchVideo}, ${numberVideoByPage}
+        `)
 
         posts.forEach((element: { nbr: number; }) => {
             element.nbr = Number(element.nbr)
+        });
+        posts.forEach((element: { nbrTt: number; }) => {
+            element.nbrTt = Number(element.nbrTt)
         });
 
         await prisma.$disconnect()

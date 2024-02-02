@@ -87,3 +87,30 @@ export function getCookie(name: string | number) {
   }
   return null;
 }
+
+export function deleteCookie(name: string, path: string) {
+  if (getCookie(name)) {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path};` 
+      
+  }
+}
+
+  export function formatString(str: string) {
+    return str.replace(/([a-z\W])([A-Z])|([a-z])(\d)|(\d{2,})([A-Z])|(\d)([A-Z])|(\d)([A-Z]{2})/g, (match, avantMajusculeSpecial, majuscule1, minuscule2, chiffre, chiffres, majuscule2, chiffreAlone, deuxMajuscules) => {
+      if (avantMajusculeSpecial && majuscule1) {
+        // Ajoute un espace entre un caractère spécial ou une minuscule et une majuscule
+        return `${avantMajusculeSpecial} ${majuscule1}`;
+      } else if (minuscule2 && chiffre) {
+        // Ajoute un espace entre une minuscule et un chiffre
+        return `${minuscule2} ${chiffre}`;
+      } else if (chiffres && majuscule2) {
+        // Ajoute un espace entre plusieurs chiffres et une majuscule
+        return `${chiffres} ${majuscule2}`;
+      } else if (chiffreAlone && deuxMajuscules) {
+        // Ajoute un espace entre un chiffre seul et deux majuscules
+        return `${chiffreAlone}${deuxMajuscules} `;
+      } else {
+        return match; // Aucun espace ajouté
+      }
+    });
+  }

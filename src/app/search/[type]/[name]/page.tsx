@@ -15,6 +15,7 @@ export default function SearchPage({ params, searchParams, }: {
   const [nbrPage, setNbrPage] = useState(0)
   const [nbrVideos, setNbrVideos] = useState();
   const [loading, setLoading] = useState(true)
+  const [valueMenu, setValueMenu] = useState("Latest");
 
   useEffect(() => {
     async function getPageData() {
@@ -28,6 +29,7 @@ export default function SearchPage({ params, searchParams, }: {
             type: type,
             search: search,
             pageNbr: pageNbr,
+            order: valueMenu,
           })
         }
         const response = await fetch(apiUrlEndpoint, postData)
@@ -49,8 +51,8 @@ export default function SearchPage({ params, searchParams, }: {
 
   return (
     <PageListVideo
-      valueMenu={""}
-      setValueMenu={""}
+      valueMenu={valueMenu}
+      setValueMenu={setValueMenu}
       videos={videos}
       page={pageNbr}
       numberPage={nbrPage}

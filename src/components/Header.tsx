@@ -6,8 +6,8 @@ import Separateur from './Separateur'
 import { IoSearch } from "react-icons/io5";
 import { DroptownMenu } from './DroptownMenu';
 import { Modal } from './Modal';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
 import BurgerMenu from './BurgerMenu';
+import Image from 'next/image';
 
 export default function Header() {
     const [openSearchBar, setOpenSearchBar] = useState(false);
@@ -18,13 +18,6 @@ export default function Header() {
 
     return (
         <header className='w-full z-50 bg-midnight px-4 md:px-8 lg:px-12 py-4 fixed'>
-            <HelmetProvider>
-                <Helmet>
-                    <script type="text/javascript" src="https://news-paxacu.com/code/https-v2.js?uid=176032&site=1219803064&banadu=0&sub1=sub1&sub2=sub2&sub3=sub3&sub4=sub4" async></script>
-                    <script type="text/javascript" src="https://news-xekiyo.cc/process.js?id=1219803064&p1=sub1&p2=sub2&p3=sub3&p4=sub4" async></script>
-                </Helmet>
-            </HelmetProvider>
-
             <nav className="flex flex-row items-center justify-between m-auto w-full gap-5">
 
                 {/* Left Part of Header */}
@@ -55,11 +48,15 @@ export default function Header() {
                 </div>
 
                 <div className='hd:min-w-[210px] flex justify-end items-center gap-2 relative'>
-                    {/* <button role='button' type='button' className='hd:inline hidden rounded-full bg-slate-50 text-gray-700 px-[18px] min-h-10 h-10 w-auto text-sm hover:bg-slate-200'>Sign Up</button> <button role='button' type='button' className='hd:inline hidden rounded-full bg-gray-700 text-slate-50 px-[18px] min-h-10 h-10 w-auto text-sm hover:bg-gray-600'>Log in</button> */}
-                    <a href="https://www.buymeacoffee.com/perfectporn" target="_blank" className='hd:flex hidden  w-full  justify-center'>
-                        <img className='h-10' src='https://cdn.buymeacoffee.com/buttons/v2/lato-yellow.png' alt='Buy me a coffee for help the developer' />
-                    </a>
-                    
+                    <Link href="https://www.buymeacoffee.com/perfectporn" target="_blank" className='hd:flex hidden w-full justify-center'>
+                        <Image
+                            className='w-full max-w-xl h-10'
+                            width={430}
+                            height={40}
+                            src='https://cdn.buymeacoffee.com/buttons/v2/lato-yellow.png'
+                            alt='Buy me a coffee for help the developer' />
+                    </Link>
+
                     <IoSearch id="b" className="md:hidden block hover:cursor-pointer hover:text-white w-6 h-6 md:w-5 md:h-5 text-gray-300 mr-1" onClick={searchStart} />
 
                     <div className='md:inline hidden'><Separateur /></div>

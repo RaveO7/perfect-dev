@@ -1,27 +1,23 @@
 // components/AgeVerificationModal.js
 'use client'
 import { useEffect, useState } from 'react';
+import { getCookie, setCookie } from './Utils';
 
 const MoreEighteen = () => {
   const [morenMoreEighteen, setMorenMoreEighteen] = useState(false);
 
-  useEffect(() => {
-    const moreEighteen = sessionStorage.getItem('moreEighteen');
-    if (!moreEighteen) {
-      setMorenMoreEighteen(true);
-    }
-  }, []);
+  useEffect(() => { if (!getCookie('moreEighteen')) { setMorenMoreEighteen(true); } }, []);
 
   const handleModalClick = () => {
     setMorenMoreEighteen(false);
-    sessionStorage.setItem('moreEighteen', 'true');
+    setCookie('moreEighteen', 'true', 0.2, '/')
   };
 
   return (
     morenMoreEighteen && (
       <div data-modal-backdrop="static" aria-hidden="true" className={`
       fixed top-0 right-0 left-0 bottom-0 justify-center items-center md:inset-0 
-      w-full h-full  bg-bgBody/90 backdrop-blur-md z-50 overflow-hidden`} >
+      w-full h-full  bg-bgBody/90 backdrop-blur-md z-[100] overflow-hidden`} >
         <div className="p-4 md:p-0 h-screen m-auto flex justify-center items-center">
           <div
             className='p-4 md:p-5 md:min-w-[650px] h-auto max-w-2xl w-full relative bg-white dark:bg-gray-700 rounded-lg shadow'>

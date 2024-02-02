@@ -8,13 +8,14 @@ export default function Page({ params, searchParams, }: {
     searchParams: { page: number }
 }) {
     const tableau = ["channel", "pornstar", "categorie"]
+    const [valueMenu, setValueMenu] = useState("Latest");
     const type = tableau.includes(params.test) ? params.test : "channel"
     const name = decodeURI(params.id).toString()
     const pageNbr: number = searchParams.page && !isNaN(searchParams.page) ? Math.abs(searchParams.page) : 1
 
     const [videos, setDatasVideos] = useState([]) //Tableaux contenant toutes les vidéos
     const [nbrPage, setNbrPage] = useState(0) //Nombre de pages 1 page contient 48 vidéos
-    const [nbrVideos, setNbrVideos] = useState(true) //Nombre de vidéos totale par rapport à la recherche
+    const [nbrVideos, setNbrVideos] = useState(1) //Nombre de vidéos totale par rapport à la recherche
     const [loading, setLoading] = useState(true) //Affiche Loading le temps de la promesse du fetch()
 
     useEffect(() => {
@@ -30,15 +31,16 @@ export default function Page({ params, searchParams, }: {
                         type: type,
                         name: name,
                         pageNbr: pageNbr,
+                        order: valueMenu,
                     })
                 }
 
                 const response = await fetch(apiUrlEndpoint, postData)
                 const res = await response.json()
 
-                setNbrPage(Math.ceil(res[0] / 48))
-                setNbrVideos(res[0])
-                setDatasVideos(res[1])
+                setNbrPage(Math.ceil(res[0].nbr / 48))
+                setNbrVideos(res[0].nbr)
+                setDatasVideos(res)
                 setLoading(false)
             }
             catch {
@@ -48,12 +50,12 @@ export default function Page({ params, searchParams, }: {
         }
         getSelectedShoes();
 
-    }, [name, pageNbr])
+    }, [name, pageNbr, valueMenu])
 
     return (
         <PageListVideo
-            valueMenu={""}
-            setValueMenu={""}
+            valueMenu={valueMenu}
+            setValueMenu={setValueMenu}
             videos={videos}
             page={pageNbr}
             numberPage={nbrPage}

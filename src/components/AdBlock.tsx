@@ -15,7 +15,7 @@ export default function AdBlock() {
     return (
       <div data-modal-backdrop="static" aria-hidden="true" className={`
         fixed top-0 right-0 left-0 bottom-0 justify-center items-center md:inset-0 
-        w-full h-full  bg-bgBody/90 backdrop-blur-md z-50 overflow-hidden`} >
+        w-full h-full  bg-bgBody/90 backdrop-blur-md z-[99] overflow-hidden`} >
         <div className="p-1 h-screen m-auto flex justify-center items-center">
           <div
             className='p-4 md:p-5 md:min-w-[650px] w-full h-auto max-w-2xl 
