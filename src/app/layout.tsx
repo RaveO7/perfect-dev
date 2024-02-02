@@ -13,17 +13,18 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: {
     absolute: '',
-    default: 'PerfectPorn | Best Porn Site',
-    template: '%s | PerfectPorn'
+    default: 'Perfect Porn | Best Porn Site',
+    template: '%s | Perfect Porn'
   },
-  description: 'PerfectPorn the best site for the best free porn video',
+  description: 'Explore diverse and high-quality content at Perfect Porn. Your ultimate destination for fulfilling fantasies.',
   applicationName: 'Perfectporn',
-  authors: [{ name: "Phoenix", url: "https://perfectporn.vercel.app" }],
-  alternates: { canonical: "https://perfectporn.vercel.app" },
+  authors: [{ name: "Phoenix", url: `${process.env.Site_URL}` }],
+  publisher: 'Phoenix',
+  alternates: { canonical: `${process.env.Site_URL}` },
   openGraph: {
-    title: "PerefectPorn Best porn site",
-    description: "PerfectPorn the best site for the best free porn video",
-    url: "https://perfectporn.vercel.app",
+    title: "Perefect Porn Best porn site",
+    description: "Perfect Porn the porn site with all you dreams videos",
+    url: `${process.env.Site_URL}`,
     siteName: "PerefectPorn",
     images: [{
       url: "https://hdporn92.com/wp-content/uploads/2024/01/432635947_118446_01_01.jpg",

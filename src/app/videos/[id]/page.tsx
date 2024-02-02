@@ -1,21 +1,20 @@
 "use client"
 
-import Separateur from '@/components/Separateur'
-import VideoPresentation from '@/components/VideoPresentation';
 import React, { useState, useEffect } from 'react'
-import { FaFlag } from "react-icons/fa";
-import { IoMdThumbsUp } from "react-icons/io";
-import { IoMdThumbsDown } from "react-icons/io";
-import TimeDifference, { deleteCookie, formatString, getCookie, getRating, setCookie, upperFirstLetter } from '@/components/Utils';
-import DropDown from '@/components/DroptownMenuEpurate';
 import Link from 'next/link';
-import Loading from '@/components/Loading';
-import Nodata from '@/components/Nodata';
 import Image from 'next/image';
 
-export default function Videos({ params }: {
-  params: { id: number }
-}) {
+import Separateur from '@/components/Separateur'
+import VideoPresentation from '@/components/VideoPresentation';
+import TimeDifference, { deleteCookie, formatString, getCookie, getRating, setCookie, upperFirstLetter } from '@/components/Utils';
+import DropDown from '@/components/DroptownMenuEpurate';
+import Loading from '@/components/Loading';
+import Nodata from '@/components/Nodata';
+
+import { IoMdThumbsUp, IoMdThumbsDown } from "react-icons/io";
+import { FaFlag } from "react-icons/fa";
+
+export default function Videos({ params, searchParams }: { params: { id: number }, searchParams: { name: string } }) {
   const [dataVideo, setDataVideo] = useState([] as any)
   const [dataMoreVideo, setDataMoreVideo] = useState([])
   const [dataNbrVideo, setDataNbrVideo] = useState([])
@@ -23,10 +22,6 @@ export default function Videos({ params }: {
   const [player, setPlayer] = useState(0);
   const [cookieLike, setCookieLike] = useState<any>('');
   const [repport, setRepport] = useState<any>('false');
-
-
-
-
 
   const id = params.id
   useEffect(() => {

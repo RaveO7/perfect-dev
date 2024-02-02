@@ -15,7 +15,7 @@ export default function
     return (
         <div className={classDiv}>
             <Link
-                href={'/videos/' + id + "?name=" + title} title={title}
+                href={'/videos/' + id + "?name=" + encodeURI(title)} title={title}
                 className='w-full relative aspect-video overflow-hidden rounded-xl block'
                 role='link'
                 aria-label={'Go to video ' + title}>
