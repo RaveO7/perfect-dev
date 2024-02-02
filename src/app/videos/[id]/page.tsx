@@ -11,6 +11,7 @@ import DropDown from '@/components/DroptownMenuEpurate';
 import Link from 'next/link';
 import Loading from '@/components/Loading';
 import Nodata from '@/components/Nodata';
+import Image from 'next/image';
 
 export default function Videos({ params }: {
   params: { id: number }
@@ -24,7 +25,7 @@ export default function Videos({ params }: {
   const [repport, setRepport] = useState<any>('false');
 
 
- 
+
 
 
   const id = params.id
@@ -171,10 +172,6 @@ export default function Videos({ params }: {
     }
   }
 
-
- 
-
-
   return (
     <div className='w-full flex flex-col'>
       {videos[1] && <DropDown video={modifierLiens(videos)} setPlayer={setPlayer} />}
@@ -189,14 +186,24 @@ export default function Videos({ params }: {
         </div>
 
         <div className='max-w-[25%] w-full hidden md:flex flex-col relative'>
-          <a className='flex justify-around h-full' href='https://candy.ai?via=hamelio73'>
-            <img className='hidden xl:block absolute xl:relative left-0 top-0' src='
+          <Link className='flex justify-around h-full' href='https://candy.ai?via=hamelio73' rel='preload'>
+            <Image
+              className='hidden xl:block absolute xl:relative left-0 top-0' src='
             https://lh3.googleusercontent.com/fife/AGXqzDkgE4rZLnfaoaYlK7dgoONYfuvMCbD2v50eC4fZ2KR8euJ3KyE6NPHyjKaMQTXI-b3Z615zVUcqB4LPEhUJwrbu0MILl_rnntcLahRQ8gGe3bE8cuwTbvglh0zc4ae0FK3QmKBZGJytr-RpEKp07ktZBf0_gP0EyTU6UbpsNb-Iw-nYDZcuIkPv9ofZQ8lHuJCFvOyVeRWFYEWTE3c1MhxnudV6ph2fNNE1pdjgZ9g1eZw2E0YRLyFnYiD2-CdJXm0FOePNiXSPEf2wg9_BXuKJmxS7Cbx_PsalgRhSh7jkoHPvg7lpyog-pA_V2FpUEDM5ATgLYgh7ZUIpBnnFeYxCBcU9u0ktlFhCXKR5vZpl7KiRWpN4PB7yXYOsOKTbX7ctoJdVI2W0IYe4CsCJy79msehiCqch84TmyLzuH_AwE1afBFukx5aaoUi63iB9zz4ZdD4tkTB2mKqeHpXiIgdQhmA5HhZrcvzSxNX8P6ziTgWvEDt_mUfQmczoUHPW9mzAUTV4aDhCG6xt8vgaNatxOhouHCdalP96qc2mUjwWoQ9ASSUABspvelZZpyok-o6TE231vcxJU6DIqDOvxMsIJg5oerhNxenaaO3QMNH6rMPA8uTeF_z5EvzsR-kmfzR1Bwu2A3j8NCjVV_aDZ19ppTymJOUcNOZDe5MTZTFSubV1mwddX4RKQWv3FmtYLYLoOVN9FtpZbjZZUh4rJP1glXZAGpYXKiYTbzf9ouFD4HWMhzl7juG8YTSU-NOG92Uib8tIHc36Cl0eu0-ZBtxC3um77euzYpp5lBSLgzLDz9OWuwLdgFTGhBg1Acxf1tJlwj9cNm_DHJISjoCeoxcEwwAtXVrJiM90xjvVxFp9d93kfOEIDUbEGddWj5XV5mcFTM9j0kLIYcqLtdDWfi9movesXGldNlPUX6Zuxglyl5_0w6mm-mNsHedNRh1j2tIkz3eCjmbLOLIQ9zbcu3kDbRI0HYllGE5DGFHYK_95M_dtfTwk5mrIz6UOytvKDIBEZwYGYRY1QbVbsh4mufq4RncNilkpsUlREI_D5BCeiGa2F0kSYuyaiZhl-y_qtq3bsjjshat2vnD0nTvaPg173_ylEAh_3qOCf1kwxhM28RClCzHee0vY80nc5j8kBLl9eqU3jMKBJM36arEUE4JiuBXwBP6R2JGba8fuoIGLRp2qXtKE7IZHvHgUOKdYYsoskQF9VCx3bxAjyVfC0dgDXsM-VKGX53k25G_K3PIs0_bZmshKocA6J_MDG3D0OW_CUPYIkRmlbgkyzFsdPRFGRlgfVzNGHU7hSH8CKLvwSMGEw7HYAKbx7b2eF0e2X4nnSHH0vpe9nQWlvM-THc_uHQH5MQk2A6aASlU9L_PnpnNK4fyKKA-X26W8Z4gc9X9psQOPAGm3o_ZsqflCYaV7bQM-n_0rka6bcT2UDuT_R3KckgIzca6l1tLt8bvqwbNtEq9kdYMv4RCMZN-VP9XzX8AhKnk8hESxlknpy-PiyCrA_i0pWPzrBRoLo6eo7lnrs7jAlutwgR3AYrmoLESQjt-_M9pt92Sy45sjNoGIyAUAbVg=w1860-h927
-            ' alt='Candy.ai Photo' />
-            <img className='hidden md:block absolute xl:relative right-4 lg:right-0 top-0' src='
+            '
+              alt='Candy.ai Photo'
+              width={200}
+              height={600}
+              quality={100} />
+            <Image
+              className='hidden md:block absolute xl:relative right-4 lg:right-0 top-0' src='
             https://lh3.googleusercontent.com/fife/AGXqzDk-ML-whrKBStohfgDAeLqP6mwnPRyWuzLfh9irPbIGcdwgzyZA-I3ixyMNtilPdc3-ptSWPDBquSTINRh4Ry3h9e7ngR0JQ9r3OwiG7Kfblc9Jvm1x-yqkavemHifMwjy34iTLvBTE7OFKFKxr5av3itk9T9DL7DkCL7XdVuBZkHfAu0AGH-MU-Fm1vZDJjFWK3XqjHMCoGfdkjKbSwbbSGNBmkBzYwC1CqMuwfvxv9gUqGzTNILZiVnIWj_iiOWtQ6WdpPFXTpBF60d7vG3G-6JIg4Ya2WIkxaDRmgRdD_Py-VEhscRnBAU71cSV-qYk5RcV5R_XGCZSqFzNWdMhKeP3NqCNrUsH61gMKlbNo3SJIdLpAs9UFabkTzSZ01AeD7a45noxkjOkKaXS9dTwVD2zIK_HIi8T41Kaq80vbkKUgH1w7A1YTDfRNZ8WZEC_2S8E0Xo3IIlXFKZCS__knKEKqtuQspVNs-JW7acikDNBWFyE0ExdgBlKbliKZtzQ4EMyTxef2xnP362FQoqTReK7JgZZlyV95NASG4QVI6CmGCNjOXTGAjeTA0UUVuqSsZb75x4vbkJq3rsaZMi4pjvypeulse3ocuAAKpDQTRpfxca9M0gAZ46jiWT1LcJE5H5g8NoSTBX4HFvc0R9k3zwmEBZ09CT7E5bzHTY2hRk8FdzaDlDS-uEKckTLf6jgD0FVH9oM04doJYmnejAZXTGZB-CC4b2Nc4iHqHUomRO7FVZIPerby2j88WAJFBINtvU8huT8sVgFIZ6GJJvEVE_4LExHm26IyzWnQcrFGrWgqbrZsXXV_pCQ8vqG_1OgWQ_0vHYMA5I4Bdr1Ik-sITQHUiygedVgVLetTzMLyJ0cCt8PMRyosW8p2_70rvY6sy0Tn3lYicJmME-PkrsEEdRdYyUgC_wtl2JiUCzD25vxEDDQr7aE2YMltnMcFnY0RDO4HxeKXSuFo5GdTQiEOrt3Boj04-2eJiASeBD-GpvSYK3VA4AobnS5yVQo-KurVKwAahvPeisqnAtRkCwETgsyiNuhLPhNd6CuXfLYmdg4nIX7czkz1kZj9JgCGYSvOC4ScWIIQdrTSLizxpQFbKJbv47ngc0C-zHfBm1LOEujZMA4R-IGrqTkSxVGPzZ88373FGBIlR0JWvo2qQWdrJnQnbscye1ZeCp84ZXcUBcw8Gq5NX8WUFHkb5F0bupsFqFIFmoyh5GeC5kb6ZTtw4J-N2cfGZgZ_0yW081WLlFX4eGU_4pRDRJ0d9qCEt--II1HIjx7ArUNQyuk3BjBkYbjzWVo3lsHOi0cUX93Ce-pilMSeeaNrH40xWpzEd4n9ZSkM-z625615K-wqd-OSLWikrg0bqN4BhSFC1f1oPlu5QhedwsbdUDHQ0kj1s12O1CpvCzAmreVj3cdz-VI5mXBZWsuYRpHehgeflE3bqmxLkczZGVi3saSo45GOsT9mwrBQ3EDWXEbnAphrxmwLVIbgD6yIf-FTIJpbt5sZ1_GXkQ5Z96tRMWvyX5w9rma0xAn6AzCZ5wTbLWOAVcEfycD228q7EW5D-XSBdt3fnj7kJcs=w1860-h927
-            ' alt='Candy.ai Photo' />
-          </a>
+            '
+              alt='Candy.ai Photo'
+              width={200}
+              height={600}
+              quality={100} />
+          </Link>
         </div>
       </div>
 
@@ -223,19 +230,19 @@ export default function Videos({ params }: {
               </div>
 
               <div className='flex items-center gap-1 text-xl'>
-                <button role="button" name="like" aria-labelledby={'Button Add Like Number Like' + like} aria-label={'Button Add Like Number Like' + like} className=
+                <button role="button" name="like" aria-label={'Button Add Like Number Like ' + like} className=
                   {`${cookieLike == 'true' ? "text-blue-500" : "hover:text-blue-500"} flex items-center duration-300`}
                   onClick={() => setUpdate('l')}>
                   {/* Si like add 1 aux like */}
                   <IoMdThumbsUp className="mr-1" />{cookieLike == 'true' ? like + 1 : like}</button>
                 <Separateur />
-                <button role="button" name="dislike" aria-labelledby={'Button Add Dislike Number Like' + like} aria-label={'Button Add Dislike Number Like' + like} className=
+                <button role="button" name="dislike" aria-label={'Button Add Dislike Number Like' + dislike} className=
                   {`${cookieLike == 'false' ? "text-red-500" : "hover:text-red-500"} flex items-center duration-300`}
                   onClick={() => setUpdate('d')}>
                   {/* Si disLike add 1 aux disLike */}
                   <IoMdThumbsDown className="mr-1" />{cookieLike == 'false' ? dislike + 1 : dislike}</button>
                 <Separateur />
-                <button role="button" name="repport" aria-labelledby='Repport Video' aria-label='Repport Video' className=
+                <button role="button" name="repport" aria-label='Repport Video' className=
                   {`${repport == 'true' ? "text-red-700" : "hover:text-red-700"} flex items-center duration-300`}
                   onClick={() => setUpdate('r')}> <FaFlag className="mr-2" /> <span className='block mm:hidden md:block'>Repport</span>
                 </button>

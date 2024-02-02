@@ -32,7 +32,7 @@ const MoreEighteen = () => {
             <button type="button"
               name='Age verification button'
               onClick={handleModalClick}
-              className="w-[95%] text block m-auto text-white bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
+              className="w-[95%] text block m-auto text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm-center bg-pink-600 hover:bg-pink-700 focus:ring-pink-800 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
               <input type='submit' name='submit' value="J'ai 18 ans ou plus - Entrer" className='w-full py-3  hover:cursor-pointer' />
             </button>
           </div>

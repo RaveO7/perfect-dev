@@ -14,15 +14,14 @@ export async function generateMetadata({
     params: { id: string, test: string };
 }) {
     
-    const { id } = params;
     const { test } = params;
     const siteURL = 'http://localhost:3000';
 
     return {
-        title: `${id}`,
-        description: `Discover the ${test}, ${id} `,
+        title: `${upperFirstLetter(test)}s`,
+        description: `Discover all the ${test}s, on Perfect Porn the best porn website`,
         alternates: {
-            canonical: `${siteURL}/${test}/${id}`,
+            canonical: `${siteURL}/${test}`,
         },
     };
 }

@@ -56,9 +56,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
         let posts: any = await prisma.$queryRawUnsafe(`
             SELECT
-                *, (SELECT COUNT(name)  FROM ${tab} WHERE name LIKE '%${name}%') AS nbr
+                *, (SELECT COUNT(name)  FROM ${tab} WHERE name LIKE '${name}') AS nbr
             FROM Videos
-            WHERE ${col} LIKE '%${name}%'
+            WHERE ${col} LIKE '${name}'
             ${order}
             LIMIT ${startSearchVideo}, ${numberVideoByPage}
         `)
