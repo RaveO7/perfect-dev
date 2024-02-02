@@ -1,17 +1,17 @@
 import { Metadata, ResolvingMetadata } from 'next'
 
-// export async function generateMetadata({ params }: { params: { id: any, test: any } }, parent: ResolvingMetadata): Promise<Metadata> {
-//     const { id } = params;
+export async function generateMetadata({ params }: { params: { id: any, test: any } }, parent: ResolvingMetadata): Promise<Metadata> {
+    const { id } = params;
 
-    // const apiUrlEndpoint = `${process.env.Site_URL}/api/dataVideo`
+    const apiUrlEndpoint = `${process.env.Site_URL}/api/dataVideo`
 
-    // const postData: any = {
-    //     method: "POST",
-    //     header: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ id: id })
-    // }
-    // const product = await fetch(apiUrlEndpoint, postData)
-    // const res = await product.json()
+    const postData: any = {
+        method: "POST",
+        header: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: id })
+    }
+    const product = await fetch(apiUrlEndpoint, postData)
+    const res = await product.json()
 
     // const description = res.description.substring(0, 151) + ' ...';
 
@@ -33,6 +33,6 @@ import { Metadata, ResolvingMetadata } from 'next'
     //         type: "website",
     //     }
     // };
-// }
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) { return (<>{children}</>) }
