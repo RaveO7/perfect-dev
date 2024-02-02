@@ -33,6 +33,9 @@ export async function generateMetadata({ params }: { params: { id: any, test: an
     //         type: "website",
     //     }
     // };
+    return {
+
+    }
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) { return (<>{children}</>) }
