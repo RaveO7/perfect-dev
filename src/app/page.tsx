@@ -28,7 +28,7 @@ export default function Home({ searchParams, }: { searchParams: { page: number }
         const response = await fetch(apiUrlEndpoint, postData)
         const res = await response.json()
 
-        await setNbrPage(Math.ceil(res[0].nbr / 48))
+        await setNbrPage(res[0].nbr)
         await setDatasVideos(res)
         setLoading(false)
       }

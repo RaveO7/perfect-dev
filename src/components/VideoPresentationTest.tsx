@@ -48,7 +48,8 @@ export default function VideoPresentationTest({ id, type, title, url, time, view
                             priority={true}
                             rel='preload'
                             fetchPriority='high'
-                        />
+                            loading='eager'
+                            />
                         :
                         <Image
                             className="block w-full h-full object-fill object-center sm:transition-transform sm:duration-[400ms] sm:ease-in-out sm:group-hover:scale-105"

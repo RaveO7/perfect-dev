@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const numberVideoByPage = 48
+        const numberVideoByPage = parseInt(process.env.Number_Video!)
         const pageNbr = JSON.parse(req.body).pageNbr - 1 <= 0 ? 0 : JSON.parse(req.body).pageNbr - 1;
         const startSearchVideo = pageNbr * numberVideoByPage
 
@@ -86,6 +86,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
         posts.forEach((element: { nbr: number; }) => {
             element.nbr = Number(element.nbr)
+            element.nbr = Math.ceil(element.nbr / numberVideoByPage)
         });
 
         await prisma.$disconnect()

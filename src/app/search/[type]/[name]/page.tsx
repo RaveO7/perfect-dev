@@ -36,7 +36,7 @@ export default function SearchPage({ params, searchParams, }: {
         const res = await response.json()
 
         setDatasVideos(res)
-        setNbrPage(Math.ceil(res[0].nbr / 48))
+        setNbrPage(res[0].nbr)
         setNbrVideos(res[0].nbr)
         setLoading(false)
       }
