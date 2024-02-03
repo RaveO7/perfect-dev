@@ -18,18 +18,14 @@ export default function VideoPresentationTest({ id, type, title, url, time, view
         // Mettez à jour la taille de l'écran au chargement de la page
         updateScreenSize();
 
-
         // Ajoutez un écouteur d'événements pour détecter les changements de taille de l'écran
         window.addEventListener('resize', updateScreenSize);
 
         // Retirez l'écouteur d'événements lors du démontage du composant
-        return () => {
-            window.removeEventListener('resize', updateScreenSize);
-        };
+        return () => { window.removeEventListener('resize', updateScreenSize); };
     }, []); // Le tableau vide en tant que deuxième argument signifie que cet effet ne s'exécute qu'une fois lors du montage
 
     const rating = ((100 * like) / (like + dislike)) ? (100 * like) / (like + dislike) : 0;
-
     const classDiv = type == "video" ? "group p-1 md:p-2 w-1/3 flex flex-wrap overflow-hidden" : "group p-1 md:p-2  w-1/2 md:w-1/3 xl:w-1/4 flex flex-wrap overflow-hidden"
     return (
         <div className={classDiv}>

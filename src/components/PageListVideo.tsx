@@ -5,7 +5,6 @@ import { formatString, upperFirstLetter } from './Utils'
 import NavPage from './NavPage'
 import Loading from './Loading'
 import Nodata from './Nodata'
-import VideoPresentation from './VideoPresentation'
 import VideoPresentationTest from './VideoPresentationTest'
 
 interface Props {

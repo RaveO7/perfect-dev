@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import Separateur from '@/components/Separateur'
-import VideoPresentation from '@/components/VideoPresentation';
 import TimeDifference, { deleteCookie, formatString, getCookie, getRating, setCookie, upperFirstLetter } from '@/components/Utils';
 import DropDown from '@/components/DroptownMenuEpurate';
 import Loading from '@/components/Loading';
@@ -17,7 +16,7 @@ import ImgAi1 from '@/app/assets/images/GirlFriendAi160x600.webp'
 import ImgAi2 from '@/app/assets/images/SextingAI160x600.webp'
 import ImgAi3 from '@/app/assets/images/SextingAi300x100.webp'
 
-export default function Videos({ params, searchParams }: { params: { id: number }, searchParams: { name: string } }) {
+export default function Videos({ params }: { params: { id: number } }) {
   const [dataVideo, setDataVideo] = useState([] as any)
   const [dataMoreVideo, setDataMoreVideo] = useState([])
   const [dataNbrVideo, setDataNbrVideo] = useState([])
@@ -160,8 +159,8 @@ export default function Videos({ params, searchParams }: { params: { id: number 
         body: JSON.stringify({
           id: id,
           cookie: value,
-        })
-      }
+        }),
+      };
       await fetch(apiUrlEndpoint, postData)
     }
     catch {
@@ -242,13 +241,11 @@ export default function Videos({ params, searchParams }: { params: { id: number 
                 <button role="button" name="like" aria-label={'Button Add Like Number Like ' + like} className=
                   {`${cookieLike == 'true' ? "text-blue-500" : "hover:text-blue-500"} flex items-center duration-300`}
                   onClick={() => setUpdate('l')}>
-                  {/* Si like add 1 aux like */}
                   <IoMdThumbsUp className="mr-1" />{cookieLike == 'true' ? like + 1 : like}</button>
                 <Separateur />
                 <button role="button" name="dislike" aria-label={'Button Add Dislike Number Like' + dislike} className=
                   {`${cookieLike == 'false' ? "text-red-500" : "hover:text-red-500"} flex items-center duration-300`}
                   onClick={() => setUpdate('d')}>
-                  {/* Si disLike add 1 aux disLike */}
                   <IoMdThumbsDown className="mr-1" />{cookieLike == 'false' ? dislike + 1 : dislike}</button>
                 <Separateur />
                 <button role="button" name="repport" aria-label='Repport Video' className=
@@ -329,11 +326,7 @@ export default function Videos({ params, searchParams }: { params: { id: number 
               )}
             </div>
           </div>
-
         </div>
-        {/* <div className='max-w-[25%] md:flex hidden flex-col justify-between bg-green-500 w-full'>
-          <h2 className='text-center font-extrabold text-black'>Pubed</h2>
-        </div> */}
       </div>
     </div >
   )

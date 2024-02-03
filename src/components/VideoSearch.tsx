@@ -15,7 +15,6 @@ export default function VideoPresentationSearch({ title, photo, type, keyId }: a
         // Mettez à jour la taille de l'écran au chargement de la page
         updateScreenSize();
 
-
         // Ajoutez un écouteur d'événements pour détecter les changements de taille de l'écran
         window.addEventListener('resize', updateScreenSize);
 
