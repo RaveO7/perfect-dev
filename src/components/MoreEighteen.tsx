@@ -24,7 +24,7 @@ const MoreEighteen = () => {
             <div className='w-full flex flex-col items-center justify-between mb-4 gap-3'>
               <h2 className='text-4xl md:text-6xl'>Perfect<span className='text-pink-300'>Porn</span></h2>
               <h3 className='text-xl md:text-2xl'>Are you 18?</h3>
-              <h3 className='max-w-[80%]'>
+              <h3 className='max-w-[80%]' rel='preload'>
                 PerfectPorn is an adult-only community.
                 You must be 18 years of age or older to enter this site.
               </h3>
