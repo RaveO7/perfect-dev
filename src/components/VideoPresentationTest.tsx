@@ -12,7 +12,7 @@ export default function VideoPresentationTest({ id, type, title, url, channels, 
     const [widthImg, setWidthImg] = useState(300);
 
     const updateScreenSize = () => {
-        if (window.innerWidth <= 766) { setWidthImg(100) }
+        if (window.innerWidth <= 540) { setWidthImg(100) }
         else { setWidthImg(300) }
     };
 

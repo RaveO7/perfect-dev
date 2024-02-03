@@ -315,7 +315,7 @@ export default function Videos({ params, searchParams }: { params: { id: number 
             <div className="w-full flex flex-wrap mb-3">
               {dataMoreVideo.slice(0, 9).map((video: any, id: number) =>
                 <VideoPresentationTest key={id}
-                  keyId={id}
+                  keyId={10}
                   type={"video"}
                   id={video.id}
                   title={video.title}
