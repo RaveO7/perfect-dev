@@ -18,7 +18,7 @@ export default function VideoPresentationTest({ id, type, title, url, channels, 
                 aria-label={'Go to video ' + title}
                 className='text-timeVideo hover:text-white'>
                 <div className='w-full relative aspect-video overflow-hidden rounded-xl block'>
-                    {keyId <= 7 ?
+                    {keyId <= 8 ?
                         <Image
                             className="block w-full h-full object-fill object-center sm:transition-transform sm:duration-[400ms] sm:ease-in-out sm:group-hover:scale-105"
                             alt={title}

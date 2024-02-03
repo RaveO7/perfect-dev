@@ -30,6 +30,7 @@ export default function
                     decoding="async"
                     data-nimg="1"
                     src={url}
+                    layout='responsive'
                 />
                 {time != 0 &&
                     <div className="text-xs absolute right-[6px] bottom-[6px] w-[32px] h-[15px] bg-bgTimeVideo opacity-80 text-timeVideo hover:text-white">
