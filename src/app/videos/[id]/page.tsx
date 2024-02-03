@@ -13,6 +13,7 @@ import Nodata from '@/components/Nodata';
 
 import { IoMdThumbsUp, IoMdThumbsDown } from "react-icons/io";
 import { FaFlag } from "react-icons/fa";
+import VideoPresentationTest from '@/components/VideoPresentationTest';
 
 export default function Videos({ params, searchParams }: { params: { id: number }, searchParams: { name: string } }) {
   const [dataVideo, setDataVideo] = useState([] as any)
@@ -313,7 +314,8 @@ export default function Videos({ params, searchParams }: { params: { id: number 
 
             <div className="w-full flex flex-wrap mb-3">
               {dataMoreVideo.slice(0, 9).map((video: any, id: number) =>
-                <VideoPresentation key={id}
+                <VideoPresentationTest key={id}
+                  keyId={id}
                   type={"video"}
                   id={video.id}
                   title={video.title}

@@ -29,6 +29,8 @@ export default function VideoPresentationTest({ id, type, title, url, channels, 
                             data-nimg="1"
                             src={url}
                             priority={true}
+                            rel='preload'
+                            fetchPriority='high'
                         />
                         :
                         <Image
