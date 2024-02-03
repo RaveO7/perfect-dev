@@ -91,6 +91,7 @@ export default function PageListVideo(props: Props) {
                     :
                     videos.map((video: any, id: number) =>
                         <VideoPresentationSearch key={id}
+                            keyId={id}
                             title={video.name}
                             photo={video.imgUrl}
                             type={nomGroupe}

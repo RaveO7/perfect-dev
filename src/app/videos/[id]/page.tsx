@@ -219,6 +219,8 @@ export default function Videos({ params, searchParams }: { params: { id: number 
                 height={100}
                 quality={100}
                 priority={true}
+                rel='preload'
+                fetchPriority='high'
               />
             </Link>
             <h2 className="max-w-full mb-2 text-xl">{upperFirstLetter(title)}</h2>

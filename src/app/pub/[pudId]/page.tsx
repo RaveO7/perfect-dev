@@ -3,6 +3,7 @@ import React from 'react'
 
 import Image from 'next/image'
 import ModalPub from '@/components/ModalPub'
+import { Example } from '@/components/Window'
 
 function page() {
 
@@ -12,12 +13,13 @@ function page() {
         <>
             <div className='w-full h-screen bg-pink-500 flex  flex-col flex-wrap absolute top-0 z-[100]'>
                 {/* <ModalPub /> */}
+                {/* <Example /> */}
                 <div className='bg-blue-500 w-1/2 h-1/4'>
                     <Image
                         className="block h-full w-full object-cover object-center sm:transition-transform sm:duration-[400ms] sm:ease-in-out sm:group-hover:scale-105"
                         alt="t"
                         loading="lazy"
-                        width='50'
+                        width='250'
                         quality={q}
                         height='1'
                         decoding="async"
