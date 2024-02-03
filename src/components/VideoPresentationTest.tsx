@@ -66,7 +66,7 @@ export default function VideoPresentationTest({ id, type, title, url, channels, 
                             className="block w-full h-full object-fill object-center sm:transition-transform sm:duration-[400ms] sm:ease-in-out sm:group-hover:scale-105"
                             alt={title}
                             loading="lazy"
-                            width='300'
+                            width={widthImg}
                             quality={80}
                             height='1'
                             decoding="async"

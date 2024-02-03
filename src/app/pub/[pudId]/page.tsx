@@ -17,7 +17,7 @@ function page() {
                         className="block h-full w-full object-cover object-center sm:transition-transform sm:duration-[400ms] sm:ease-in-out sm:group-hover:scale-105"
                         alt="t"
                         loading="lazy"
-                        width='100'
+                        width='50'
                         quality={q}
                         height='1'
                         decoding="async"
