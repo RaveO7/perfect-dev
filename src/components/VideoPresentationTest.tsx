@@ -3,12 +3,10 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
-import { upperFirstLetter } from './Utils';
-
 import { IoMdThumbsUp } from "react-icons/io";
 import { IoEyeSharp } from "react-icons/io5";
 
-export default function VideoPresentationTest({ id, type, title, url, channels, time, view, like, dislike, keyId }: any) {
+export default function VideoPresentationTest({ id, type, title, url, time, view, like, dislike, keyId }: any) {
     const [widthImg, setWidthImg] = useState(300);
 
     const updateScreenSize = () => {
@@ -30,7 +28,6 @@ export default function VideoPresentationTest({ id, type, title, url, channels, 
         };
     }, []); // Le tableau vide en tant que deuxième argument signifie que cet effet ne s'exécute qu'une fois lors du montage
 
-    const channel = channels == undefined ? "" : upperFirstLetter(channels.replace(/,.*$/, ''))
     const rating = ((100 * like) / (like + dislike)) ? (100 * like) / (like + dislike) : 0;
 
     const classDiv = type == "video" ? "group p-1 md:p-2 w-1/3 flex flex-wrap overflow-hidden" : "group p-1 md:p-2  w-1/2 md:w-1/3 xl:w-1/4 flex flex-wrap overflow-hidden"

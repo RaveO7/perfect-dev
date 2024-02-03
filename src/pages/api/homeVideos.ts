@@ -30,7 +30,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
                 break;
         }
 
-        const posts: any = await prisma.$queryRawUnsafe(`SELECT *, (SELECT COUNT(*) FROM Videos) AS nbr
+        const posts: any = await prisma.$queryRawUnsafe(`SELECT id, title, imgUrl, time, 'like', dislike, view, (SELECT COUNT(*) FROM Videos) AS nbr
         FROM Videos
         ${order}
         LIMIT ${startSearchVideo}, ${numberVideoByPage}`)

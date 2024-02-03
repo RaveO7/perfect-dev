@@ -56,7 +56,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
         let posts: any = await prisma.$queryRawUnsafe(`
             SELECT
-                *, (SELECT COUNT(name)  FROM ${tab} WHERE name LIKE '${name}') AS nbr
+                id, title, imgUrl, time, 'like', dislike, view,
+                (SELECT COUNT(name) FROM ${tab} WHERE name LIKE '${name}') AS nbr
             FROM Videos
             WHERE ${col} LIKE '${name}'
             ${order}
@@ -67,6 +68,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             element.nbr = Number(element.nbr)
         });
 
+        console.log(posts)
         await prisma.$disconnect()
         res.json(posts)
     }

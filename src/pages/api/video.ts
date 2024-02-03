@@ -7,11 +7,26 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         const id = parseInt(JSON.parse(req.body).id)
 
         let posts = []
-        posts[1] = await prisma.videos.findUniqueOrThrow({ where: { id: id } })
+        posts[1] = await prisma.videos.findUniqueOrThrow({
+            where: { id: id }, select: {
+                title: true,
+                imgUrl: true,
+                videoUrl: true,
+                actors: true,
+                channels: true,
+                categories: true,
+                like: true,
+                dislike: true,
+                view: true,
+                createdAt: true
+            },
+        })
 
         const rep: any = posts[1]
         const channel: string = rep.channels.replace(/,.*$/, '')
-        posts[0] = await prisma.videos.count({ where: { channels: { contains: channel } } })
+        posts[0] = await prisma.videos.count({
+            where: { channels: { contains: channel } }
+        })
 
         let lim = 9
         posts[2] = await prisma.videos.findMany({

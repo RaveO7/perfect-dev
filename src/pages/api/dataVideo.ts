@@ -5,7 +5,14 @@ const prisma = new PrismaClient()
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
         const dataId: any = req.query.value;
-        const posts = await prisma.videos.findUniqueOrThrow({ where: { id: parseInt(dataId) } })
+        const posts = await prisma.videos.findUniqueOrThrow({
+            where: { id: parseInt(dataId) },
+            select: {
+                title: true,
+                description: true,
+                imgUrl: true
+            }
+        })
 
         await prisma.$disconnect()
         res.json(posts)
