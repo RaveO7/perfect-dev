@@ -8,7 +8,7 @@ import { formatString, upperFirstLetter } from './Utils';
 export default function VideoPresentationTest({ id, type, title, url, channels, time, view, like, dislike, keyId }: any) {
     const channel = channels == undefined ? "" : upperFirstLetter(channels.replace(/,.*$/, ''))
     const rating = ((100 * like) / (like + dislike)) ? (100 * like) / (like + dislike) : 0;
-    console.log(keyId)
+
     const classDiv = type == "video" ? "group p-1 md:p-2 w-1/3 flex flex-wrap overflow-hidden" : "group p-1 md:p-2  w-1/2 md:w-1/3 xl:w-1/4 flex flex-wrap overflow-hidden"
     return (
         <div className={classDiv}>
@@ -18,7 +18,7 @@ export default function VideoPresentationTest({ id, type, title, url, channels, 
                 aria-label={'Go to video ' + title}
                 className='text-timeVideo hover:text-white'>
                 <div className='w-full relative aspect-video overflow-hidden rounded-xl block'>
-                    {keyId <= 3 ?
+                    {keyId <= 7 ?
                         <Image
                             className="block w-full h-full object-fill object-center sm:transition-transform sm:duration-[400ms] sm:ease-in-out sm:group-hover:scale-105"
                             alt={title}
