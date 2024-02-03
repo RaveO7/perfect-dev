@@ -76,6 +76,7 @@ export default function PageListVideo(props: Props) {
                 {videos[0].title ?
                     videos.map((video: any, id: number) =>
                         <VideoPresentationTest key={id}
+                            keyId={id}
                             id={video.id}
                             type={""}
                             title={video.title}
