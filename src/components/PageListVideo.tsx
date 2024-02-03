@@ -75,7 +75,7 @@ export default function PageListVideo(props: Props) {
             <div className="w-full flex flex-wrap mb-3">
                 {videos[0].title ?
                     videos.map((video: any, id: number) =>
-                        <VideoPresentation key={id}
+                        <VideoPresentationTest key={id}
                             id={video.id}
                             type={""}
                             title={video.title}
