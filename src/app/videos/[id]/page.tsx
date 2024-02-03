@@ -15,6 +15,7 @@ import { FaFlag } from "react-icons/fa";
 import VideoPresentationTest from '@/components/VideoPresentationTest';
 import ImgAi1 from '@/app/assets/images/GirlFriendAi160x600.webp'
 import ImgAi2 from '@/app/assets/images/SextingAI160x600.webp'
+import ImgAi3 from '@/app/assets/images/SextingAi300x100.webp'
 
 export default function Videos({ params, searchParams }: { params: { id: number }, searchParams: { name: string } }) {
   const [dataVideo, setDataVideo] = useState([] as any)
@@ -212,9 +213,7 @@ export default function Videos({ params, searchParams }: { params: { id: number 
             <Link className='w-fullblock md:hidden' href='https://candy.ai?via=hamelio73'>
               <Image
                 className='min-w-[300px] w-[75%] m-auto'
-                src='
-                https://lh3.googleusercontent.com/fife/AGXqzDn0ZEP9TE-aVAwIwoAAqdnCS9amVngCGGnugs_Dqs-Lng9cghF9NEWc7I_DZTUCcACv0Z1Je11xoV01R5y2zkSzgi8KHlu_xX_1td8gP4MCtVEeXgLdXTdq6bLiSiMuVNxlXIlhYj1YDxYl6RgpigRfpd70xN_6ShnoH0YPD6JofMQsPTV_Y-J8YXfSBOIaKY-4fRh8hPn76DzAple6BVmg8BJz06ob7LE3H9TDHzOVr_ENwjX2glJjyiIC3hgzD4-4xMUX_n9mCa1wr7ALJ453S3cCqDQ5Xw1aLFsl4RWdJ2wCQI-DpJJ8u_aS0k1RMHvxmjf5oV91chZpPuDNFwe1P8Z9UftwN7HfHH9n-9qoTBCn4g6Ba3UOIL4zHkYrBbPDlJcY0CM46nINBteIurO-D7AcGpzfyiEG5UVW43dvLE6N3OggT0bKsLCI_N2-U10f6EYRqB6zcPcuSVgm-B15zyybNf4i_D8-PDDhtk03nfWpu4wL_VoNRV4Uf1bqxGb25fpATRTk_sqNpaz3zJ3tYR2rAILsg3OfSFYPTqzkkeIMZVba9b3RKM61WTfsxZTVThzqxXiNE8moNFuIqZvXiZcEv4qf--3oLLoPNzkUiBgGNsYso6-kqBtCQ0AKK7YHqN6IzfxyAx87pAdNvz1e83Hl_rGrORpikwqnRi-sTQhhK4xHWzH1teCX2pwQO-hf9eSaMOAgXxbNM0ngeTipSW9Myxom1fj2O5RyjYNTS-vpDxtMg5BhGy42ySKDU0MKJpOLkIXwhIpniynJ8YpGVqTGu9-hhPGfZ7LdnJLM3iB1ulm9u2eNoyVumi1D6wK_AScUdCycluUIfabmOB8tJA5Gu4vqjl-hbYL0woVezXxSAhzzrSlpeoBnoKznCG8NxQ69ddYMKP75HpBSHtqEqHVrcOhU3Gl809sbk-q4qeXq23iyj8bw_QGk8QP9j-jAhlw77t5UONJ3prnsmRuH7ligoYFdUtJPkGswGIT_DNtHLt3A_hwPKahAQ1Syj8uIiYAnetCVQBA8vomHyOJQKdke0Hbsle5njBZWWedCF4FQJdb50AEOoSF6K1_uCUCkiHZDkRzPemNCP9IbmfdtNCOV7VQJYMGMgMUp6DXN2049Tgyq4f8sDpEIYeCGM2RcCFETgImzms3ScOFs9QtDcSLWEJUmlp0AJYdhQPvach81INlxTSOVyqnoX_O2ohLFttioyf71dpFMMgjyhfyU5gi_msMh-AMewbVM4gGeOnvxlRC6XU4JjLK1WchI5Gena7watJ_1J4ZVvQPYQzj04_G10wZKDde_kE3Nw9Ls4s2_SG4LwrVmfWpON43r7O3g-J0ZBXy16_owSgQ1U4k25Pcvzbu6bU8-UrkodEUxQsVlOoUDazEb8NUEdTrjajoIPrElgR9lLcN_pT9iq00GinPMYJNV6CMqdrQHfxuQNseMCd_SNMjbxO9fc0U1htsgedAbfbDMfLar4E0G2qF00bGpDNIBRfFnuOo77VSNgdTrbW_DFQcbXK5B38XOmkbRqtU2LgFQ_N7Uzh50kbs3QzkJM7_Ty4D9e5jPMZKGhkGDOBY=w1872-h958
-                '
+                src={ImgAi3}
                 alt='Candy.ai Image'
                 width={300}
                 height={100}
