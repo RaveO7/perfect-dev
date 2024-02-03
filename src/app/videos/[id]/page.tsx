@@ -197,7 +197,7 @@ export default function Videos({ params, searchParams }: { params: { id: number 
               className='hidden md:block absolute xl:relative right-4 lg:right-0 top-0'
               src={ImgAi2}
               alt='Candy.ai Image'
-              width={200}
+              width={160}
               height={600}
               quality={100}
               priority={true}
