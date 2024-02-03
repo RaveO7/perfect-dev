@@ -5,6 +5,7 @@ const prisma = new PrismaClient()
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
         console.log(JSON.parse(req.body).test)
+        await prisma.$disconnect()
     }
     catch (error) {
         console.log(error)
