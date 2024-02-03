@@ -7,6 +7,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         const id = parseInt(JSON.parse(req.body).id)
         await prisma.$queryRawUnsafe(`UPDATE Videos SET view = view + 1 WHERE id = ${id}`)
         await prisma.$disconnect()
+        return true;
     }
     catch (error) {
         console.log(error)
