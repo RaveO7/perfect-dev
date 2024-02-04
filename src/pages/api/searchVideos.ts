@@ -9,84 +9,101 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         const startSearchVideo = pageNbr * numberVideoByPage
 
         const search = JSON.parse(req.body).search
-
-        let col: string
-        let tab
-        let idType
-        switch (JSON.parse(req.body).type) {
-            case "all":
-                tab = "Videos"
-                col = "title"
-                idType = "id"
-                break;
-            case "video":
-                tab = "Videos"
-                col = "title"
-                idType = "id"
-                break;
-            case "channel":
-                tab = "Channel"
-                col = "name"
-                idType = "idVideo"
-                break;
-            case "pornstar":
-                tab = "Actor"
-                col = "name"
-                idType = "idVideo"
-                break;
-            case "categorie":
-                tab = "Categorie"
-                col = "name"
-                idType = "idVideo"
-                break;
-            default:
-                tab = "Videos"
-                col = "title"
-                idType = "id"
-                break;
-        }
-
+        const type = JSON.parse(req.body).type
         let order: string
         switch (JSON.parse(req.body).order) {
             case "Latest":
-                order = "ORDER BY id DESC"
-                break;
-            case "More View":
-                order = "ORDER BY view DESC"
-                break;
-            case "Most Popular":
-                order = "ORDER BY 'like' DESC"
+                order = type == "videos" ? "ORDER BY id DESC" : "ORDER BY idVideo DESC"
                 break;
             case "A->Z":
-                order = "ORDER BY title ASC"
+                order = type == "videos" ? "ORDER BY title ASC" : "ORDER BY name ASC"
                 break;
             case "Z->A":
-                order = "ORDER BY title DESC"
+                order = type == "videos" ? "ORDER BY title DESC" : "ORDER BY name DESC"
                 break;
             default:
-                order = "ORDER BY id DESC"
+                order = type == "videos" ? "ORDER BY id DESC" : "ORDER BY idVideo DESC"
                 break;
         }
 
-        const posts: any = await prisma.$queryRawUnsafe(`
-        SELECT
-        (SELECT COUNT(*) FROM ${tab} WHERE ${col} LIKE '%${search}%') AS nbr, t.${col}, v.*
-        FROM
-        ${tab} t
-        INNER JOIN 
-            Videos v
-                WHERE t.${idType} = v.id
-                AND t.${col} LIKE '%${search}%'
-        GROUP BY t.${col}
-        ${order}
-        LIMIT ${startSearchVideo}, ${numberVideoByPage}
-    `)
-    //         ORDER BY t.${col} ASC
+        let posts: any
+        switch (type) {
+            case "videos":
+                posts = await prisma.$queryRawUnsafe(`
+                SELECT
+                id, title, imgUrl, 'like', dislike, view, time,
+            (SELECT COUNT(DISTINCT(title)) FROM Videos WHERE title LIKE '%${search}%' OR description LIKE '%${search}%') AS nbrPage,
+            (SELECT COUNT(DISTINCT(title)) FROM Videos WHERE title LIKE '%${search}%' OR description LIKE '%${search}%') AS nbr
+            FROM Videos
+            WHERE title LIKE '%${search}%' OR description LIKE '%${search}%'
+            GROUP BY id, title, description
+            ${order}
+            LIMIT ${startSearchVideo}, ${numberVideoByPage}
+                `)
+                break;
+            case "channel":
+                posts = await prisma.$queryRawUnsafe(`
+                SELECT
+                    t.name, v.imgUrl,
+                    (SELECT COUNT(*) FROM (SELECT name FROM Channel WHERE name LIKE '%${search}%' GROUP BY name) AS subquery) AS nbrPage,
+                    (SELECT COUNT(*) FROM (SELECT name FROM Channel WHERE name LIKE '%${search}%' GROUP BY name) AS subquery) AS nbr
+                FROM Channel t
+                INNER JOIN Videos v ON t.idVideo = v.id
+                WHERE t.name LIKE '%${search}%'
+                GROUP BY t.name
+                ${order}
+                LIMIT ${startSearchVideo}, ${numberVideoByPage};
+                `)
+                break;
+            case "pornstar":
+                posts = await prisma.$queryRawUnsafe(`
+                SELECT
+                    t.name, v.imgUrl,
+                    (SELECT COUNT(*) FROM (SELECT name FROM Actor WHERE name LIKE '%${search}%' GROUP BY name) AS subquery) AS nbrPage,
+                    (SELECT COUNT(*) FROM (SELECT name FROM Actor WHERE name LIKE '%${search}%' GROUP BY name) AS subquery) AS nbr
+                FROM Actor t
+                INNER JOIN Videos v ON t.idVideo = v.id
+                WHERE t.name LIKE '%${search}%'
+                GROUP BY t.name
+                ${order}
+                LIMIT ${startSearchVideo}, ${numberVideoByPage};
+                `)
+                break;
+            case "categorie":
+                posts = await prisma.$queryRawUnsafe(`
+                    SELECT
+                        t.name, v.imgUrl,
+                        (SELECT COUNT(*) FROM (SELECT name FROM Categorie WHERE name LIKE '%${search}%' GROUP BY name) AS subquery) AS nbrPage,
+                        (SELECT COUNT(*) FROM (SELECT name FROM Categorie WHERE name LIKE '%${search}%' GROUP BY name) AS subquery) AS nbr
+                    FROM Categorie t
+                    INNER JOIN Videos v ON t.idVideo = v.id
+                    WHERE t.name LIKE '%${search}%'
+                    GROUP BY t.name
+                    ${order}
+                    LIMIT ${startSearchVideo}, ${numberVideoByPage};
+                `)
+                break;
+            default:
+                posts = await prisma.$queryRawUnsafe(`
+                    SELECT
+                        id, title, imgUrl, 'like', dislike, view, time,
+                    (SELECT COUNT(DISTINCT(title)) FROM Videos WHERE title LIKE '%${search}%' OR description LIKE '%${search}%') AS nbrPage,
+                    (SELECT COUNT(DISTINCT(title)) FROM Videos WHERE title LIKE '%${search}%' OR description LIKE '%${search}%') AS nbr
+                    FROM Videos
+                    WHERE title LIKE '%${search}%' OR description LIKE '%${search}%'
+                    GROUP BY id, title, description
+                    ${order}
+                    LIMIT ${startSearchVideo}, ${numberVideoByPage}
+                `)
+                break;
+        }
 
-
+        posts.forEach((element: { nbrPage: number; }) => {
+            element.nbrPage = Number(element.nbrPage)
+            element.nbrPage = Math.ceil(element.nbrPage / numberVideoByPage)
+        });
         posts.forEach((element: { nbr: number; }) => {
             element.nbr = Number(element.nbr)
-            element.nbr = Math.ceil(element.nbr / numberVideoByPage)
         });
 
         await prisma.$disconnect()

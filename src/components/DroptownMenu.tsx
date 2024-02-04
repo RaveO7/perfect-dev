@@ -19,7 +19,6 @@ export function DroptownMenu(props: Props) {
         "pornstar",
         "channel",
         "categorie",
-        "all",
     ];
 
     list = list.filter(list => list !== valueMenu);

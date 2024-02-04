@@ -36,7 +36,7 @@ export default function SearchPage({ params, searchParams, }: {
         const res = await response.json()
 
         setDatasVideos(res)
-        setNbrPage(res[0].nbr)
+        setNbrPage(res[0].nbrPage)
         setNbrVideos(res[0].nbr)
         setLoading(false)
       }
@@ -47,7 +47,7 @@ export default function SearchPage({ params, searchParams, }: {
     }
     getPageData();
 
-  }, [pageNbr]);
+  }, [pageNbr, valueMenu]);
 
   return (
     <PageListVideo
