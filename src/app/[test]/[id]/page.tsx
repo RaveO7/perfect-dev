@@ -38,8 +38,8 @@ export default function Page({ params, searchParams, }: {
                 const response = await fetch(apiUrlEndpoint, postData)
                 const res = await response.json()
 
-                setNbrPage(Math.ceil(res[0].nbr / 48))
-                setNbrPage(res[0].nbr)
+                setNbrPage(res[0].page)
+                setNbrVideos(res[0].nbr)
                 setDatasVideos(res)
                 setLoading(false)
             }

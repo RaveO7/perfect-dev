@@ -13,14 +13,16 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: {
     absolute: '',
-    default: 'Perfect Porn | Best Porn Site',
+    default: 'Perfect Porn | The site for fulfilling your Fantasies.',
     template: '%s | Perfect Porn'
   },
+  keywords: ['PerfectPorn', 'Perfect Porn', 'Watch Porn', 'Watch Free Porn', 'Free Porn Videos', 'free', 'more eighteen', 'sexe', 'videos sexe', 'porno videos', 'porno video', 'porno', 'pornographie', 'pornographique', 'xxx', 'perfectporn', 'perfect porn'],
   description: 'Explore diverse and high-quality content at Perfect Porn. Your ultimate destination for fulfilling fantasies.',
   applicationName: 'Perfectporn',
   authors: [{ name: "Phoenix", url: `${process.env.Site_URL}` }],
   publisher: 'Phoenix',
   alternates: { canonical: `${process.env.Site_URL}` },
+  robots: 'max-snippet:-1, max-image-preview:large, max-video-preview:-1',
   openGraph: {
     title: "Perefect Porn Best porn site",
     description: "Perfect Porn the porn site with all you dreams videos",

@@ -67,7 +67,6 @@ export default function PageListVideo(props: Props) {
                         <h2 className='text-center text-xl md:text-5xl font-bold'>{formatString(nomGroupe)} : {nbrVideo}</h2>
                     }
                     {valueMenu && <BurgerMenuIndexPage valueMenu={valueMenu} setValueMenu={setValueMenu} list={list} />}
-
                 </div>
             }
 

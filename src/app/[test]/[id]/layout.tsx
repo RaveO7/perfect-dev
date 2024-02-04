@@ -3,8 +3,8 @@ export async function generateMetadata({ params }: { params: { id: string, test:
     const { test } = params;
 
     return {
-        title: `${id}`,
-        description: `Discover the ${test}, ${id} `,
+        title: `${decodeURI(id)}`,
+        description: `Discover the ${test}, ${decodeURI(id)} `,
         alternates: {
             canonical: `${process.env.Site_URL}/${test}/${id}`,
         },

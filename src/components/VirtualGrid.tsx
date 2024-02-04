@@ -2,6 +2,7 @@ import { VariableSizeGrid as Grid } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const VirtualGrid = ({ data }: any) => {
 
@@ -39,22 +40,32 @@ const VirtualGrid = ({ data }: any) => {
         const item = data[index];
 
         return (
-            <div style={style}>
-                {/* Votre contenu pour chaque élément */}
-                <div>{item.title}</div>
-                <Image src={item.imgUrl} alt={item.title}
-
-                    className="block w-full h-full object-fill object-center sm:transition-transform sm:duration-[400ms] sm:ease-in-out sm:group-hover:scale-105"
-                    width={widthImg}
-                    height='1'
-                    quality={80}
-                    decoding="async"
-                    data-nimg="1"
-                    priority={true}
-                    rel='preload'
-                    fetchPriority='high'
-                />
-            </div>
+            <Link
+                href={'/videos/ ?name=' + item.title} title={item.title}
+                role='link'
+                aria-label={'Go to video ' + item.title}
+                className='text-timeVideo hover:text-white'>
+                <div className='w-full relative aspect-video overflow-hidden rounded-xl block'>
+                    <Image
+                        className="block w-full h-full object-fill object-center sm:transition-transform sm:duration-[400ms] sm:ease-in-out sm:group-hover:scale-105"
+                        width={widthImg}
+                        height='1'
+                        quality={80}
+                        decoding="async"
+                        data-nimg="1"
+                        src={item.imgUrl} alt={item.title}
+                        priority={true}
+                        rel='preload'
+                        fetchPriority='high'
+                        loading='eager'
+                    />
+                </div>
+                <div className='overflow-hidden'>
+                    <h3 className=" text-[16px] font-[600] leading-5 tracking-wide mt-1 break-words max-h-10">
+                        {item.title}
+                    </h3>
+                </div>
+            </Link >
         );
     };
 
@@ -63,14 +74,14 @@ const VirtualGrid = ({ data }: any) => {
             <AutoSizer>
                 {({ height, width }) => (
                     <Grid
+                        width={width}
+                        height={height}
+
                         columnCount={columnCount}
                         columnWidth={() => columnWidth}
-                        height={height}
+
                         rowCount={rowCount}
                         rowHeight={() => rowHeight}
-                        width={width}
-                    // width={500}
-                    // height={500}
                     >
                         {cellRenderer}
                     </Grid>

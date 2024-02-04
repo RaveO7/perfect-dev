@@ -14,10 +14,17 @@ export async function generateMetadata({ params }: { params: { id: any, test: an
 
     const description = res.description.substring(0, 151) + ' ...';
 
+    let tableauDeMots = res.title.split(' ');
+    // Filtrer les mots pour ne garder que ceux de plus de deux lettres
+    let tableauFiltre = tableauDeMots.filter((mot: string) => mot.length > 2);
+    // Filtrer les valeurs pour ne garder que les chiffres et les lettres
+    let tableauFinal = tableauFiltre.map((mot: string) => mot.replace(/[^a-zA-Z0-9]/g, ''));
+    tableauFinal.push(res.title)
+
     return {
         title: `${res.title}`,
         description: `${description}`,
-        keywords: ['bite'],
+        keywords: tableauFinal,
         alternates: {
             canonical: `${process.env.Site_URL}/videos/${id}?name=${encodeURI(res.title)}`,
         },

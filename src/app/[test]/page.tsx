@@ -40,7 +40,7 @@ export default function Test({ params, searchParams, }: {
                 if (!res.length) return;
 
                 setDatasVideos(res)
-                setNbrPage(res[0].nbr)
+                setNbrPage(res[0].nbrPages)
                 setNbrVideos(res[0].nbrTt)
                 setLoading(false)
             }

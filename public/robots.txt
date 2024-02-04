@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /search
-Allow: /channel
-Allow: /pornstar
-Allow: /categorie
-Allow: /videos

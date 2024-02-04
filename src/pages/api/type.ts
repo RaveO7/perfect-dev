@@ -43,8 +43,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         const posts: any = await prisma.$queryRawUnsafe(`
             SELECT
                 t.name, v.imgUrl, COUNT(*) AS nbr,
-            (SELECT COUNT(*) FROM (SELECT name FROM ${tab} GROUP BY name HAVING COUNT(*) >= 3) AS subquery) AS nbrTt
-            FROM ${tab} t
+                (SELECT COUNT(*) FROM (SELECT name FROM ${tab} GROUP BY name HAVING COUNT(*) >= 3) AS subquery) AS nbrPages,
+                (SELECT COUNT(*) FROM (SELECT name FROM ${tab} GROUP BY name HAVING COUNT(*) >= 3) AS subquery) AS nbrTt
+                FROM ${tab} t
             INNER JOIN Videos v ON t.idVideo = v.id
             GROUP BY t.name
             HAVING nbr >= 3
@@ -55,11 +56,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         posts.forEach((element: { nbr: number; }) => {
             element.nbr = Number(element.nbr)
         });
+        posts.forEach((element: { nbrPages: number; }) => {
+            element.nbrPages = Number(element.nbrPages)
+            element.nbrPages = Math.ceil(element.nbrPages / numberVideoByPage)
+        });
         posts.forEach((element: { nbrTt: number; }) => {
             element.nbrTt = Number(element.nbrTt)
-            element.nbrTt = Math.ceil(element.nbrTt / numberVideoByPage)
         });
-
+        
         await prisma.$disconnect()
         res.json(posts)
     }

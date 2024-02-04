@@ -39,6 +39,7 @@ export default function VideoPresentationTest({ id, type, title, url, time, view
                         <Image
                             className="block w-full h-full object-fill object-center sm:transition-transform sm:duration-[400ms] sm:ease-in-out sm:group-hover:scale-105"
                             alt={title}
+                            style={{width: 'auto', height: 'auto'}}
                             width={widthImg}
                             height='1'
                             quality={80}
@@ -54,6 +55,7 @@ export default function VideoPresentationTest({ id, type, title, url, time, view
                         <Image
                             className="block w-full h-full object-fill object-center sm:transition-transform sm:duration-[400ms] sm:ease-in-out sm:group-hover:scale-105"
                             alt={title}
+                            style={{width: 'auto', height: 'auto'}}
                             loading="lazy"
                             width={widthImg}
                             quality={80}
