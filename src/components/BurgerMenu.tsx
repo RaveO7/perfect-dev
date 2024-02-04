@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { X, Menu } from 'lucide-react';
 import Image from 'next/image';
-
+import CoffeeImgMin from '@/app/assets/images/coffeeMin.webp'
 export default function BurgerMenu() {
     const [burgerMenu, setBurgerMenu] = useState(false);
     const ref = useRef(null);
@@ -47,7 +47,7 @@ export default function BurgerMenu() {
                 </div>
                 <div className='hd:hidden flex flex-row justify-between  space-x-2 items-center border-t border-[#292C33] p-2'>
                     <Link href="https://www.buymeacoffee.com/perfectporn" target="_blank" className='w-full flex justify-center'>
-                        <Image width={40} height={40} className='w-10 h-10' src='https://media.giphy.com/media/TDQOtnWgsBx99cNoyH/giphy.gif' alt='Buy me a coffee for help the developer' loading='lazy' />
+                        <Image width={40} height={40} className='w-10 h-10' src={CoffeeImgMin   } alt='Buy me a coffee for help the developer' loading='lazy' />
                     </Link>
                 </div>
             </div>
