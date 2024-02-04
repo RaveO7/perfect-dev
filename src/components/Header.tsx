@@ -9,6 +9,7 @@ import { Modal } from './Modal';
 import BurgerMenu from './BurgerMenu';
 import Image from 'next/image';
 
+import CoffeImg from '@/app/assets/images/lato-yellow.webp'
 export default function Header() {
     const [openSearchBar, setOpenSearchBar] = useState(false);
     const [search, setSearch] = useState('');
@@ -53,7 +54,7 @@ export default function Header() {
                             className='w-full max-w-xl h-10'
                             width={430}
                             height={40}
-                            src='https://cdn.buymeacoffee.com/buttons/v2/lato-yellow.png'
+                            src={CoffeImg}
                             alt='Buy me a coffee for help the developer' />
                     </Link>
 
