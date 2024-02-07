@@ -4,10 +4,10 @@ import React, { useState, useEffect } from 'react'
 import PageListVideo from '../components/PageListVideo'
 
 export default function Home({ searchParams }: { searchParams: { page: number } }) {
-  const [valueMenu, setValueMenu] = useState("Latest");
-  const [videos, setDatasVideos] = useState([])
-  const [nbrPage, setNbrPage] = useState(1)
   const [loading, setLoading] = useState(true)
+  const [valueMenu, setValueMenu] = useState("Latest");
+  const [nbrPage, setNbrPage] = useState(1)
+  const [videos, setDatasVideos] = useState([])
 
   const pageNbr: number = searchParams.page && !isNaN(searchParams.page) ? Math.abs(searchParams.page) : 1
 

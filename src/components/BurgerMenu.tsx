@@ -43,7 +43,6 @@ export default function BurgerMenu() {
                     <Link onClick={() => setBurgerMenu(false)} href={"/channel"} className={classLink}>Channels</Link>
                     <Link onClick={() => setBurgerMenu(false)} href={"/pornstar"} className={classLink}>Pornstars</Link>
                     <Link onClick={() => setBurgerMenu(false)} href={"/categorie"} className={classLink}>Categories</Link>
-                    {/* <Link onClick={() => setBurgerMenu(false)} href={"/videos/" + Math.floor(Math.random() * 74) + 1} className={classLink}>Random Video</Link> */}
                 </div>
                 <div className='hd:hidden flex flex-row justify-between  space-x-2 items-center border-t border-[#292C33] p-2'>
                     <Link href="https://www.buymeacoffee.com/perfectporn" target="_blank" className='w-full flex justify-center'>
