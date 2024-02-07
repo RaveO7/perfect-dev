@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import type { Viewport } from 'next'
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/react';
 
 import { Inter } from 'next/font/google'
 
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <section className="w-full mt-[72px] py-6 lg:px-12 ">
             {children}
             <SpeedInsights />
+            <Analytics />
           </section>
         </main>
       </body>
