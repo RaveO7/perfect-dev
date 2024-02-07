@@ -54,7 +54,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
                 (SELECT COUNT(name) FROM ${tab} WHERE name LIKE '${name}') AS nbr,
                 (SELECT COUNT(name) FROM ${tab} WHERE name LIKE '${name}') AS page
             FROM Videos v
-            INNER JOIN Actor a ON v.id = a.idVideo
+            INNER JOIN ${tab} a ON v.id = a.idVideo
             WHERE a.name = '${name}'
             ${order}
             LIMIT ${startSearchVideo}, ${numberVideoByPage};
