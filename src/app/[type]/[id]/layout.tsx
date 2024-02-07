@@ -1,12 +1,12 @@
-export async function generateMetadata({ params }: { params: { id: string, test: string }; }) {
+export async function generateMetadata({ params }: { params: { id: string, type: string }; }) {
     const { id } = params;
-    const { test } = params;
+    const { type } = params;
 
     return {
         title: `${decodeURI(id)}`,
-        description: `Discover the ${test}, ${decodeURI(id)} `,
+        description: `Discover the ${type}, ${decodeURI(id)} `,
         alternates: {
-            canonical: `${process.env.Site_URL}/${test}/${id}`,
+            canonical: `${process.env.Site_URL}/${type}/${id}`,
         },
     };
 }
