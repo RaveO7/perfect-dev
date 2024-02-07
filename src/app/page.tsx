@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import PageListVideo from '../components/PageListVideo'
 
-export default function Home({ searchParams, }: { searchParams: { page: number } }) {
+export default function Home({ searchParams }: { searchParams: { page: number } }) {
   const [valueMenu, setValueMenu] = useState("Latest");
   const [videos, setDatasVideos] = useState([])
   const [nbrPage, setNbrPage] = useState(1)

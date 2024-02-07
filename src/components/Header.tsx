@@ -52,8 +52,9 @@ export default function Header() {
                     <Link href="https://www.buymeacoffee.com/perfectporn" target="_blank" className='hd:flex hidden w-full justify-center'>
                         <Image
                             className='w-full max-w-xl h-10'
-                            width={430}
+                            width={256}
                             height={40}
+                            quality={50}
                             src={CoffeImg}
                             alt='Buy me a coffee for help the developer' />
                     </Link>

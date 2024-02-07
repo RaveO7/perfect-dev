@@ -15,6 +15,8 @@ import ImgAi1 from '@/app/assets/images/GirlFriendAi160x600.webp'
 import ImgAi2 from '@/app/assets/images/SextingAI160x600.webp'
 import ImgAi3 from '@/app/assets/images/SextingAi300x100.webp'
 import Galery from '@/components/Galery';
+import { SeparatorHorizontal } from 'lucide-react';
+import SeparateurLigne from '@/components/SeparateurLigne';
 
 export default function Videos({ params }: { params: { id: number } }) {
   const [dataVideo, setDataVideo] = useState([] as any)
@@ -173,7 +175,7 @@ export default function Videos({ params }: { params: { id: number } }) {
     <div className='w-full flex flex-col'>
       {videos[1] && <DropDown video={modifierLiens(videos)} setPlayer={setPlayer} />}
       <div className='flex w-full mb-2'>
-        <div className=' border-[1px] border-blue-300 md:w-[75%] aspect-w-16 aspect-h-9 w-full h-full bg-gray-950'>
+        <div className=' border-[1px] border-blue-300 md:w-[75%] aspect-w-16 aspect-h-9 md:aspect-h-7 w-full h-full bg-gray-950'>
           <iframe id="monIframe" className='w-full h-full'
             title={'Video ' + title}
             allowFullScreen allow="autoplay" scrolling="no" frameBorder="0"
@@ -255,7 +257,7 @@ export default function Videos({ params }: { params: { id: number } }) {
               </div>
             </div>
 
-            <div className='w-full border-b-2 opacity-10 border-red-50 my-3'></div>
+            <SeparateurLigne />
 
             <div className='w-full flex flex-col'>
               <div className='flex justify-start'>
@@ -307,7 +309,7 @@ export default function Videos({ params }: { params: { id: number } }) {
               }
             </div>
 
-            <div className='w-full border-b-2 opacity-10 border-red-50 my-3'></div>
+            <SeparateurLigne />
 
             <section className="w-full flex flex-wrap mb-3">
               <Galery images={dataMoreVideo.slice(0, 8)} />

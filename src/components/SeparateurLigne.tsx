@@ -1,0 +1,1 @@
+export default function SeparateurLigne() { return (<div className='w-full border-b-2 opacity-10 border-red-50 my-3'></div>) }
