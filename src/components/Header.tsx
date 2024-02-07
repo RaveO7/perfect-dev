@@ -13,7 +13,7 @@ import CoffeImg from '@/app/assets/images/lato-yellow.webp'
 export default function Header() {
     const [openSearchBar, setOpenSearchBar] = useState(false);
     const [search, setSearch] = useState('');
-    const [valueMenu, setValueMenu] = useState("videos");
+    const [valueMenu, setValueMenu] = useState("video");
 
     function searchStart() { openSearchBar ? setOpenSearchBar(false) : setOpenSearchBar(true) }
 

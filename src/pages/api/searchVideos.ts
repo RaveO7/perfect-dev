@@ -13,16 +13,16 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         let order: string
         switch (JSON.parse(req.body).order) {
             case "Latest":
-                order = type == "videos" ? "ORDER BY id DESC" : "ORDER BY idVideo DESC"
+                order = type == "videos" ? "ORDER BY id DESC" : "ORDER BY id DESC"
                 break;
             case "A->Z":
-                order = type == "videos" ? "ORDER BY title ASC" : "ORDER BY name ASC"
+                order = type == "videos" ? "ORDER BY title ASC" : "ORDER BY title ASC"
                 break;
             case "Z->A":
-                order = type == "videos" ? "ORDER BY title DESC" : "ORDER BY name DESC"
+                order = type == "videos" ? "ORDER BY title DESC" : "ORDER BY title DESC"
                 break;
             default:
-                order = type == "videos" ? "ORDER BY id DESC" : "ORDER BY idVideo DESC"
+                order = type == "videos" ? "ORDER BY id DESC" : "ORDER BY id DESC"
                 break;
         }
 

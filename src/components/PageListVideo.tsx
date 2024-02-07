@@ -1,11 +1,10 @@
 import React from 'react'
 import BurgerMenuIndexPage from './DroptwonFilter'
-import VideoPresentationSearch from './VideoSearch'
-import { formatString, upperFirstLetter } from './Utils'
+import { upperFirstLetter } from './Utils'
 import NavPage from './NavPage'
 import Loading from './Loading'
 import Nodata from './Nodata'
-import VideoPresentationTest from './VideoPresentationTest'
+import Galery from './Galery'
 
 interface Props {
     valueMenu: any,
@@ -69,36 +68,11 @@ export default function PageListVideo(props: Props) {
                     {valueMenu && <BurgerMenuIndexPage valueMenu={valueMenu} setValueMenu={setValueMenu} list={list} />}
                 </div>
             }
-
-            <div className="w-full flex flex-wrap mb-3">
-                {videos[0].title ?
-                    videos.map((video: any, id: number) =>
-                        <VideoPresentationTest key={id}
-                            keyId={id}
-                            id={video.id}
-                            type={""}
-                            title={video.title}
-                            url={video.imgUrl}
-                            channels={video.channels}
-                            time={video.time}
-                            view={video.view}
-                            like={video.like}
-                            dislike={video.dislike}
-                        />
-                    )
-                    :
-                    videos.map((video: any, id: number) =>
-                        <VideoPresentationSearch key={id}
-                            keyId={id}
-                            title={video.name}
-                            photo={video.imgUrl}
-                            type={nomGroupe}
-                        />
-                    )
-                }
-            </div>
+            
+            <Galery images={videos} type={nomGroupe} />
 
             <NavPage page={page} numberPage={numberPage} />
+
         </div>
     )
 }

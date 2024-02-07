@@ -11,10 +11,10 @@ import Loading from '@/components/Loading';
 import Nodata from '@/components/Nodata';
 import { IoMdThumbsUp, IoMdThumbsDown } from "react-icons/io";
 import { FaFlag } from "react-icons/fa";
-import VideoPresentationTest from '@/components/VideoPresentationTest';
 import ImgAi1 from '@/app/assets/images/GirlFriendAi160x600.webp'
 import ImgAi2 from '@/app/assets/images/SextingAI160x600.webp'
 import ImgAi3 from '@/app/assets/images/SextingAi300x100.webp'
+import Galery from '@/components/Galery';
 
 export default function Videos({ params }: { params: { id: number } }) {
   const [dataVideo, setDataVideo] = useState([] as any)
@@ -173,7 +173,7 @@ export default function Videos({ params }: { params: { id: number } }) {
     <div className='w-full flex flex-col'>
       {videos[1] && <DropDown video={modifierLiens(videos)} setPlayer={setPlayer} />}
       <div className='flex w-full mb-2'>
-        <div className=' border-[1px] border-blue-300 w-[100%] md:w-[75%] aspect-video h-full bg-gray-950'>
+        <div className=' border-[1px] border-blue-300 md:w-[75%] aspect-w-16 aspect-h-9 w-full h-full bg-gray-950'>
           <iframe id="monIframe" className='w-full h-full'
             title={'Video ' + title}
             allowFullScreen allow="autoplay" scrolling="no" frameBorder="0"
@@ -309,22 +309,9 @@ export default function Videos({ params }: { params: { id: number } }) {
 
             <div className='w-full border-b-2 opacity-10 border-red-50 my-3'></div>
 
-            <div className="w-full flex flex-wrap mb-3">
-              {dataMoreVideo.slice(0, 9).map((video: any, id: number) =>
-                <VideoPresentationTest key={id}
-                  keyId={10}
-                  type={"video"}
-                  id={video.id}
-                  title={video.title}
-                  url={video.imgUrl}
-                  channels={video.channels}
-                  time={video.time}
-                  view={video.view}
-                  like={video.like}
-                  dislike={video.dislike}
-                />
-              )}
-            </div>
+            <section className="w-full flex flex-wrap mb-3">
+              <Galery images={dataMoreVideo.slice(0, 8)} />
+            </section>
           </div>
         </div>
       </div>

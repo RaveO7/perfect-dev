@@ -11,28 +11,22 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         const name = JSON.parse(req.body).name
 
         let tab
-        let col
         switch (JSON.parse(req.body).type) {
             case "channel":
                 tab = "Channel"
-                col = "channels"
-
                 break;
             case "pornstar":
                 tab = "Actor"
-                col = "actors"
                 break;
             case "categorie":
                 tab = "Categorie"
-                col = "categories"
                 break;
             default:
                 tab = "Channel"
-                col = "channels"
                 break;
         }
 
-        var order: string
+        let order: string
         switch (JSON.parse(req.body).order) {
             case "Latest":
                 order = "ORDER BY id DESC"
@@ -56,13 +50,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
         let posts: any = await prisma.$queryRawUnsafe(`
             SELECT
-                id, title, imgUrl, time, 'like', dislike, view,
+                v.id, v.title, v.imgUrl, v.time, 'v.like', v.dislike, v.view,
                 (SELECT COUNT(name) FROM ${tab} WHERE name LIKE '${name}') AS nbr,
                 (SELECT COUNT(name) FROM ${tab} WHERE name LIKE '${name}') AS page
-            FROM Videos
-            WHERE ${col} LIKE '${name}'
+            FROM Videos v
+            INNER JOIN Actor a ON v.id = a.idVideo
+            WHERE a.name = '${name}'
             ${order}
-            LIMIT ${startSearchVideo}, ${numberVideoByPage}
+            LIMIT ${startSearchVideo}, ${numberVideoByPage};
         `)
 
         posts.forEach((element: { nbr: number, page: number },) => {

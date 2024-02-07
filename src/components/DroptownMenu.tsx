@@ -52,7 +52,7 @@ export function DroptownMenu(props: Props) {
                 active:border-white dark:active:border-white
                 focus:ring-pink-300 dark:focus:ring-pink-600"
                 onClick={() => setOpenDropdownMenu((prev) => !prev)}>
-                <div className='text-lg mr-4 '>{upperFirstLetter(valueMenu)}</div>
+                <div className='text-lg mr-4 '>{upperFirstLetter(valueMenu) + 's'}</div>
                 {openDropdownMenu ? (<IoCaretUpSharp className="h-full absolute right-3" />) : (<IoCaretDownSharp className="h-full absolute right-3" />)}
             </button>
 
@@ -62,7 +62,7 @@ export function DroptownMenu(props: Props) {
                     onClick={(e) => handleClick(e)} >
                     {list.map((name) => (
                         <div className='p-1 flex w-full justify-between hover:bg-pink-300 dark:hover:bg-pink-300 cursor-pointer rounded-r-lg border-l-transparent' key={name}>
-                            <h3 defaultValue="test">{upperFirstLetter(name)}</h3>
+                            <h3 defaultValue="test">{upperFirstLetter(name) + 's'}</h3>
                         </div>
 
                     ))}
