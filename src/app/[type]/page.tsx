@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react'
 import PageListVideo from '@/components/PageListVideo'
 
 export default function Test({ params, searchParams, }: {
-    params: { test: string; }
+    params: { type: string; }
     searchParams: { page: number }
 }) {
 
     const tableau = ["channel", "pornstar", "categorie"]
     const [valueMenu, setValueMenu] = useState("A->Z");
-    const type = tableau.includes(params.test) ? params.test : "channel"
+    const type = tableau.includes(params.type) ? params.type : "channel"
     const pageNbr: number = searchParams.page && !isNaN(searchParams.page) ? Math.abs(searchParams.page) : 1
 
     const [videos, setDatasVideos] = useState([])

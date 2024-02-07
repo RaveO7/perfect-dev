@@ -1,15 +1,15 @@
 "use client";
 
-import Link from 'next/link'
 import React, { useState } from 'react';
-import Separateur from './Separateur'
-import { IoSearch } from "react-icons/io5";
-import { DroptownMenu } from './DroptownMenu';
-import { Modal } from './Modal';
-import BurgerMenu from './BurgerMenu';
+import Link from 'next/link'
 import Image from 'next/image';
-
+import { Modal } from './Modal';
+import { DroptownMenu } from './DroptownMenu';
+import BurgerMenu from './BurgerMenu';
+import { Separateur } from './Separateur'
 import CoffeImg from '@/app/assets/images/lato-yellow.webp'
+import { IoSearch } from "react-icons/io5";
+
 export default function Header() {
     const [openSearchBar, setOpenSearchBar] = useState(false);
     const [search, setSearch] = useState('');
@@ -59,7 +59,7 @@ export default function Header() {
                             alt='Buy me a coffee for help the developer' />
                     </Link>
 
-                    <IoSearch id="b" className="md:hidden block hover:cursor-pointer hover:text-white w-6 h-6 md:w-5 md:h-5 text-gray-300 mr-1" onClick={searchStart} />
+                    <IoSearch className="md:hidden block hover:cursor-pointer hover:text-white w-6 h-6 md:w-5 md:h-5 text-gray-300 mr-1" onClick={searchStart} />
 
                     <div className='md:inline hidden'><Separateur /></div>
 

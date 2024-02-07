@@ -1,15 +1,25 @@
-import Image from 'next/image'
-import Link from 'next/link';
 import React, { useState } from 'react'
+import Link from 'next/link';
+import Image from 'next/image'
+import { formatString, getRating } from './Utils';
 import { IoMdThumbsUp } from 'react-icons/io';
 import { IoEyeSharp } from 'react-icons/io5';
-import { formatString } from './Utils';
 
 function cn(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
 }
 
-export default function Galery({ images, type }: any) {
+type Image = {
+    id: number
+    title: string
+    imgUrl: string
+    view: number
+    like: number
+    dislike: number
+    time: number
+}
+
+export default function Galery({ images, type }: { images: Image[], type: string }) {
     return (
         <div className='w-full mb-3'>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-1 md:p-0 gap-y-5 gap-x-6 xl:gap-x-8 '>
@@ -24,7 +34,7 @@ export default function Galery({ images, type }: any) {
 function BlurImage({ image, index, type }: any) {
     const [isLoading, setLoading] = useState(true)
     const title = image.title ? image.title : image.name
-    const rating = ((100 * image.like) / (image.like + image.dislike)) ? (100 * image.like) / (image.like + image.dislike) : 0;
+    const rating = getRating(image.like, image.dislike)
 
     return (
         <Link

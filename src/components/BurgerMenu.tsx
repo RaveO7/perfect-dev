@@ -1,12 +1,14 @@
-import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
-import { X, Menu } from 'lucide-react';
+import Link from 'next/link'
 import Image from 'next/image';
+import { upperFirstLetter } from './Utils';
 import CoffeeImgMin from '@/app/assets/images/coffeeMin.webp'
+import { X, Menu } from 'lucide-react';
+
 export default function BurgerMenu() {
     const [burgerMenu, setBurgerMenu] = useState(false);
-    const ref = useRef(null);
 
+    const ref = useRef(null);
     useEffect(() => {
         const handleOutSideClick = (event: any) => {
             const elementPrincipale: any = ref.current
@@ -18,13 +20,13 @@ export default function BurgerMenu() {
         return () => { window.removeEventListener("mousedown", handleOutSideClick); };
     }, [ref]);
 
-    const classLink = 'whitespace-nowrap rounded flex h-8 w-full items-center p-2 hover:bg-[#292c33] dark:hover:bg-[#292c33]'
+    const list: Array<string> = ['channel', 'pornstar', 'categorie']
+
     return (
         <div ref={ref} className='relative flex flex-col'>
             <button aria-label='Burger Menu Research' type="button"
                 className="relative flex items-center justify-center w-10 h-10 rounded-full
-                bg-gray-700 dark:bg-gray-700
-                hover:bg-gray-600 dark:hover:bg-gray-600"
+                bg-gray-700 dark:bg-gray-700 hover:bg-gray-600 dark:hover:bg-gray-600"
                 onClick={() => setBurgerMenu((val) => !val)}>
                 <X className={`absolute w-6 h-6 transition-all duration-300 ease-out
                 ${burgerMenu ? 'rotate-180 opacity-100' : '-rotate-45 opacity-0 '}`} />
@@ -40,13 +42,24 @@ export default function BurgerMenu() {
                 border-[#292C33] dark:border-[#292C33]
                 absolute -right-2 top-12 origin-bottom-right flex-col rounded-2xl border bg-alt shadow-bellowMedium `}>
                 <div className=' flex flex-col justify-between z-20 items-center space-y-1px p-[7px]'>
-                    <Link onClick={() => setBurgerMenu(false)} href={"/channel"} className={classLink}>Channels</Link>
-                    <Link onClick={() => setBurgerMenu(false)} href={"/pornstar"} className={classLink}>Pornstars</Link>
-                    <Link onClick={() => setBurgerMenu(false)} href={"/categorie"} className={classLink}>Categories</Link>
+                    {list.map((type: string) => (
+                        <Link key={type}
+                            href={`/${type}`}
+                            onClick={() => setBurgerMenu(false)}
+                            className='whitespace-nowrap rounded flex h-8 w-full items-center p-2 hover:bg-[#292c33] dark:hover:bg-[#292c33]'>
+                            {upperFirstLetter(type + "s")}
+                        </Link>
+                    ))}
                 </div>
                 <div className='hd:hidden flex flex-row justify-between  space-x-2 items-center border-t border-[#292C33] p-2'>
                     <Link href="https://www.buymeacoffee.com/perfectporn" target="_blank" className='w-full flex justify-center'>
-                        <Image width={40} height={40} className='w-10 h-10' src={CoffeeImgMin} alt='Buy me a coffee for help the developer' loading='lazy' />
+                        <Image
+                            alt='Buy me a coffee for help the developer'
+                            src={CoffeeImgMin}
+                            width={40}
+                            height={40}
+                            className='w-10 h-10'
+                            loading='lazy' />
                     </Link>
                 </div>
             </div>

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
 
-import Separateur from '@/components/Separateur'
+import { Separateur, SeparateurLigne } from '@/components/Separateur'
 import TimeDifference, { deleteCookie, formatString, getCookie, getRating, setCookie, upperFirstLetter } from '@/components/Utils';
 import DropDown from '@/components/DroptownMenuEpurate';
 import Loading from '@/components/Loading';
@@ -15,8 +15,6 @@ import ImgAi1 from '@/app/assets/images/GirlFriendAi160x600.webp'
 import ImgAi2 from '@/app/assets/images/SextingAI160x600.webp'
 import ImgAi3 from '@/app/assets/images/SextingAi300x100.webp'
 import Galery from '@/components/Galery';
-import { SeparatorHorizontal } from 'lucide-react';
-import SeparateurLigne from '@/components/SeparateurLigne';
 
 export default function Videos({ params }: { params: { id: number } }) {
   const [dataVideo, setDataVideo] = useState([] as any)
@@ -312,7 +310,7 @@ export default function Videos({ params }: { params: { id: number } }) {
             <SeparateurLigne />
 
             <section className="w-full flex flex-wrap mb-3">
-              <Galery images={dataMoreVideo.slice(0, 8)} />
+              <Galery images={dataMoreVideo.slice(0, 8)} type='' />
             </section>
           </div>
         </div>

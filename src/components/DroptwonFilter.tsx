@@ -17,7 +17,6 @@ export default function BurgerMenuIndexPage(props: Props) {
     const setValueMenu = props.setValueMenu
 
     const ref = useRef(null);
-
     useEffect(() => {
         const handleOutSideClick = (event: any) => {
             const elementPrincipale: any = ref.current
@@ -34,14 +33,11 @@ export default function BurgerMenuIndexPage(props: Props) {
     }, [ref]);
 
     function burgerMenuClick(e: any) {
-        setValueMenu(e.target.innerText.replace("<h3>", "").replace("</h3>", ""))
+        setValueMenu(e.target.innerText)
         setBurgerMenu(false)
     }
-
-    var list = props.list
-
-
-    list = list.filter(list => list !== valueMenu);
+    
+    const list = props.list.filter(list => list !== valueMenu);
 
     return (
         <div ref={ref} className='relative flex flex-col z-10 w-fit'>

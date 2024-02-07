@@ -35,6 +35,7 @@ export async function generateMetadata({ params }: { params: { id: any, test: an
             siteName: "Perefect Porn",
             images: [{
                 url: `${res.imgUrl}`,
+                alt: `${res.title}`,
             }],
             type: "website",
         }

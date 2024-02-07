@@ -7,6 +7,7 @@ import './globals.css'
 
 import Header from '../components/Header'
 import MoreEighteen from '@/components/MoreEighteen'
+import ImageOpenGraph from '@/app/assets/images/ImageOpenGraph.png'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,7 +30,8 @@ export const metadata: Metadata = {
     url: `${process.env.Site_URL}`,
     siteName: "PerefectPorn",
     images: [{
-      url: "https://hdporn92.com/wp-content/uploads/2024/01/432635947_118446_01_01.jpg",
+      url: '/opengraph-image.png',
+      alt: 'Image of Perfect Porn the site for fulfilling your Fantasies.'
     }],
     type: "website",
   }

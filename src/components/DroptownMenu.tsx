@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useState, Dispatch, SetStateAction, useRef, useEffect } from 'react';
-import { IoCaretDownSharp, IoCaretUpSharp } from 'react-icons/io5'
 import { upperFirstLetter } from './Utils';
+import { IoCaretDownSharp, IoCaretUpSharp } from 'react-icons/io5'
 
 interface Props {
     valueMenu: string
@@ -14,7 +14,7 @@ export function DroptownMenu(props: Props) {
     const valueMenu = props.valueMenu
     const setValueMenu = props.setValueMenu
 
-    var list = [
+    let list: Array<string> = [
         "video",
         "pornstar",
         "channel",
@@ -24,12 +24,11 @@ export function DroptownMenu(props: Props) {
     list = list.filter(list => list !== valueMenu);
 
     function handleClick(e: any) {
-        setValueMenu(e.target.innerText.replace("<h3>", "").replace("</h3>", "").toLowerCase())
+        setValueMenu(e.target.innerText.replace("s", "").toLowerCase())
         setOpenDropdownMenu(false)
     };
 
     const ref = useRef(null);
-
     useEffect(() => {
         const handleOutSideClick = (event: any) => {
             const elementPrincipale: any = ref.current
@@ -58,13 +57,11 @@ export function DroptownMenu(props: Props) {
 
             {openDropdownMenu && (
                 <div className={`bg-pink-400 dark:bg-pink-400 absolute overflow-hidden  flex flex-col items-start rounded-lg w-[140px]`}
-
                     onClick={(e) => handleClick(e)} >
                     {list.map((name) => (
                         <div className='p-1 flex w-full justify-between hover:bg-pink-300 dark:hover:bg-pink-300 cursor-pointer rounded-r-lg border-l-transparent' key={name}>
                             <h3 defaultValue="test">{upperFirstLetter(name) + 's'}</h3>
                         </div>
-
                     ))}
                 </div>
             )}
