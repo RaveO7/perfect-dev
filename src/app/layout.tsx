@@ -1,5 +1,4 @@
-import type { Metadata } from 'next'
-import type { Viewport } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from '@vercel/analytics/react';
 
@@ -9,6 +8,7 @@ import './globals.css'
 
 import Header from '../components/Header'
 import MoreEighteen from '@/components/MoreEighteen'
+import ModalPub from '@/components/ModalPub';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -48,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" >
       <body className={inter.className} suppressHydrationWarning={true}>
         <MoreEighteen />
+        {/* <ModalPub /> */}
         <main className="flex min-h-screen flex-col items-center ">
           <Header />
           <section className="w-full mt-[72px] py-6 lg:px-12 ">

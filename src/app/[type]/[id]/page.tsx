@@ -14,8 +14,8 @@ export default function Page({ params, searchParams, }: {
     const pageNbr: number = searchParams.page && !isNaN(searchParams.page) ? Math.abs(searchParams.page) : 1
 
     const [videos, setDatasVideos] = useState([]) //Tableaux contenant toutes les vidéos
-    const [nbrPage, setNbrPage] = useState(0) //Nombre de pages 1 page contient 48 vidéos
-    const [nbrVideos, setNbrVideos] = useState(1) //Nombre de vidéos totale par rapport à la recherche
+    const [nbrPage, setNbrPage] = useState(0) //Nombre de pages 1 page contient X vidéos
+    const [nbrVideos, setNbrVideos] = useState(0) //Nombre de vidéos totale par rapport à la recherche
     const [loading, setLoading] = useState(true) //Affiche Loading le temps de la promesse du fetch()
 
     useEffect(() => {

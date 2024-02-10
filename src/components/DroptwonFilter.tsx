@@ -36,7 +36,7 @@ export default function BurgerMenuIndexPage(props: Props) {
         setValueMenu(e.target.innerText)
         setBurgerMenu(false)
     }
-    
+
     const list = props.list.filter(list => list !== valueMenu);
 
     return (
@@ -44,7 +44,7 @@ export default function BurgerMenuIndexPage(props: Props) {
             <button type="button" className="relative flex items-center justify-center h-10 w-full p-2 min-w-[110px] gap-3 rounded-xl hover:bg-gray-600 bg-gray-700 border-transparent border-2 hover:border-white"
                 aria-label={'Button Open Burger Menu Choice Order Videos Actual Order Choice Is' + valueMenu}
                 onClick={() => setBurgerMenu((val) => !val)}>
-                <h3>{valueMenu}</h3>
+                <h3 className='text-sm md:text-xl'>{valueMenu}</h3>
                 {burgerMenu ? (<IoCaretUpSharp />) : (<IoCaretDownSharp className="" />)}
             </button>
 

@@ -13,7 +13,7 @@ export default function SearchPage({ params, searchParams, }: {
 
   const [videos, setDatasVideos] = useState([])
   const [nbrPage, setNbrPage] = useState(0)
-  const [nbrVideos, setNbrVideos] = useState();
+  const [nbrVideos, setNbrVideos] = useState(0);
   const [loading, setLoading] = useState(true)
   const [valueMenu, setValueMenu] = useState("Latest");
 

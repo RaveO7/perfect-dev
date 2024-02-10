@@ -31,17 +31,17 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             case "videos":
                 posts = await prisma.$queryRawUnsafe(`
                 SELECT
-                id, title, imgUrl, 'like', dislike, view, time,
+                id, title, imgUrl, v.like, dislike, view, time,
             (SELECT COUNT(DISTINCT(title)) FROM Videos WHERE title LIKE '%${search}%' OR description LIKE '%${search}%') AS nbrPage,
             (SELECT COUNT(DISTINCT(title)) FROM Videos WHERE title LIKE '%${search}%' OR description LIKE '%${search}%') AS nbr
-            FROM Videos
+            FROM Videos v
             WHERE title LIKE '%${search}%' OR description LIKE '%${search}%'
             GROUP BY id, title, description
             ${order}
             LIMIT ${startSearchVideo}, ${numberVideoByPage}
                 `)
                 break;
-            case "channel":
+            case "channels":
                 posts = await prisma.$queryRawUnsafe(`
                 SELECT
                     t.name, v.imgUrl,
@@ -55,7 +55,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
                 LIMIT ${startSearchVideo}, ${numberVideoByPage};
                 `)
                 break;
-            case "pornstar":
+            case "pornstars":
                 posts = await prisma.$queryRawUnsafe(`
                 SELECT
                     t.name, v.imgUrl,
@@ -69,7 +69,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
                 LIMIT ${startSearchVideo}, ${numberVideoByPage};
                 `)
                 break;
-            case "categorie":
+            case "categories":
                 posts = await prisma.$queryRawUnsafe(`
                     SELECT
                         t.name, v.imgUrl,
@@ -86,10 +86,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             default:
                 posts = await prisma.$queryRawUnsafe(`
                     SELECT
-                        id, title, imgUrl, 'like', dislike, view, time,
+                        id, title, imgUrl, v.like, dislike, view, time,
                     (SELECT COUNT(DISTINCT(title)) FROM Videos WHERE title LIKE '%${search}%' OR description LIKE '%${search}%') AS nbrPage,
                     (SELECT COUNT(DISTINCT(title)) FROM Videos WHERE title LIKE '%${search}%' OR description LIKE '%${search}%') AS nbr
-                    FROM Videos
+                    FROM Videos v
                     WHERE title LIKE '%${search}%' OR description LIKE '%${search}%'
                     GROUP BY id, title, description
                     ${order}

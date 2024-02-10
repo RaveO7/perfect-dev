@@ -2,7 +2,6 @@ import { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const urlSite: string = process.env.Site_URL!
-
     return [
         {
             url: `${urlSite}`,
@@ -32,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             url: `${urlSite}/search`,
             lastModified: new Date(),
             changeFrequency: 'yearly',
-            priority: 0.5,
+            priority: 0.6,
         }
     ]
 }

@@ -20,7 +20,7 @@ export default function BurgerMenu() {
         return () => { window.removeEventListener("mousedown", handleOutSideClick); };
     }, [ref]);
 
-    const list: Array<string> = ['channel', 'pornstar', 'categorie']
+    const list: Array<string> = ['channels', 'pornstars', 'categories']
 
     return (
         <div ref={ref} className='relative flex flex-col'>
@@ -47,7 +47,7 @@ export default function BurgerMenu() {
                             href={`/${type}`}
                             onClick={() => setBurgerMenu(false)}
                             className='whitespace-nowrap rounded flex h-8 w-full items-center p-2 hover:bg-[#292c33] dark:hover:bg-[#292c33]'>
-                            {upperFirstLetter(type + "s")}
+                            {upperFirstLetter(type)}
                         </Link>
                     ))}
                 </div>

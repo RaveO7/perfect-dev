@@ -17,7 +17,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
                 order = "ORDER BY view DESC"
                 break;
             case "Most Popular":
-                order = "ORDER BY 'like' DESC"
+                order = `ORDER BY v.like DESC`
                 break;
             case "A->Z":
                 order = "ORDER BY title ASC"
@@ -30,8 +30,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
                 break;
         }
 
-        const posts: any = await prisma.$queryRawUnsafe(`SELECT id, title, imgUrl, time, 'like', dislike, view, (SELECT COUNT(*) FROM Videos) AS nbr
-        FROM Videos
+        const posts: any = await prisma.$queryRawUnsafe(`SELECT id, title, imgUrl, time, v.like, dislike, view, (SELECT COUNT(*) FROM Videos) AS nbr
+        FROM Videos v
         ${order}
         LIMIT ${startSearchVideo}, ${numberVideoByPage}`)
 

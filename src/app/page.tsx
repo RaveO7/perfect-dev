@@ -16,6 +16,7 @@ export default function Home({ searchParams }: { searchParams: { page: number } 
       try {
         setLoading(true)
         const apiUrlEndpoint = "/api/homeVideos"
+
         const postData: any = {
           method: "POST",
           header: { "Content-Type": "application/json" },
@@ -24,16 +25,15 @@ export default function Home({ searchParams }: { searchParams: { page: number } 
             order: valueMenu,
           })
         }
-
         const response = await fetch(apiUrlEndpoint, postData)
         const res = await response.json()
 
         await setNbrPage(res[0].nbr)
         await setDatasVideos(res)
-        setLoading(false)
+        await setLoading(false)
       }
       catch {
-        setLoading(false)
+        await setLoading(false)
         return;
       }
     }
@@ -50,7 +50,7 @@ export default function Home({ searchParams }: { searchParams: { page: number } 
       page={pageNbr}
       numberPage={nbrPage}
       nomGroupe={""}
-      nbrVideo={""}
+      nbrVideo={0}
       loading={loading}
     />
   )

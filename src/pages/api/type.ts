@@ -10,13 +10,13 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
         let tab
         switch (JSON.parse(req.body).type) {
-            case "channel":
+            case "channels":
                 tab = "Channel"
                 break;
-            case "pornstar":
+            case "pornstars":
                 tab = "Actor"
                 break;
-            case "categorie":
+            case "categories":
                 tab = "Categorie"
                 break;
             default:

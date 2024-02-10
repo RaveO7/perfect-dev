@@ -5,13 +5,12 @@ import { formatString, getRating } from './Utils';
 import { IoMdThumbsUp } from 'react-icons/io';
 import { IoEyeSharp } from 'react-icons/io5';
 
-function cn(...classes: string[]) {
-    return classes.filter(Boolean).join(' ');
-}
+//const test = await fetch("https://chaturbate.com/api/public/affiliates/onlinerooms/?wm=WVA4P&client_ip=request_ip&format=json&gender=f&gender=c&hd=true&exhibitionniste=true&tag=teen&tag=bigboobs&tag=young&limit=1&offset=1")
 
 type Image = {
     id: number
     title: string
+    name: string
     imgUrl: string
     view: number
     like: number
@@ -19,19 +18,21 @@ type Image = {
     time: number
 }
 
+function cn(...classes: string[]) { return classes.filter(Boolean).join(' '); }
+
 export default function Galery({ images, type }: { images: Image[], type: string }) {
     return (
         <div className='w-full mb-3'>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-1 md:p-0 gap-y-5 gap-x-6 xl:gap-x-8 '>
-                {images.map((image: any, index: any) => (
-                    <BlurImage key={index} image={image} type={type} />
+                {images.map((image: Image, index: number) => (
+                    <BlurImage key={index} image={image} index={index} type={type} />
                 ))}
             </div>
         </div>
     )
 }
 
-function BlurImage({ image, index, type }: any) {
+function BlurImage({ image, index, type }: { image: Image, index: number, type: string }) {
     const [isLoading, setLoading] = useState(true)
     const title = image.title ? image.title : image.name
     const rating = getRating(image.like, image.dislike)
