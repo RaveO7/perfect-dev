@@ -30,9 +30,10 @@ export default function ModalPub() {
     }, [openSearchBar]);
 
     return (
+        // https://candy.ai?via=hamelio73
         <Link href={randPub} role='link' aria-label={'Add new tab'} target="_blank" rel="noopener" onClick={() => setOpenSearchBar(false)} data-modal-backdrop="static" aria-hidden="true" className={`${openSearchBar ? "flex" : "hidden"}
         fixed top-0 right-0 left-0 justify-center items-center md:inset-0 
-        w-full h-full bg-tranparent z-[98] overflow-hidden`} >
+        w-full h-full bg-tranparent backdrop-blur-sm z-[98] overflow-hidden`} >
         </Link>
     )
 }
