@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" >
       <body className={inter.className} suppressHydrationWarning={true}>
         <MoreEighteen />
-        {/* <ModalPub /> */}
+        <ModalPub />
         <main className="flex min-h-screen flex-col items-center ">
           <Header />
           <section className="w-full mt-[72px] py-6 lg:px-12 ">

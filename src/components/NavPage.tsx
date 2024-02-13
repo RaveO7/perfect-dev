@@ -1,13 +1,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-interface Props {
-    page: any,
-    numberPage: any,
-}
 
-export default function NavPage(props: Props) {
-    const page = props.page
-    const numberPage = props.numberPage
+export default function NavPage({ page, numberPage }: { page: number, numberPage: number }) {
     const pathname = usePathname()
 
     if (numberPage == 1) { return; }
