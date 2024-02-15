@@ -4,27 +4,20 @@ import React, { useState, Dispatch, SetStateAction, useRef, useEffect } from 're
 import { upperFirstLetter } from './Utils';
 import { IoCaretDownSharp, IoCaretUpSharp } from 'react-icons/io5'
 
-interface Props {
-    valueMenu: string
-    setValueMenu: Dispatch<SetStateAction<string>>
-}
-
-export function DroptownMenu(props: Props) {
+export function DroptownMenu({valueMenu, setValueMenu}: {valueMenu: string, setValueMenu: Dispatch<SetStateAction<string>>}) {
     const [openDropdownMenu, setOpenDropdownMenu] = useState(false);
-    const valueMenu = props.valueMenu
-    const setValueMenu = props.setValueMenu
 
     let list: Array<string> = [
         "videos",
-        "pornstars",
         "channels",
+        "pornstars",
         "categories",
     ];
 
     list = list.filter(list => list !== valueMenu);
 
     function handleClick(e: any) {
-        setValueMenu(e.target.innerText.replace("s", "").toLowerCase())
+        setValueMenu(e.target.innerText.toLowerCase())
         setOpenDropdownMenu(false)
     };
 

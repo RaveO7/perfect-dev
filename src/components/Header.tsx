@@ -13,7 +13,7 @@ import { IoSearch } from "react-icons/io5";
 export default function Header() {
     const [openSearchBar, setOpenSearchBar] = useState(false);
     const [search, setSearch] = useState('');
-    const [valueMenu, setValueMenu] = useState("video");
+    const [valueMenu, setValueMenu] = useState("videos");
 
     function searchStart() { openSearchBar ? setOpenSearchBar(false) : setOpenSearchBar(true) }
 
@@ -61,7 +61,7 @@ export default function Header() {
 
                     <IoSearch className="md:hidden block hover:cursor-pointer hover:text-white w-6 h-6 md:w-5 md:h-5 text-gray-300 mr-1" onClick={searchStart} />
 
-                    <div className='md:inline hidden'><Separateur /></div>
+                    <div className='md:inline hidden'><Separateur height={7}/></div>
 
                     <BurgerMenu />
                 </div>

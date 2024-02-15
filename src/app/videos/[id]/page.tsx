@@ -227,11 +227,11 @@ export default function Videos({ params }: { params: { id: number } }) {
               <div className='flex items-center '>
                 <p>{nbrView} Vues</p>
 
-                <Separateur />
+                <Separateur height={7}/>
 
                 <div className='flex items-center'><IoMdThumbsUp className="mr-1" /> {Math.ceil(rating)} %</div>
 
-                <Separateur />
+                <Separateur height={7}/>
 
                 <div>Il y a {date}</div>
 
@@ -242,12 +242,12 @@ export default function Videos({ params }: { params: { id: number } }) {
                   {`${cookieLike == 'true' ? "text-blue-500" : "hover:text-blue-500"} flex items-center duration-300`}
                   onClick={() => setUpdate('l')}>
                   <IoMdThumbsUp className="mr-1" />{cookieLike == 'true' ? like + 1 : like}</button>
-                <Separateur />
+                <Separateur height={7}/>
                 <button role="button" name="dislike" aria-label={'Button Add Dislike Number Like' + dislike} className=
                   {`${cookieLike == 'false' ? "text-red-500" : "hover:text-red-500"} flex items-center duration-300`}
                   onClick={() => setUpdate('d')}>
                   <IoMdThumbsDown className="mr-1" />{cookieLike == 'false' ? dislike + 1 : dislike}</button>
-                <Separateur />
+                <Separateur height={7}/>
                 <button role="button" name="repport" aria-label='Repport Video' className=
                   {`${repport == 'true' ? "text-red-700" : "hover:text-red-700"} flex items-center duration-300`}
                   onClick={() => setUpdate('r')}> <FaFlag className="mr-2" /> <span className='block mm:hidden md:block'>Repport</span>

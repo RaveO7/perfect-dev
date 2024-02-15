@@ -1,0 +1,17 @@
+import Link from 'next/link'
+import React from 'react'
+import { Separateur } from './Separateur'
+
+export default function Footer() {
+    return (
+        <footer className='w-full z-50 bg-midnight items-center relative bottom-0'>
+            <nav className="w-full flex justify-end text-sm">
+                <div className='flex mr-2'>
+                    <Link href='/dmca' className='text-timeVideo hover:text-pink-300 hover:underline'>DMCA</Link>
+                    <Separateur height={5}/>
+                    <Link href='' className='text-timeVideo hover:text-pink-300 hover:underline'>Contact Us</Link>
+                </div>
+            </nav>
+        </footer>
+    )
+}
