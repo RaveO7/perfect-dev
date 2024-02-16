@@ -25,7 +25,7 @@ export default function Galery({ images, type }: { images: Image[], type: string
     let insertions = [
         { position: 5, value: result[0] },
         { position: 15, value: result[1] },
-        // { position: 17, value: result[2] },
+        { position: 17, value: result[2] },
         // { position: 27, value: result[3] }
     ];
 
