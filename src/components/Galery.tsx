@@ -23,7 +23,7 @@ export default function Galery({ images, type }: { images: Image[], type: string
     const result = Chaturbate()
 
     let insertions = [
-        { position: 6, value: result[0] },
+        { position: 5, value: result[0] },
         { position: 15, value: result[1] },
         // { position: 17, value: result[2] },
         // { position: 27, value: result[3] }
@@ -31,7 +31,7 @@ export default function Galery({ images, type }: { images: Image[], type: string
 
     // Insérer les valeurs dans le tableau
     insertions.forEach(({ position, value }: any) => {
-        images.splice(position - 1, 0, value);
+        images.splice(position, 0, value);
     });
 
 
