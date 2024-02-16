@@ -60,6 +60,7 @@ function BlurImage({ image, index, type }: { image: Image, index: number, type: 
                             : 'grayscale-0 blur-0 scale-100'
                     )}
                     onLoad={() => setLoading(false)}
+                    unoptimized
                 />
                 {image.time != 0 &&
                     <div>
