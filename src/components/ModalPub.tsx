@@ -3,21 +3,24 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 export default function ModalPub() {
-    const [openSearchBar, setOpenSearchBar] = useState(true)
+    const [openSearchBar, setOpenSearchBar] = useState(false)
     const [randPub, setRandPub] = useState('https://candy.ai?via=hamelio73')
 
     // Fonction pour réinitialiser openSearchBar à true après 60 secondes
-    const resetSearchBar = () => {
-        setOpenSearchBar(true);
-    };
+    const resetSearchBar = () => { setOpenSearchBar(true); };
+
+    useEffect(() => {
+        // Définir un délai de 10 secondes pour réinitialiser openSearchBar à true
+        const nbrMinutes = 2.5;
+        const timeoutId = setTimeout(resetSearchBar, (nbrMinutes * 10000));
+        return () => clearTimeout(timeoutId);
+    }, []);
 
     useEffect(() => {
         if (!openSearchBar) {
             // Définir un délai de 60 secondes pour réinitialiser openSearchBar à true
             const nbrMinutes = 5;
             const timeoutId = setTimeout(resetSearchBar, (nbrMinutes * 60000));
-
-            // Nettoyer le timeout si le composant est démonté avant l'expiration du délai
             return () => clearTimeout(timeoutId);
         }
         else {
