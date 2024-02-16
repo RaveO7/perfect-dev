@@ -56,7 +56,7 @@ export default function SearchPage({ params, searchParams, }: {
       videos={videos}
       page={pageNbr}
       numberPage={nbrPage}
-      nomGroupe={type}
+      type={type}
       nbrVideo={nbrVideos}
       loading={loading}
     />
