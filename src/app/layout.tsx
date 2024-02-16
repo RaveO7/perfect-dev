@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from '@vercel/analytics/react';
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 import { Inter } from 'next/font/google'
 
@@ -47,12 +48,12 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" >
+      <GoogleAnalytics gaId="G-BCSQYEJTZZ" />
+      <SpeedInsights />
+      <Analytics />
       <body className={inter.className} suppressHydrationWarning={true}>
         <MoreEighteen />
         <ModalPub />
-        <SpeedInsights />
-        <Analytics />
-
         <main className="flex min-h-screen flex-col items-center">
           <Header />
           <section className="w-full mt-[72px] py-6 lg:px-12 min-h-[calc(100vh-92px)] ">
