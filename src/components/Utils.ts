@@ -8,7 +8,7 @@ export function upperFirstLetter(str: string) {
     .join(' ');
 }
 
-export function getRating(like: number, dislike: number) { return ((100 * like) / (like + dislike)) ? (100 * like) / (like + dislike) : 0; }
+export function getRating(like: number, dislike: number) { return ((100 * like) / (like + dislike)) ? Math.round((100 * like) / (like + dislike)) : 0; }
 
 export default function TimeDifference({ date }: any) {
   const now: any = new Date()
@@ -95,17 +95,23 @@ export function Chaturbate() {
 
   const result = [];
 
-  for (let i = 0; i < parts.length; i += 3) {
+  for (let i = 0; i < parts.length; i += 4) {
     result.push({
       title: parts[i],
       imgUrl: parts[i + 1],
       name: parts[i + 2],
-      view: 0,
-      like: 0,
-      dislike: 0,
+      view: parts[i + 3],
+      like: 10,
+      dislike: Math.floor(Math.random() * 4) + 1,
       time: 0,
     });
   }
-  console.log(result)
-  return result
+
+  let insertions = [
+    { position: 5, value: result[0] },
+    { position: 15, value: result[1] },
+    { position: 17, value: result[2] },
+    { position: 27, value: result[3] }
+  ];
+  return insertions
 }
