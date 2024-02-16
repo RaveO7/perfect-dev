@@ -56,7 +56,7 @@ export default function Test({ params, searchParams, }: { params: { type: string
             videos={videos}
             page={pageNbr}
             numberPage={nbrPage}
-            nomGroupe={type}
+            type={type}
             nbrVideo={nbrVideos}
             loading={loading}
         />

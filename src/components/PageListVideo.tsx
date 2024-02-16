@@ -6,25 +6,20 @@ import Nodata from './Nodata'
 import BurgerMenuIndexPage from './DroptwonFilter'
 import { upperFirstLetter } from './Utils'
 
+
 interface Props {
     valueMenu: string,
     setValueMenu: Dispatch<SetStateAction<string>>,
     videos: Array<any>,
     page: number,
     numberPage: number,
-    nomGroupe: string,
+    type: string,
     nbrVideo: number,
     loading: boolean,
 }
 
 export default function PageListVideo(props: Props) {
-    const setValueMenu = props.setValueMenu
-    const videos = props.videos
-    const page = props.page
-    const numberPage = props.numberPage
-    const type = props.nomGroupe
-    const nbrVideo = props.nbrVideo
-    const loading = props.loading
+    const { setValueMenu, videos, page, numberPage, type, nbrVideo, loading } = props;
 
     if (loading) return <Loading />
     if (!videos.length) return (<Nodata />)
@@ -37,6 +32,10 @@ export default function PageListVideo(props: Props) {
     // type, valueMenu, nbrVideo, setValueMenu, list
     return (
         <div className='flex flex-col w-full'>
+            {/* <div className='flex'>
+                <img src='https://roomimg.stream.highwebmedia.com/ri/kateharrise.jpg' />
+                <img src="https://roomimg.stream.highwebmedia.com/ri/blue_eye_twinkle.jpg" />
+            </div> */}
             <div className='w-full flex justify-between items-center text-[20px] mb-6 px-4 lg:px-0 font-bold'>
                 {!type ?
                     <h2 className='text-xl md:text-[27px]'>{valueMenu + " " + upperFirstLetter("videos")}</h2>
@@ -49,6 +48,6 @@ export default function PageListVideo(props: Props) {
             <Galery images={videos} type={type} />
 
             <NavPage page={page} numberPage={numberPage} />
-        </div>
+        </div >
     )
 }

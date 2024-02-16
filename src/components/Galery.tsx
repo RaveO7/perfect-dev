@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 import Link from 'next/link';
 import Image from 'next/image'
-import { formatString, getRating } from './Utils';
+import { Chaturbate, formatString, getRating } from './Utils';
 import { IoMdThumbsUp } from 'react-icons/io';
 import { IoEyeSharp } from 'react-icons/io5';
-
-//const test = await fetch("https://chaturbate.com/api/public/affiliates/onlinerooms/?wm=WVA4P&client_ip=request_ip&format=json&gender=f&gender=c&hd=true&exhibitionniste=true&tag=teen&tag=bigboobs&tag=young&limit=1&offset=1")
 
 type Image = {
     id: number
@@ -21,8 +19,32 @@ type Image = {
 function cn(...classes: string[]) { return classes.filter(Boolean).join(' '); }
 
 export default function Galery({ images, type }: { images: Image[], type: string }) {
+
+    const result = Chaturbate()
+
+    let insertions = [
+        { position: 6, value: result[0] },
+        { position: 15, value: result[1] },
+        // { position: 17, value: result[2] },
+        // { position: 27, value: result[3] }
+    ];
+
+    // Insérer les valeurs dans le tableau
+    insertions.forEach(({ position, value }: any) => {
+        images.splice(position - 1, 0, value);
+    });
+
+
     return (
         <div className='w-full mb-3'>
+            <div className='flex'>
+                {result.map((res: any, index: number) => (
+                    <Link href={res.name} key={index}>
+                        <img src={res.imgUrl} />
+                        <p>{res.title}</p>
+                    </Link>
+                ))}
+            </div>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-1 md:p-0 gap-y-5 gap-x-6 xl:gap-x-8 '>
                 {images.map((image: Image, index: number) => (
                     <BlurImage key={index} image={image} index={index} type={type} />
@@ -83,7 +105,7 @@ function BlurImage({ image, index, type }: { image: Image, index: number, type: 
                 }
             </div>
             <h3 className="text-[16px] font-[600] leading-5 tracking-wide mt-1 break-words max-h-10 overflow-hidden text-timeVideo group-hover:text-white duration-[400ms] ease-in-out">
-                {formatString(title)}
+                {index + formatString(title)}
             </h3>
         </Link>
     )

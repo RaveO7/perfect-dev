@@ -44,7 +44,7 @@ export default function TimeDifference({ date }: any) {
   }
 };
 
-export function setCookie(name: string | number, value: string, days: number, path: string) {
+export function setCookie(name: string | number, value: any, days: number, path: string) {
   var expires = "";
   if (days) {
     var date = new Date();
@@ -87,4 +87,25 @@ export function formatString(str: string) {
       return match; // Aucun espace ajouté
     }
   });
+}
+
+export function Chaturbate() {
+  const test = sessionStorage.getItem('chat')
+  const parts = test!.split(",§");
+
+  const result = [];
+
+  for (let i = 0; i < parts.length; i += 3) {
+    result.push({
+      title: parts[i],
+      imgUrl: parts[i + 1],
+      name: parts[i + 2],
+      view: 0,
+      like: 0,
+      dislike: 0,
+      time: 0,
+    });
+  }
+  console.log(result)
+  return result
 }

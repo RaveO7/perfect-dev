@@ -23,8 +23,6 @@ export default function ModalPub() {
         else {
             const pub = ['https://candy.ai?via=hamelio73', 'https://chaturbate.com/in/?tour=LQps&campaign=WVA4P&track=default&room=hamelio']
             const rand = Math.floor(Math.random() * pub.length)
-            console.log(rand)
-            console.log(pub[rand])
             setRandPub(pub[rand])
         }
     }, [openSearchBar]);
