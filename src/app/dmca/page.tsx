@@ -7,15 +7,15 @@ export default function DMCA() {
             <p>
                 Legal Disclaimer
                 <br />
-                The owners and operators of https://perfectporn.vercel.app/ are not the producers (as that term is defined in 18 U.S.C. Section 2257) of any of the visual content contained in the site.
+                The owners and operators of {process.env.Site_URL} are not the producers (as that term is defined in 18 U.S.C. Section 2257) of any of the visual content contained in the site.
                 <br /><br />
-                The owners and operators of https://perfectporn.vercel.app/ are not U.S. citizens. perfectporn.vercel.app doesn’t host any content.
+                The owners and operators of {process.env.Site_URL} are not U.S. citizens. {process.env.Site_URL} doesn’t host any content.
                 <br /><br />
-                All perfectporn.vercel.app does is use link or embed content that was uploaded to popular Online Video hosting. All popular Online Video hosting users signed a contract with the sites when they set up their accounts which force them not to upload illegal content. By clicking on any Links to videos while surfing on perfectporn.vercel.app you watch content hosted on third parties and perfectporn.vercel.app can’t take the responsibility for any content hosted on other sites.
+                All {process.env.Site_URL} does is use link or embed content that was uploaded to popular Online Video hosting. All popular Online Video hosting users signed a contract with the sites when they set up their accounts which force them not to upload illegal content. By clicking on any Links to videos while surfing on {process.env.Site_URL} you watch content hosted on third parties and {process.env.Site_URL} can’t take the responsibility for any content hosted on other sites.
                 <br /><br />
                 We do not upload any videos nor do we know who and where videos are coming from. We do not promote any illegal conduct of any kind. Links to the videos are submitted by users and managed by users.
                 <br /><br />
-                All content has been exclusively drawn from public Web sites, so this material is considered free distribution. In no article mentions the legal prohibition of free material so that this page does not infringe any law. Anyone has any questions or problems with this, please contact: perfectporn@gmail.com
+                All content has been exclusively drawn from public Web sites, so this material is considered free distribution. In no article mentions the legal prohibition of free material so that this page does not infringe any law. Anyone has any questions or problems with this, please contact: helpperfectporn@gmail.com
                 <br /><br />
                 So, Copyright owners should not complaint to our website, owner should go to the actual video Host or video providers.
                 <br /><br />
