@@ -36,10 +36,14 @@ export default function Galery({ images, type }: { images: Image[], type: string
 function BlurImage({ image, index, type }: { image: Image, index: number, type: string }) {
     const [isLoading, setLoading] = useState(true)
     const title = image.title ? image.title : image.name
+    const url = image.title ? (image.title && image.name ? image.name : '/videos/' + image.id + "?name=" + title): '/' + type + '/' + title
     const rating = getRating(image.like, image.dislike)
+
     return (
         <Link
-            href={image.title ? '/videos/' + image.id + "?name=" + title : '/' + type + '/' + title}
+            href={url}
+            target={image.title && image.name ? `_blankz` : '_self'}
+            rel={image.title && image.name ? `noopener` : ''}
             role='link'
             aria-label={'Go to video ' + title} className='group'>
             <div className='aspect-w-16 aspect-h-9 w-full overflow-hidden rounded-lg bg-gray-200'>
