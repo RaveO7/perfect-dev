@@ -37,7 +37,7 @@ export default function Home({ searchParams }: { searchParams: { page: number } 
           if (i !== resChat.results.length - 1) { test += ',§'; }
         }
 
-        sessionStorage.setItem('chat', test)
+        localStorage.setItem('chat', test)
 
         await setNbrPage(res[0].nbr)
         await setDatasVideos(res)
