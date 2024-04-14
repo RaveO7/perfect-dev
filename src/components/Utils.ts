@@ -90,7 +90,7 @@ export function formatString(str: string) {
 }
 
 export function Chaturbate() {
-  const test = sessionStorage.getItem('chat')
+  const test = localStorage.getItem('chat')
   const parts = test!.split(",§");
 
   const result = [];
