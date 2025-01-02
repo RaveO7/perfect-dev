@@ -182,7 +182,7 @@ export default function Videos({ params }: { params: { id: number } }) {
           </iframe>
         </div>
 
-        <div className='max-w-[25%] w-full hidden md:flex flex-col relative'>
+{/*         <div className='max-w-[25%] w-full hidden md:flex flex-col relative'>
           <Link className='flex justify-around h-full' href='https://candy.ai?via=hamelio73' rel='preload'>
             <Image
               className='hidden xl:block absolute xl:relative left-0 top-0'
@@ -203,13 +203,13 @@ export default function Videos({ params }: { params: { id: number } }) {
               priority={true}
             />
           </Link>
-        </div>
+        </div> */}
       </div>
 
       <div className='flex'>
         <div className='w-[100%] md:w-[75%] h-full p-2'>
           <div>
-            <Link className='w-fullblock md:hidden' href='https://candy.ai?via=hamelio73'>
+{/*             <Link className='w-fullblock md:hidden' href='https://candy.ai?via=hamelio73'>
               <Image
                 className='min-w-[300px] w-[75%] m-auto'
                 src={ImgAi3}
@@ -221,7 +221,7 @@ export default function Videos({ params }: { params: { id: number } }) {
                 rel='preload'
                 fetchPriority='high'
               />
-            </Link>
+            </Link> */}
             <h2 className="max-w-full mb-2 text-xl">{upperFirstLetter(title)}</h2>
             <div className='flex flex-col mm:flex-row items-center justify-between text-sm text-infoVideo'>
               <div className='flex items-center '>
