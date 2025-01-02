@@ -19,7 +19,7 @@ type Image = {
 function cn(...classes: string[]) { return classes.filter(Boolean).join(' '); }
 
 export default function Galery({ images, type }: { images: Image[], type: string }) {
-    const result = Chaturbate()
+    // const result = Chaturbate()
     result.forEach(({ position, value }: any) => { images.splice(position, 0, value); });
 
     return (
