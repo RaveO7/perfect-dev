@@ -20,7 +20,7 @@ function cn(...classes: string[]) { return classes.filter(Boolean).join(' '); }
 
 export default function Galery({ images, type }: { images: Image[], type: string }) {
     // const result = Chaturbate()
-    result.forEach(({ position, value }: any) => { images.splice(position, 0, value); });
+    // result.forEach(({ position, value }: any) => { images.splice(position, 0, value); });
 
     return (
         <div className='w-full mb-3'>
