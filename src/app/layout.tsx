@@ -9,7 +9,7 @@ import './globals.css'
 
 import Header from '../components/Header'
 import MoreEighteen from '@/components/MoreEighteen'
-import ModalPub from '@/components/ModalPub';
+// import ModalPub from '@/components/ModalPub';
 import Footer from '@/components/Footer';
 
 const inter = Inter({ subsets: ['latin'] })
