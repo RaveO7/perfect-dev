@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import Link from 'next/link';
 import Image from 'next/image'
-import { Chaturbate, formatString, getRating } from './Utils';
+// import { Chaturbate, formatString, getRating } from './Utils';
+import { formatString, getRating } from './Utils';
 import { IoMdThumbsUp } from 'react-icons/io';
 import { IoEyeSharp } from 'react-icons/io5';
 
