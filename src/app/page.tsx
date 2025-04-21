@@ -32,12 +32,15 @@ export default function Home({ searchParams }: { searchParams: { page: number } 
         const resChat = await responseChat.json()
         let test = '';        
 
-        for (let i = 0; i < resChat.results.length; i++) {
-          test += resChat.results[i].room_subject + ',§' + resChat.results[i].image_url_360x270 + ',§' + resChat.results[i].chat_room_url + ',§' + resChat.results[i].seconds_online;
-          if (i !== resChat.results.length - 1) { test += ',§'; }
+        // Vérifie si les données de l'API sont présentes
+        if (resChat.results.length > 0) {
+          for (let i = 0; i < resChat.results.length; i++) {
+            test += resChat.results[i].room_subject + ',§' + resChat.results[i].image_url_360x270 + ',§' + resChat.results[i].chat_room_url + ',§' + resChat.results[i].seconds_online;
+            if (i !== resChat.results.length - 1) { test += ',§'; }
+          }
+        } else {
+          test = 'null';  // Si les résultats sont vides, on met "null"
         }
-
-        localStorage.setItem('chat', test)
 
         await setNbrPage(res[0].nbr)
         await setDatasVideos(res)
