@@ -28,20 +28,6 @@ export default function Home({ searchParams }: { searchParams: { page: number } 
         const response = await fetch(apiUrlEndpoint, postData)
         const res = await response.json()
 
-        const responseChat = await fetch('https://chaturbate.com/api/public/affiliates/onlinerooms/?wm=WVA4P&client_ip=request_ip&format=json&gender=f&gender=c&hd=true&exhibitionniste=true&tag=teen&tag=bigboobs&tag=young&offset=1&limit=4')
-        const resChat = await responseChat.json()
-        let test = '';        
-
-        // Vérifie si les données de l'API sont présentes
-        if (resChat.results.length > 0) {
-          for (let i = 0; i < resChat.results.length; i++) {
-            test += resChat.results[i].room_subject + ',§' + resChat.results[i].image_url_360x270 + ',§' + resChat.results[i].chat_room_url + ',§' + resChat.results[i].seconds_online;
-            if (i !== resChat.results.length - 1) { test += ',§'; }
-          }
-        } else {
-          test = 'null';  // Si les résultats sont vides, on met "null"
-        }
-
         await setNbrPage(res[0].nbr)
         await setDatasVideos(res)
         await setLoading(false)
