@@ -27,6 +27,7 @@ export const metadata: Metadata = {
   publisher: 'Phoenix',
   alternates: { canonical: `${process.env.Site_URL}` },
   robots: 'max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+  verification: {google: "iEbYUqh_jKgVnifPqHYfD2o2pFxUBhWVHjyFuwtl864",},
   openGraph: {
     title: "Perefect Porn Best porn site",
     description: "Perfect Porn the porn site with all you dreams videos",
