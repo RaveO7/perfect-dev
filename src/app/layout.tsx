@@ -15,6 +15,7 @@ import Footer from '@/components/Footer';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.Site_URL as string),
   title: {
     absolute: '',
     default: 'Perfect Porn | The site for fulfilling your Fantasies.',
