@@ -33,7 +33,7 @@ const MoreEighteen = () => {
               name='Age verification button'
               onClick={handleModalClick}
               className="w-[95%] text block m-auto text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm-center bg-pink-600 hover:bg-pink-700 focus:ring-pink-800 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
-              <input type='submit' name='submit' value="I BITE am 18 or older - Enter" className='w-full py-3  hover:cursor-pointer' />
+              <input type='submit' name='submit' value="I LOVE am 18 or older - Enter" className='w-full py-3  hover:cursor-pointer' />
             </button>
           </div>
         </div>
