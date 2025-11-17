@@ -1,5 +1,14 @@
 import { upperFirstLetter } from '@/components/Utils'
 
+export const dynamicParams = false
+export async function generateStaticParams() {
+	return [
+		{ type: 'channels' },
+		{ type: 'pornstars' },
+		{ type: 'categories' },
+	]
+}
+
 export async function generateMetadata({ params, }: { params: { id: string, type: string }; }) {
     const { type } = params;
 

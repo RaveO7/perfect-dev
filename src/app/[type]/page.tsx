@@ -3,15 +3,6 @@
 import React, { useState, useEffect } from 'react'
 import PageListVideo from '@/components/PageListVideo'
 
-export const dynamicParams = false
-export async function generateStaticParams() {
-	return [
-		{ type: 'channels' },
-		{ type: 'pornstars' },
-		{ type: 'categories' },
-	]
-}
-
 export default function Test({ params, searchParams, }: { params: { type: string; }, searchParams: { page: number } }) {
     const tableau = ["channels", "pornstars", "categories"]
     const type = tableau.includes(params.type) ? params.type : tableau[0]
