@@ -21,7 +21,20 @@ export async function generateSitemaps() {
   return Array.from({ length: pages }).map((_, i) => ({ id: String(i + 1) }));
 }
 
-export default async function sitemap(): Promise<MetadataRoute.SitemapIndex> {
+type SitemapProps = { params: Promise<{ id: string }> } | undefined;
+
+export default async function sitemap(
+  props?: SitemapProps
+): Promise<MetadataRoute.Sitemap | MetadataRoute.SitemapIndex> {
+  // Si des params avec id sont fournis, générer le sitemap chunk correspondant
+  if (props?.params) {
+    const params = await props.params;
+    if (params.id) {
+      return generateSitemapChunk(Number(params.id));
+    }
+  }
+  
+  // Sinon, générer le sitemap index
   const sitemaps = await generateSitemaps();
   return sitemaps.map((s) => ({
     url: `${SITE_URL}/sitemap/${s.id}.xml`,
