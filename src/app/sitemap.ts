@@ -43,99 +43,51 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap | Metadat
         const totalDynamicUrls = videoCount + channelCount + pornstarCount + categoryCount
         const staticUrlsCount = 6 // accueil, contact, dmca, channel, pornstar, categorie
         
-        // Si le total dépasse la limite, retourner seulement les pages statiques
-        // Le sitemap index sera accessible via /api/sitemap-index
-        if (totalDynamicUrls + staticUrlsCount > MAX_URLS_PER_SITEMAP) {
-            // Retourner seulement les pages statiques dans le sitemap principal
-            const staticPages: MetadataRoute.Sitemap = [
-                {
-                    url: `${urlSite}`,
-                    lastModified: new Date(),
-                    changeFrequency: 'daily',
-                    priority: 1,
-                },
-                {
-                    url: `${urlSite}contact`,
-                    lastModified: new Date(),
-                    changeFrequency: 'monthly',
-                    priority: 0.5,
-                },
-                {
-                    url: `${urlSite}dmca`,
-                    lastModified: new Date(),
-                    changeFrequency: 'monthly',
-                    priority: 0.5,
-                },
-                {
-                    url: `${urlSite}channel`,
-                    lastModified: new Date(),
-                    changeFrequency: 'daily',
-                    priority: 0.9,
-                },
-                {
-                    url: `${urlSite}pornstar`,
-                    lastModified: new Date(),
-                    changeFrequency: 'daily',
-                    priority: 0.9,
-                },
-                {
-                    url: `${urlSite}categorie`,
-                    lastModified: new Date(),
-                    changeFrequency: 'daily',
-                    priority: 0.9,
-                },
-            ]
-
-            await prisma.$disconnect()
-            return staticPages
-        } else {
-            // Si on est sous la limite, retourner un sitemap normal
-            const sitemapEntries: MetadataRoute.Sitemap = []
-
-            // Page d'accueil
-            sitemapEntries.push({
+        // Toujours retourner seulement les pages statiques dans le sitemap principal
+        // Les URLs dynamiques sont dans les sitemaps paginés référencés par /sitemap-index
+        const staticPages: MetadataRoute.Sitemap = [
+            {
                 url: `${urlSite}`,
                 lastModified: new Date(),
                 changeFrequency: 'daily',
                 priority: 1,
-            })
-
-            // Pages statiques
-            sitemapEntries.push({
+            },
+            {
                 url: `${urlSite}contact`,
                 lastModified: new Date(),
                 changeFrequency: 'monthly',
                 priority: 0.5,
-            })
-
-            sitemapEntries.push({
+            },
+            {
                 url: `${urlSite}dmca`,
                 lastModified: new Date(),
                 changeFrequency: 'monthly',
                 priority: 0.5,
-            })
-
-            // Pages de liste
-            sitemapEntries.push({
+            },
+            {
                 url: `${urlSite}channel`,
                 lastModified: new Date(),
                 changeFrequency: 'daily',
                 priority: 0.9,
-            })
-
-            sitemapEntries.push({
+            },
+            {
                 url: `${urlSite}pornstar`,
                 lastModified: new Date(),
                 changeFrequency: 'daily',
                 priority: 0.9,
-            })
-
-            sitemapEntries.push({
+            },
+            {
                 url: `${urlSite}categorie`,
                 lastModified: new Date(),
                 changeFrequency: 'daily',
                 priority: 0.9,
-            })
+            },
+        ]
+
+        // Si on est sous la limite, on peut aussi inclure les URLs dynamiques directement
+        if (totalDynamicUrls + staticUrlsCount <= MAX_URLS_PER_SITEMAP) {
+            // Ajouter les URLs dynamiques directement dans le sitemap principal
+            const sitemapEntries: MetadataRoute.Sitemap = [...staticPages]
 
             // Récupérer toutes les vidéos
             const videos = await prisma.videos.findMany({
@@ -214,6 +166,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap | Metadat
             await prisma.$disconnect()
             return sitemapEntries
         }
+
+        // Si on dépasse la limite, retourner seulement les pages statiques
+        await prisma.$disconnect()
+        return staticPages
     } catch (error) {
         console.error('Error generating sitemap:', error)
         await prisma.$disconnect()

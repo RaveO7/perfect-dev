@@ -4,6 +4,9 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 const MAX_URLS_PER_SITEMAP = 50000
 
+// Revalidation ISR : régénère toutes les heures
+export const revalidate = 3600
+
 export async function GET() {
     try {
         const urlSite: string = process.env.Site_URL!
@@ -63,7 +66,7 @@ export async function GET() {
         for (let i = 0; i < videoSitemapsCount; i++) {
             sitemapIndex += `
   <sitemap>
-    <loc>${urlSite}api/sitemap/videos/${i}</loc>
+    <loc>${urlSite}sitemap-videos-${i}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
   </sitemap>`
         }
@@ -72,7 +75,7 @@ export async function GET() {
         for (let i = 0; i < channelSitemapsCount; i++) {
             sitemapIndex += `
   <sitemap>
-    <loc>${urlSite}api/sitemap/channels/${i}</loc>
+    <loc>${urlSite}sitemap-channels-${i}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
   </sitemap>`
         }
@@ -81,7 +84,7 @@ export async function GET() {
         for (let i = 0; i < pornstarSitemapsCount; i++) {
             sitemapIndex += `
   <sitemap>
-    <loc>${urlSite}api/sitemap/pornstars/${i}</loc>
+    <loc>${urlSite}sitemap-pornstars-${i}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
   </sitemap>`
         }
@@ -90,7 +93,7 @@ export async function GET() {
         for (let i = 0; i < categorySitemapsCount; i++) {
             sitemapIndex += `
   <sitemap>
-    <loc>${urlSite}api/sitemap/categories/${i}</loc>
+    <loc>${urlSite}sitemap-categories-${i}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
   </sitemap>`
         }
@@ -101,7 +104,7 @@ export async function GET() {
         await prisma.$disconnect()
         return new NextResponse(sitemapIndex, {
             headers: {
-                'Content-Type': 'application/xml',
+                'Content-Type': 'application/xml; charset=utf-8',
             },
         })
     } catch (error) {

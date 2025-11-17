@@ -12,7 +12,7 @@ export default function robots(): MetadataRoute.Robots {
         ],
         sitemap: [
             `${process.env.Site_URL}sitemap.xml`,
-            `${process.env.Site_URL}api/sitemap-index`,
+            `${process.env.Site_URL}sitemap-index`,
         ],
     }
 }

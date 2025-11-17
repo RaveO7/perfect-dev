@@ -5,6 +5,9 @@ const prisma = new PrismaClient()
 const MAX_URLS_PER_SITEMAP = 50000
 const VIDEOS_PER_SITEMAP = Math.floor(MAX_URLS_PER_SITEMAP * 0.8)
 
+// Revalidation ISR : régénère toutes les heures
+export const revalidate = 3600
+
 export async function GET(
     request: NextRequest,
     { params }: { params: { page: string } }
@@ -39,7 +42,7 @@ ${videos.map((video) => `  <url>
         await prisma.$disconnect()
         return new NextResponse(xml, {
             headers: {
-                'Content-Type': 'application/xml',
+                'Content-Type': 'application/xml; charset=utf-8',
             },
         })
     } catch (error) {
