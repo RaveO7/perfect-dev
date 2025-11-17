@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
-const MAX_URLS_PER_SITEMAP = 50000
-const CHANNELS_PER_SITEMAP = Math.floor(MAX_URLS_PER_SITEMAP * 0.1)
-
-// Revalidation ISR : régénère toutes les heures
-export const revalidate = 3600
+const maxUrlsPerSitemap = 45000
 
 export async function GET(
     request: NextRequest,
@@ -14,41 +10,46 @@ export async function GET(
 ) {
     try {
         const page = parseInt(params.page) || 0
-        const skip = page * CHANNELS_PER_SITEMAP
-        const urlSite: string = process.env.Site_URL!
+        const skip = page * maxUrlsPerSitemap
+        const urlSite = process.env.Site_URL!
 
-        const channels = await prisma.$queryRawUnsafe<Array<{ name: string }>>(`
-            SELECT name 
-            FROM Channel 
-            GROUP BY name 
+        // Récupérer les channels uniques avec pagination
+        const channels = await prisma.$queryRawUnsafe<Array<{ name: string, lastModified: Date }>>(
+            `SELECT c.name, 
+                MAX(v.createdAt) as lastModified
+            FROM Channel c
+            INNER JOIN Videos v ON c.idVideo = v.id
+            GROUP BY c.name
             HAVING COUNT(*) >= 3
-            ORDER BY name ASC
-            LIMIT ${CHANNELS_PER_SITEMAP}
-            OFFSET ${skip}
-        `)
+            ORDER BY c.name ASC
+            LIMIT ${skip}, ${maxUrlsPerSitemap}`
+        )
 
-        const xml = `<?xml version="1.0" encoding="UTF-8"?>
+        // Générer le XML du sitemap
+        const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${channels.map((channel) => {
-            const encodedName = encodeURIComponent(channel.name)
-            return `  <url>
+${channels.map(channel => {
+    const encodedName = encodeURIComponent(channel.name)
+    const lastmod = channel.lastModified ? new Date(channel.lastModified).toISOString() : new Date().toISOString()
+    return `  <url>
     <loc>${urlSite}channel/${encodedName}</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>`
-        }).join('\n')}
+}).join('\n')}
 </urlset>`
 
         await prisma.$disconnect()
-        return new NextResponse(xml, {
+        return new NextResponse(sitemap, {
             headers: {
-                'Content-Type': 'application/xml; charset=utf-8',
-            },
+                'Content-Type': 'application/xml',
+                'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400'
+            }
         })
     } catch (error) {
-        console.error('Error generating channels sitemap:', error)
         await prisma.$disconnect()
+        console.error('Error generating channels sitemap:', error)
         return new NextResponse('Error generating sitemap', { status: 500 })
     }
 }

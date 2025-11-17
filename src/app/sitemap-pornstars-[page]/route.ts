@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
-const MAX_URLS_PER_SITEMAP = 50000
-const PORNSTARS_PER_SITEMAP = Math.floor(MAX_URLS_PER_SITEMAP * 0.05)
-
-// Revalidation ISR : régénère toutes les heures
-export const revalidate = 3600
+const maxUrlsPerSitemap = 45000
 
 export async function GET(
     request: NextRequest,
@@ -14,41 +10,46 @@ export async function GET(
 ) {
     try {
         const page = parseInt(params.page) || 0
-        const skip = page * PORNSTARS_PER_SITEMAP
-        const urlSite: string = process.env.Site_URL!
+        const skip = page * maxUrlsPerSitemap
+        const urlSite = process.env.Site_URL!
 
-        const pornstars = await prisma.$queryRawUnsafe<Array<{ name: string }>>(`
-            SELECT name 
-            FROM Actor 
-            GROUP BY name 
+        // Récupérer les pornstars/actors uniques avec pagination
+        const pornstars = await prisma.$queryRawUnsafe<Array<{ name: string, lastModified: Date }>>(
+            `SELECT a.name, 
+                MAX(v.createdAt) as lastModified
+            FROM Actor a
+            INNER JOIN Videos v ON a.idVideo = v.id
+            GROUP BY a.name
             HAVING COUNT(*) >= 3
-            ORDER BY name ASC
-            LIMIT ${PORNSTARS_PER_SITEMAP}
-            OFFSET ${skip}
-        `)
+            ORDER BY a.name ASC
+            LIMIT ${skip}, ${maxUrlsPerSitemap}`
+        )
 
-        const xml = `<?xml version="1.0" encoding="UTF-8"?>
+        // Générer le XML du sitemap
+        const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${pornstars.map((pornstar) => {
-            const encodedName = encodeURIComponent(pornstar.name)
-            return `  <url>
+${pornstars.map(pornstar => {
+    const encodedName = encodeURIComponent(pornstar.name)
+    const lastmod = pornstar.lastModified ? new Date(pornstar.lastModified).toISOString() : new Date().toISOString()
+    return `  <url>
     <loc>${urlSite}pornstar/${encodedName}</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>`
-        }).join('\n')}
+}).join('\n')}
 </urlset>`
 
         await prisma.$disconnect()
-        return new NextResponse(xml, {
+        return new NextResponse(sitemap, {
             headers: {
-                'Content-Type': 'application/xml; charset=utf-8',
-            },
+                'Content-Type': 'application/xml',
+                'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400'
+            }
         })
     } catch (error) {
-        console.error('Error generating pornstars sitemap:', error)
         await prisma.$disconnect()
+        console.error('Error generating pornstars sitemap:', error)
         return new NextResponse('Error generating sitemap', { status: 500 })
     }
 }
