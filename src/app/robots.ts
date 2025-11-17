@@ -10,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: '/private/',
             }
         ],
-        sitemap: `${process.env.Site_URL}sitemap-index`,
+        sitemap: `process.env.Site_URL/sitemap.xml`,
     }
 }
