@@ -1,0 +1,2 @@
+export const VIDEO_SITEMAP_CHUNK_SIZE = 5000
+
