@@ -10,6 +10,7 @@ type VideoSitemapParams = {
 }
 
 export const revalidate = 60 * 60 // 1 hour
+export const runtime = 'nodejs'
 
 export default async function videoSitemap({
     params,
@@ -27,26 +28,34 @@ export default async function videoSitemap({
     const baseUrl = ensureTrailingSlash(process.env.Site_URL)
     const skip = (pageIndex - 1) * VIDEO_SITEMAP_CHUNK_SIZE
 
-    const videos = await prisma.videos.findMany({
-        skip,
-        take: VIDEO_SITEMAP_CHUNK_SIZE,
-        orderBy: { id: 'asc' },
-        select: {
-            id: true,
-            title: true,
-            createdAt: true,
-        },
-    })
+    try {
+        const videos = await prisma.videos.findMany({
+            skip,
+            take: VIDEO_SITEMAP_CHUNK_SIZE,
+            orderBy: { id: 'asc' },
+            select: {
+                id: true,
+                title: true,
+                createdAt: true,
+            },
+        })
 
-    if (videos.length === 0) {
+        if (videos.length === 0) {
+            return []
+        }
+
+        return videos.map((video) => ({
+            url: `${baseUrl}videos/${video.id}?name=${encodeURIComponent(video.title)}`,
+            lastModified: video.createdAt,
+            changeFrequency: 'weekly',
+            priority: 0.5,
+        }))
+    } catch (error) {
+        console.error('Failed to build video sitemap chunk', {
+            page: pageIndex,
+            error,
+        })
         return []
     }
-
-    return videos.map((video) => ({
-        url: `${baseUrl}videos/${video.id}?name=${encodeURIComponent(video.title)}`,
-        lastModified: video.createdAt,
-        changeFrequency: 'weekly',
-        priority: 0.5,
-    }))
 }
 
