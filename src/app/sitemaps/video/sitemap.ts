@@ -1,8 +1,8 @@
 import { MetadataRoute } from 'next'
 import { PrismaClient } from "@prisma/client";
+import { CHUNK } from '@/lib/sitemap-config';
 
-// Nombre de vidéos par sitemap (limite recommandée pour optimiser les performances)
-const VIDEOS_PER_SITEMAP = 49000;
+export const revalidate = 3600 * 12; // 12 hours - cache pour optimiser les performances
 
 /**
  * Génère la liste des sitemaps nécessaires en fonction du nombre total de vidéos
@@ -15,7 +15,7 @@ export async function generateSitemaps() {
     const totalVideos = await prisma.videos.count();
     
     // Calcule le nombre de sitemaps nécessaires (arrondi à l'entier supérieur)
-    const numberOfSitemaps = Math.ceil(totalVideos / VIDEOS_PER_SITEMAP);
+    const numberOfSitemaps = Math.ceil(totalVideos / CHUNK);
     
     // Génère un tableau d'IDs de 0 à numberOfSitemaps - 1
     // Exemple: si 120 vidéos -> 3 sitemaps -> [{ id: 0 }, { id: 1 }, { id: 2 }]
@@ -34,32 +34,32 @@ export async function generateSitemaps() {
 export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
     const prisma = new PrismaClient();
 
-    // Calcule la plage d'IDs de vidéos pour ce sitemap
-    // Exemple: sitemap id=0 -> vidéos 0-49, id=1 -> vidéos 50-99, etc.
-    const start = id * VIDEOS_PER_SITEMAP;
-    const end = start + VIDEOS_PER_SITEMAP;
+    // Calcule la pagination pour ce sitemap
+    // Exemple: sitemap id=0 -> vidéos 0-48999, id=1 -> vidéos 49000-97999, etc.
+    const skip = id * CHUNK;
+    const take = CHUNK;
 
-    // Récupère les vidéos dans la plage calculée
+    // Récupère les vidéos triées par date décroissante (plus récentes en premier)
+    // Cela améliore le SEO car Google découvre d'abord les nouvelles vidéos
     const videos = await prisma.videos.findMany({
         select: {
             id: true,
             title: true,
             createdAt: true,
         },
-        where: {
-            id: {
-                gte: start,  // Supérieur ou égal à start
-                lte: end,    // Inférieur ou égal à end
-            },
+        orderBy: {
+            createdAt: 'desc', // Plus récentes en premier pour meilleur SEO
         },
+        skip,
+        take,
     });
 
     // Transforme chaque vidéo en entrée de sitemap
     const sitemapEntries = videos.map(({ id, title, createdAt }) => ({
         url: `${process.env.Site_URL}videos/${id}?name=${encodeURIComponent(title)}`,
         lastModified: createdAt || new Date(),
-        changeFrequency: 'monthly' as const,
-        priority: 0.9,
+        changeFrequency: 'daily' as const,
+        priority: 0.8,
     }));
 
     await prisma.$disconnect();

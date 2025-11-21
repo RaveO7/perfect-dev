@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { PrismaClient } from "@prisma/client";
+import { CHUNK } from '@/lib/sitemap-config';
 
-const CHUNK = 49000;
 export const revalidate = 3600*24; // 1 day
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -14,6 +14,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Récupère le nombre total de vidéos pour construire l'index des sitemaps
     const totalVideos = await prisma.videos.count()
     const numberOfVideoSitemaps = Math.max(1, Math.ceil(totalVideos / CHUNK))
+    
+    // Récupère la date de la dernière vidéo ajoutée pour lastModified des routes statiques
+    const lastVideo = await prisma.videos.findFirst({
+        select: {
+            createdAt: true,
+        },
+        orderBy: {
+            createdAt: 'desc',
+        },
+    })
+    const lastVideoDate = lastVideo?.createdAt || now
 
     const actorsCountResult = await prisma.$queryRaw<Array<{ count: bigint }>>`
         SELECT COUNT(*) as count
@@ -52,76 +63,85 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const numberOfChannelSitemaps = Math.max(1, Math.ceil(totalChannels / CHUNK))
 
     // Routes statiques principales du site
+    // Utilise la date de la dernière vidéo pour lastModified (plus précis pour le SEO)
     const staticRoutes: MetadataRoute.Sitemap = [
         {
             url: `${urlSite}`,
-            lastModified: now,
-            changeFrequency: 'yearly',
+            lastModified: lastVideoDate, // Date de la dernière vidéo ajoutée
+            changeFrequency: 'monthly',
             priority: 1,
         },
         {
             url: `${urlSite}channel`,
-            lastModified: now,
-            changeFrequency: 'yearly',
-            priority: 0.8,
+            lastModified: lastVideoDate, // Change quand une nouvelle vidéo est ajoutée
+            changeFrequency: 'weekly',
+            priority: 0.6,
         },
         {
             url: `${urlSite}actor`,
-            lastModified: now,
-            changeFrequency: 'yearly',
-            priority: 0.8,
+            lastModified: lastVideoDate, // Change quand une nouvelle vidéo est ajoutée
+            changeFrequency: 'weekly',
+            priority: 0.6,
         },
         {
             url: `${urlSite}categorie`,
-            lastModified: now,
-            changeFrequency: 'yearly',
-            priority: 0.8,
+            lastModified: lastVideoDate, // Change quand une nouvelle vidéo est ajoutée
+            changeFrequency: 'weekly',
+            priority: 0.6,
         },
         {
             url: `${urlSite}search`,
-            lastModified: now,
-            changeFrequency: 'yearly',
-            priority: 0.6,
+            lastModified: now, // Page utilitaire, moins critique
+            changeFrequency: 'monthly',
+            priority: 0.5,
         },
     ]
+
+    // Sitemap "fresh" pour les vidéos récentes (priority plus élevée)
+    const freshVideoSitemap = {
+        url: `${urlSite}sitemaps/video-fresh/sitemap.xml`,
+        lastModified: lastVideoDate,
+        changeFrequency: 'daily' as const,
+        priority: 0.5, // Légèrement plus élevé car contenu récent
+    }
 
     const videoSitemaps: MetadataRoute.Sitemap = Array.from(
         { length: numberOfVideoSitemaps },
         (_, i) => ({
-            url: `${urlSite}sitemaps/video/${i}`,
-            lastModified: now,
+            url: `${urlSite}sitemaps/video/${i}`, // Next.js ajoute automatiquement .xml avec generateSitemaps()
+            lastModified: lastVideoDate, // Utilise la date de la dernière vidéo
             changeFrequency: 'daily',
-            priority: 0.5,
+            priority: 0.4,
         })
     )
 
     const actorSitemaps: MetadataRoute.Sitemap = Array.from(
         { length: numberOfActorSitemaps },
         (_, i) => ({
-            url: `${urlSite}sitemaps/actor/${i}`,
-            lastModified: now,
+            url: `${urlSite}sitemaps/actor/${i}`, // Next.js ajoute automatiquement .xml avec generateSitemaps()
+            lastModified: lastVideoDate, // Change quand une nouvelle vidéo avec acteur est ajoutée
             changeFrequency: 'weekly',
-            priority: 0.5,
+            priority: 0.4,
         })
     )
 
     const categorySitemaps: MetadataRoute.Sitemap = Array.from(
         { length: numberOfCategorySitemaps },
         (_, i) => ({
-            url: `${urlSite}sitemaps/categorie/${i}`,
-            lastModified: now,
+            url: `${urlSite}sitemaps/categorie/${i}`, // Next.js ajoute automatiquement .xml avec generateSitemaps()
+            lastModified: lastVideoDate, // Change quand une nouvelle vidéo avec catégorie est ajoutée
             changeFrequency: 'weekly',
-            priority: 0.5,
+            priority: 0.4,
         })
     )
 
     const channelSitemaps: MetadataRoute.Sitemap = Array.from(
         { length: numberOfChannelSitemaps },
         (_, i) => ({
-            url: `${urlSite}sitemaps/channel/${i}`,
-            lastModified: now,
+            url: `${urlSite}sitemaps/channel/${i}`, // Next.js ajoute automatiquement .xml avec generateSitemaps()
+            lastModified: lastVideoDate, // Change quand une nouvelle vidéo avec channel est ajoutée
             changeFrequency: 'weekly',
-            priority: 0.5,
+            priority: 0.4,
         })
     )
 
@@ -129,6 +149,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return [
         ...staticRoutes,
+        freshVideoSitemap, // Sitemap fresh en premier pour prioriser les nouvelles vidéos
         ...videoSitemaps,
         ...actorSitemaps,
         ...categorySitemaps,

@@ -1,8 +1,8 @@
 import { MetadataRoute } from 'next'
 import { PrismaClient } from "@prisma/client";
+import { CHUNK } from '@/lib/sitemap-config';
 
-// Nombre de channels par sitemap (limite recommandée pour optimiser les performances)
-const CHANNELS_PER_SITEMAP = 49000;
+export const revalidate = 3600 * 24; // 24 hours - cache car moins fréquemment mis à jour
 
 /**
  * Génère la liste des sitemaps nécessaires en fonction du nombre total de channels uniques
@@ -26,7 +26,7 @@ export async function generateSitemaps() {
     const count = Number(totalChannels[0]?.count || 0);
     
     // Calcule le nombre de sitemaps nécessaires (arrondi à l'entier supérieur)
-    const numberOfSitemaps = Math.ceil(count / CHANNELS_PER_SITEMAP);
+    const numberOfSitemaps = Math.ceil(count / CHUNK);
     
     // Génère un tableau d'IDs de 0 à numberOfSitemaps - 1
     // Exemple: si 1200 channels -> 3 sitemaps -> [{ id: 0 }, { id: 1 }, { id: 2 }]
@@ -46,9 +46,9 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
     const prisma = new PrismaClient();
 
     // Calcule la plage de channels pour ce sitemap avec pagination
-    // Exemple: sitemap id=0 -> channels 0-499, id=1 -> channels 500-999, etc.
-    const start = id * CHANNELS_PER_SITEMAP;
-    const limit = CHANNELS_PER_SITEMAP;
+    // Exemple: sitemap id=0 -> channels 0-48999, id=1 -> channels 49000-97999, etc.
+    const start = id * CHUNK;
+    const limit = CHUNK;
 
     // Récupère les channels uniques avec leur date de dernière modification
     // Un channel doit avoir au moins 3 vidéos pour être inclus dans le sitemap
@@ -73,7 +73,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
         url: `${process.env.Site_URL}channel/${encodeURIComponent(name)}`,
         lastModified: lastModified || new Date(),
         changeFrequency: 'monthly' as const,
-        priority: 0.7,
+        priority: 0.45,
     }));
 
     await prisma.$disconnect();
