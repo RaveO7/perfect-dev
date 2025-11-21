@@ -108,7 +108,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const videoSitemaps: MetadataRoute.Sitemap = Array.from(
         { length: numberOfVideoSitemaps },
         (_, i) => ({
-            url: `${urlSite}sitemaps/video/${i}`, // Next.js ajoute automatiquement .xml avec generateSitemaps()
+            url: `${urlSite}sitemaps/video/sitemap/${i}.xml`, // Format correspondant à la structure Next.js avec generateSitemaps()
             lastModified: lastVideoDate, // Utilise la date de la dernière vidéo
             changeFrequency: 'daily',
             priority: 0.4,
@@ -118,7 +118,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const actorSitemaps: MetadataRoute.Sitemap = Array.from(
         { length: numberOfActorSitemaps },
         (_, i) => ({
-            url: `${urlSite}sitemaps/actor/${i}`, // Next.js ajoute automatiquement .xml avec generateSitemaps()
+            url: `${urlSite}sitemaps/actor/sitemap/${i}.xml`, // Format correspondant à la structure Next.js avec generateSitemaps()
             lastModified: lastVideoDate, // Change quand une nouvelle vidéo avec acteur est ajoutée
             changeFrequency: 'weekly',
             priority: 0.4,
@@ -128,7 +128,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const categorySitemaps: MetadataRoute.Sitemap = Array.from(
         { length: numberOfCategorySitemaps },
         (_, i) => ({
-            url: `${urlSite}sitemaps/categorie/${i}`, // Next.js ajoute automatiquement .xml avec generateSitemaps()
+            url: `${urlSite}sitemaps/categorie/sitemap/${i}.xml`, // Format correspondant à la structure Next.js avec generateSitemaps()
             lastModified: lastVideoDate, // Change quand une nouvelle vidéo avec catégorie est ajoutée
             changeFrequency: 'weekly',
             priority: 0.4,
@@ -138,7 +138,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const channelSitemaps: MetadataRoute.Sitemap = Array.from(
         { length: numberOfChannelSitemaps },
         (_, i) => ({
-            url: `${urlSite}sitemaps/channel/${i}`, // Next.js ajoute automatiquement .xml avec generateSitemaps()
+            url: `${urlSite}sitemaps/channel/sitemap/${i}.xml`, // Format correspondant à la structure Next.js avec generateSitemaps()
             lastModified: lastVideoDate, // Change quand une nouvelle vidéo avec channel est ajoutée
             changeFrequency: 'weekly',
             priority: 0.4,
