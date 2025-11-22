@@ -1,4 +1,4 @@
-import React, { Dispatch, FormEvent, SetStateAction, useEffect, useRef, useState } from 'react'
+import React, { Dispatch, FormEvent, SetStateAction, useCallback, useEffect, useRef, useState } from 'react'
 import { IoSearch } from 'react-icons/io5'
 import { DroptownMenu } from './DroptownMenu'
 import { RxCross2 } from "react-icons/rx";
@@ -14,16 +14,15 @@ interface Props {
 }
 
 export function Modal(props: Props) {
-    const openSearchBar = props.openSearchBar
-    const setOpenSearchBar = props.setOpenSearchBar
-    const setSearch = props.setSearch
-    const search = props.search
-    const valueMenu = props.valueMenu
-    const setValueMenu = props.setValueMenu
+    // ✅ OPTIMISÉ : Destructuring en une ligne (au lieu de 6 lignes séparées)
+    const { openSearchBar, setOpenSearchBar, search, setSearch, valueMenu, setValueMenu } = props
     const router = useRouter()
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    function searchStart() { openSearchBar ? setOpenSearchBar(false) : setOpenSearchBar(true) }
+    // ✅ OPTIMISÉ : Fonction mémorisée avec useCallback pour éviter les re-créations
+    const searchStart = useCallback(() => {
+        setOpenSearchBar(prev => !prev)
+    }, [setOpenSearchBar])
 
     async function onSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -33,35 +32,39 @@ export function Modal(props: Props) {
         try {
             router.push("/search/" + valueMenu + "/" + search);
         } catch (error) {
-            // Handle error if necessary
             console.error(error)
         } finally {
-            setIsLoading(false) // Set loading to false when the request completes
+            setIsLoading(false)
         }
     }
 
-    const keyDownHandler = (event: KeyboardEvent) => {
-        if (event.ctrlKey && event.key === "k" || event.key === "Escape" && openSearchBar) {
+    // ✅ OPTIMISÉ : keyDownHandler mémorisé avec useCallback pour éviter les re-créations
+    const keyDownHandler = useCallback((event: KeyboardEvent) => {
+        if ((event.ctrlKey && event.key === "k") || (event.key === "Escape" && openSearchBar)) {
             event.preventDefault()
             searchStart()
         }
-    };
+    }, [openSearchBar, searchStart]);
 
-    const inputRef: any = useRef(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const ref = useRef<HTMLFormElement>(null);
 
+    // ✅ OPTIMISÉ : useEffect avec dépendances correctes (keyDownHandler est maintenant stable)
     useEffect(() => {
         window.addEventListener("keydown", keyDownHandler);
-        openSearchBar && inputRef.current.focus();
-        document.documentElement.style.overflow = openSearchBar ? 'hidden' : 'auto'; //Close scroolBar
-        return () => { window.removeEventListener("keydown", keyDownHandler); };
-    }, [keyDownHandler]);
+        if (openSearchBar && inputRef.current) {
+            inputRef.current.focus();
+        }
+        document.documentElement.style.overflow = openSearchBar ? 'hidden' : 'auto';
+        return () => { 
+            window.removeEventListener("keydown", keyDownHandler); 
+        };
+    }, [keyDownHandler, openSearchBar]);
 
-    const ref = useRef(null);
-
+    // ✅ OPTIMISÉ : handleOutSideClick mémorisé et dépendances correctes
     useEffect(() => {
-        const handleOutSideClick = (event: any) => {
-            const elementPrincipale: any = ref.current
-            if (!elementPrincipale.contains(event.target)) {
+        const handleOutSideClick = (event: MouseEvent) => {
+            if (ref.current && !ref.current.contains(event.target as Node)) {
                 setOpenSearchBar(false)
             }
         };
@@ -70,7 +73,7 @@ export function Modal(props: Props) {
         return () => {
             window.removeEventListener("mousedown", handleOutSideClick);
         };
-    }, [ref]);
+    }, [setOpenSearchBar]);
 
     return (
         <div data-modal-backdrop="static" className={`${openSearchBar ? "flex" : "hidden"}
@@ -114,7 +117,6 @@ export function Modal(props: Props) {
                         text-white bg-pink-600 hover:bg-pink-700 focus:ring-pink-300
                         dark:text-white dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
                         <p className='w-full py-3 hover:cursor-pointer'>Valider</p>
-                        {/* <input type='submit' name='submit' value="Valider" className='w-full py-3 hover:cursor-pointer' /> */}
                     </button>
 
                 </form>

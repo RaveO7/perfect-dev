@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { PrismaClient } from "@prisma/client";
+import { prisma } from '@/lib/prisma';
 import { CHUNK } from '@/lib/sitemap-config';
 
 export const revalidate = 3600 * 24; // 24 hours - cache car moins fréquemment mis à jour
@@ -9,7 +9,6 @@ export const revalidate = 3600 * 24; // 24 hours - cache car moins fréquemment 
  * Cette fonction est appelée automatiquement par Next.js pour créer un index de sitemaps
  */
 export async function generateSitemaps() {
-    const prisma = new PrismaClient();
     
     // Récupère le nombre total de channels uniques ayant au moins 3 vidéos
     // Un channel est unique par son nom (group by name)
@@ -32,8 +31,6 @@ export async function generateSitemaps() {
     // Exemple: si 1200 channels -> 3 sitemaps -> [{ id: 0 }, { id: 1 }, { id: 2 }]
     const sitemaps = Array.from({ length: numberOfSitemaps }, (_, i) => ({ id: i }));
     
-    await prisma.$disconnect();
-    
     return sitemaps;
 }
 
@@ -43,7 +40,6 @@ export async function generateSitemaps() {
  * @returns Un tableau d'entrées de sitemap contenant les URLs des channels
  */
 export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
-    const prisma = new PrismaClient();
 
     // Calcule la plage de channels pour ce sitemap avec pagination
     // Exemple: sitemap id=0 -> channels 0-48999, id=1 -> channels 49000-97999, etc.
@@ -75,8 +71,6 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
         changeFrequency: 'monthly' as const,
         priority: 0.45,
     }));
-
-    await prisma.$disconnect();
 
     return sitemapEntries;
 }

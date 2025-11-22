@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { PrismaClient } from "@prisma/client";
+import { prisma } from '@/lib/prisma';
 
 export const revalidate = 3600; // 1 hour - plus fréquent car contenu très récent
 
@@ -8,7 +8,6 @@ export const revalidate = 3600; // 1 hour - plus fréquent car contenu très ré
  * Ces vidéos ont une priority plus élevée pour être indexées rapidement
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const prisma = new PrismaClient();
 
     // Date d'il y a 7 jours
     const sevenDaysAgo = new Date();
@@ -39,8 +38,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: 'daily' as const,
         priority: 0.9, // Priority plus élevée pour les vidéos récentes
     }));
-
-    await prisma.$disconnect();
 
     return sitemapEntries;
 }

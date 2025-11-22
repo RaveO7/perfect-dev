@@ -29,16 +29,30 @@ export const metadata: Metadata = {
   alternates: { canonical: `${process.env.Site_URL}` },
   robots: 'max-snippet:-1, max-image-preview:large, max-video-preview:-1',
   verification: {google: "iEbYUqh_jKgVnifPqHYfD2o2pFxUBhWVHjyFuwtl864",},
+  // ✅ AMÉLIORATION OPENGRAPH : Ajout de dimensions, locale, et métadonnées complètes
   openGraph: {
-    title: "Perefect Porn Best porn site",
-    description: "Perfect Porn the porn site with all you dreams videos",
+    title: "Perfect Porn - Best Free HD Porn Videos",
+    description: "Perfect Porn - The best porn site with all your dream videos. Watch free HD adult content including channels, pornstars, and categories.",
     url: `${process.env.Site_URL}`,
-    siteName: "PerefectPorn",
+    siteName: "Perfect Porn",
+    locale: "en_US", // ✅ NOUVEAU : Indique la langue/zone géographique
+    type: "website",
     images: [{
       url: '/opengraph-image.png',
-      alt: 'Image of Perfect Porn the site for fulfilling your Fantasies.'
+      alt: 'Image of Perfect Porn the site for fulfilling your Fantasies.',
+      width: 1200, // ✅ NOUVEAU : Dimensions explicites (1200x630 recommandé par Facebook/LinkedIn)
+      height: 630, // ✅ NOUVEAU : Ratio 1.91:1 pour un rendu optimal
+      type: "image/png" // ✅ NOUVEAU : Type MIME de l'image
     }],
-    type: "website",
+  },
+  // ✅ NOUVEAU : TWITTER CARDS - Optimise le partage sur Twitter/X
+  twitter: {
+    card: "summary_large_image", // ✅ Type de carte avec grande image (meilleur engagement)
+    title: "Perfect Porn - Best Free HD Porn Videos", // ✅ Titre optimisé pour Twitter
+    description: "Perfect Porn - The best porn site with all your dream videos. Watch free HD adult content.", // ✅ Description pour Twitter
+    images: ['/opengraph-image.png'], // ✅ Image principale pour Twitter
+    // creator: '@PerfectPorn', // Optionnel : votre compte Twitter si disponible
+    // site: '@PerfectPorn' // Optionnel : compte Twitter du site
   }
 }
 

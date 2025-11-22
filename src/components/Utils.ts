@@ -89,29 +89,3 @@ export function formatString(str: string) {
   });
 }
 
-// export function Chaturbate() {
-//   const test = localStorage.getItem('chat')
-//   const parts = test!.split(",§");
-
-//   const result = [];
-
-//   for (let i = 0; i < parts.length; i += 4) {
-//     result.push({
-//       title: parts[i],
-//       imgUrl: parts[i + 1],
-//       name: parts[i + 2],
-//       view: parts[i + 3],
-//       like: 10,
-//       dislike: Math.floor(Math.random() * 4) + 1,
-//       time: 0,
-//     });
-//   }
-
-//   let insertions = [
-//     { position: 5, value: result[0] },
-//     { position: 15, value: result[1] },
-//     { position: 17, value: result[2] },
-//     { position: 27, value: result[3] }
-//   ];
-//   return insertions
-// }

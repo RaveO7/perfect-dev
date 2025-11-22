@@ -16,22 +16,28 @@ export function DroptownMenu({valueMenu, setValueMenu}: {valueMenu: string, setV
 
     list = list.filter(list => list !== valueMenu);
 
-    function handleClick(e: any) {
-        setValueMenu(e.target.innerText.toLowerCase())
+    // ✅ OPTIMISÉ : Type React.MouseEvent au lieu de any
+    function handleClick(e: React.MouseEvent<HTMLDivElement>) {
+        const target = e.target as HTMLElement;
+        setValueMenu(target.innerText.toLowerCase())
         setOpenDropdownMenu(false)
     };
 
-    const ref = useRef(null);
+    // ✅ OPTIMISÉ : Type explicite pour la ref
+    const ref = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        const handleOutSideClick = (event: any) => {
-            const elementPrincipale: any = ref.current
-            if (!elementPrincipale.contains(event.target)) { setOpenDropdownMenu(false) }
+        // ✅ OPTIMISÉ : Type MouseEvent au lieu de any
+        const handleOutSideClick = (event: MouseEvent) => {
+            // ✅ OPTIMISÉ : Type explicite et vérification null
+            if (ref.current && !ref.current.contains(event.target as Node)) {
+                setOpenDropdownMenu(false)
+            }
         };
 
         window.addEventListener("mousedown", handleOutSideClick);
 
         return () => { window.removeEventListener("mousedown", handleOutSideClick); };
-    }, [ref]);
+    }, []); // ✅ OPTIMISÉ : ref est stable, pas besoin dans les dépendances
 
     return (
         <div className='w-[140px]' ref={ref}>

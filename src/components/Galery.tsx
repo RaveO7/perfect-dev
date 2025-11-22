@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Link from 'next/link';
 import Image from 'next/image'
-// import { Chaturbate, formatString, getRating } from './Utils';
 import { formatString, getRating } from './Utils';
 import { IoMdThumbsUp } from 'react-icons/io';
 import { IoEyeSharp } from 'react-icons/io5';
@@ -20,9 +19,6 @@ type Image = {
 function cn(...classes: string[]) { return classes.filter(Boolean).join(' '); }
 
 export default function Galery({ images, type }: { images: Image[], type: string }) {
-    // const result = Chaturbate()
-    // result.forEach(({ position, value }: any) => { images.splice(position, 0, value); });
-
     return (
         <div className='w-full mb-3'>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-1 md:p-0 gap-y-5 gap-x-6 xl:gap-x-8 '>

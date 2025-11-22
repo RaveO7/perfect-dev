@@ -16,11 +16,13 @@ export default function BurgerMenuIndexPage(props: Props) {
     const valueMenu = props.valueMenu
     const setValueMenu = props.setValueMenu
 
-    const ref = useRef(null);
+    // ✅ OPTIMISÉ : Type explicite pour la ref
+    const ref = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        const handleOutSideClick = (event: any) => {
-            const elementPrincipale: any = ref.current
-            if (!elementPrincipale.contains(event.target)) {
+        // ✅ OPTIMISÉ : Type MouseEvent au lieu de any
+        const handleOutSideClick = (event: MouseEvent) => {
+            // ✅ OPTIMISÉ : Type explicite et vérification null
+            if (ref.current && !ref.current.contains(event.target as Node)) {
                 setBurgerMenu(false)
             }
         };
@@ -30,10 +32,12 @@ export default function BurgerMenuIndexPage(props: Props) {
         return () => {
             window.removeEventListener("mousedown", handleOutSideClick);
         };
-    }, [ref]);
+    }, []); // ✅ OPTIMISÉ : ref est stable, pas besoin dans les dépendances
 
-    function burgerMenuClick(e: any) {
-        setValueMenu(e.target.innerText)
+    // ✅ OPTIMISÉ : Type React.MouseEvent au lieu de any
+    function burgerMenuClick(e: React.MouseEvent<HTMLAnchorElement>) {
+        const target = e.target as HTMLElement;
+        setValueMenu(target.innerText)
         setBurgerMenu(false)
     }
 

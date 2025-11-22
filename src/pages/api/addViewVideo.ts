@@ -1,18 +1,28 @@
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const id = parseInt(JSON.parse(req.body).id)
-        await prisma.$queryRawUnsafe(`UPDATE Videos SET view = view + 1 WHERE id = ${id}`)
-        await prisma.$disconnect()
-        res.json(true)
+        const body = JSON.parse(req.body)
+        const id = parseInt(body.id)
+        
+        // Validation : s'assurer que l'ID est un nombre valide
+        if (isNaN(id) || id <= 0) {
+            return res.status(400).json({ error: 'Invalid video ID' })
+        }
 
-        return "test";
+        // ✅ SÉCURISÉ : Utilisation de Prisma.sql avec paramètres préparés
+        await prisma.$executeRaw`
+            UPDATE Videos 
+            SET view = view + 1 
+            WHERE id = ${id}
+        `
+        
+        res.json(true)
     }
     catch (error) {
-        await prisma.$disconnect()
-        res.json("")
+        console.error(error)
+        res.status(500).json({ error: 'Internal server error' })
     }
 }

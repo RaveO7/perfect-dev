@@ -1,11 +1,10 @@
 import { MetadataRoute } from 'next'
-import { PrismaClient } from "@prisma/client";
+import { prisma } from '@/lib/prisma';
 import { CHUNK } from '@/lib/sitemap-config';
 
 export const revalidate = 3600*24; // 1 day
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const prisma = new PrismaClient()
     // Base URL du site utilisé pour préfixer toutes les routes
     const urlSite: string = process.env.Site_URL!
     // Date courante réutilisée pour les routes statiques
@@ -144,8 +143,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.4,
         })
     )
-
-    await prisma.$disconnect()
 
     return [
         ...staticRoutes,

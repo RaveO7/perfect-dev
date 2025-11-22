@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
-import Image from 'next/image';
 
 import { Separateur, SeparateurLigne } from '@/components/Separateur'
 import TimeDifference, { deleteCookie, formatString, getCookie, getRating, setCookie, upperFirstLetter } from '@/components/Utils';
@@ -11,9 +10,6 @@ import Loading from '@/components/Loading';
 import Nodata from '@/components/Nodata';
 import { IoMdThumbsUp, IoMdThumbsDown } from "react-icons/io";
 import { FaFlag } from "react-icons/fa";
-import ImgAi1 from '@/app/assets/images/GirlFriendAi160x600.webp'
-import ImgAi2 from '@/app/assets/images/SextingAI160x600.webp'
-import ImgAi3 from '@/app/assets/images/SextingAi300x100.webp'
 import Galery from '@/components/Galery';
 
 export default function Videos({ params }: { params: { id: number } }) {
@@ -181,47 +177,11 @@ export default function Videos({ params }: { params: { id: number } }) {
           >
           </iframe>
         </div>
-
-{/*         <div className='max-w-[25%] w-full hidden md:flex flex-col relative'>
-          <Link className='flex justify-around h-full' href='https://candy.ai?via=hamelio73' rel='preload'>
-            <Image
-              className='hidden xl:block absolute xl:relative left-0 top-0'
-              src={ImgAi1}
-              alt='Candy.ai Image'
-              width={160}
-              height={600}
-              quality={100}
-              priority={true}
-            />
-            <Image
-              className='hidden md:block absolute xl:relative right-4 lg:right-0 top-0'
-              src={ImgAi2}
-              alt='Candy.ai Image'
-              width={160}
-              height={600}
-              quality={100}
-              priority={true}
-            />
-          </Link>
-        </div> */}
       </div>
 
       <div className='flex'>
         <div className='w-[100%] md:w-[75%] h-full p-2'>
           <div>
-{/*             <Link className='w-fullblock md:hidden' href='https://candy.ai?via=hamelio73'>
-              <Image
-                className='min-w-[300px] w-[75%] m-auto'
-                src={ImgAi3}
-                alt='Candy.ai Image'
-                width={300}
-                height={100}
-                quality={100}
-                priority={true}
-                rel='preload'
-                fetchPriority='high'
-              />
-            </Link> */}
             <h2 className="max-w-full mb-2 text-xl">{upperFirstLetter(title)}</h2>
             <div className='flex flex-col mm:flex-row items-center justify-between text-sm text-infoVideo'>
               <div className='flex items-center '>

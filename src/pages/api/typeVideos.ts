@@ -1,76 +1,58 @@
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'
+import { getOrderClauseForVideos, getTableName, validateTableName, calculatePagination } from '@/lib/query-helpers'
+import { TypeVideoResult } from '@/lib/api-types'
+import { Prisma } from '@prisma/client'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
+        const body = JSON.parse(req.body)
         const numberVideoByPage = parseInt(process.env.Number_Video!)
-        const page = JSON.parse(req.body).pageNbr - 1 <= 0 ? 0 : JSON.parse(req.body).pageNbr - 1;
-        const startSearchVideo = page * numberVideoByPage
+        // ✅ OPTIMISÉ : Utilisation de la fonction utilitaire pour éviter la duplication
+        const { startSearchVideo } = calculatePagination(body.pageNbr, numberVideoByPage)
 
-        const name = JSON.parse(req.body).name
+        const name = body.name
+        // ✅ SÉCURISÉ : Validation stricte du nom de table
+        const tab = validateTableName(getTableName(body.type || "channel"))
+        const order = getOrderClauseForVideos(body.order || "Latest", true)
 
-        let tab
-        switch (JSON.parse(req.body).type) {
-            case "channel":
-                tab = "Channel"
-                break;
-            case "pornstar":
-                tab = "Actor"
-                break;
-            case "categorie":
-                tab = "Categorie"
-                break;
-            default:
-                tab = "Channel"
-                break;
-        }
+        // ✅ SÉCURISÉ : Calcul du total une seule fois (optimisation bonus)
+        const totalCountResult = await prisma.$queryRaw<Array<{ count: bigint }>>(
+            Prisma.sql`
+                SELECT COUNT(name) as count
+                FROM ${Prisma.raw(tab)}
+                WHERE name = ${name}
+            `
+        )
+        const totalCount = Number(totalCountResult[0]?.count || 0)
 
-        let order: string
-        switch (JSON.parse(req.body).order) {
-            case "Latest":
-                order = "ORDER BY id DESC"
-                break;
-            case "More View":
-                order = "ORDER BY view DESC"
-                break;
-            case "Most Popular":
-                order = "ORDER BY v.like DESC"
-                break;
-            case "A->Z":
-                order = "ORDER BY title ASC"
-                break;
-            case "Z->A":
-                order = "ORDER BY title DESC"
-                break;
-            default:
-                order = "ORDER BY id DESC"
-                break;
-        }
+        // ✅ SÉCURISÉ : Utilisation de Prisma.sql avec paramètres préparés
+        // ✅ OPTIMISÉ : Type TypeScript explicite au lieu de 'any'
+        const posts = await prisma.$queryRaw<TypeVideoResult[]>(
+            Prisma.sql`
+                SELECT
+                    v.id, v.title, v.imgUrl, v.time, v.like, v.dislike, v.view,
+                    ${totalCount} AS nbr,
+                    ${totalCount} AS page
+                FROM Videos v
+                INNER JOIN ${Prisma.raw(tab)} a ON v.id = a.idVideo
+                WHERE a.name = ${name}
+                ${Prisma.raw(order)}
+                LIMIT ${startSearchVideo}, ${numberVideoByPage}
+            `
+        )
 
-        let posts: any = await prisma.$queryRawUnsafe(`
-            SELECT
-                v.id, v.title, v.imgUrl, v.time, v.like, v.dislike, v.view,
-                (SELECT COUNT(name) FROM ${tab} WHERE name LIKE '${name}') AS nbr,
-                (SELECT COUNT(name) FROM ${tab} WHERE name LIKE '${name}') AS page
-            FROM Videos v
-            INNER JOIN ${tab} a ON v.id = a.idVideo
-            WHERE a.name = '${name}'
-            ${order}
-            LIMIT ${startSearchVideo}, ${numberVideoByPage};
-        `)
-
-        posts.forEach((element: { nbr: number, page: number },) => {
+        // ✅ OPTIMISÉ : Type TypeScript explicite (plus besoin de type inline)
+        posts.forEach((element) => {
             element.nbr = Number(element.nbr)
             element.page = Number(element.page)
             element.page = Math.ceil(element.page / numberVideoByPage)
         });
 
-        await prisma.$disconnect()
         res.json(posts)
     }
     catch (error) {
         console.log(error)
-        await prisma.$disconnect()
+        res.status(500).json({ error: 'Internal server error' })
     }
 }

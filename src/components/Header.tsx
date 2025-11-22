@@ -51,9 +51,9 @@ export default function Header() {
                 <div className='hd:min-w-[210px] flex justify-end items-center gap-2 relative'>
                     <Link href="https://www.buymeacoffee.com/perfectporn" target="_blank" className='hd:flex hidden w-full justify-center'>
                         <Image
-                            className='w-full max-w-xl h-10'
-                            width={256}
-                            height={40}
+                            className='w-full max-w-[142px] h-auto'
+                            width={545}
+                            height={153}
                             quality={50}
                             src={CoffeImg}
                             alt='Buy me a coffee for help the developer' />

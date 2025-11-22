@@ -35,13 +35,15 @@ export default function Test({ params, searchParams, }: { params: { type: string
 
                 if (!res.length) return;
 
-                await setDatasVideos(res)
-                await setNbrPage(res[0].nbrPages)
-                await setNbrVideos(res[0].nbrTt)
-                await setLoading(false)
+                // ✅ OPTIMISÉ : setState n'est pas async, retirer les await inutiles
+                setDatasVideos(res)
+                setNbrPage(res[0].nbrPages)
+                setNbrVideos(res[0].nbrTt)
+                setLoading(false)
             }
             catch {
-                await setLoading(false)
+                // ✅ OPTIMISÉ : setState n'est pas async, retirer les await inutiles
+                setLoading(false)
                 return;
             }
         }

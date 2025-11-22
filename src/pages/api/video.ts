@@ -1,14 +1,20 @@
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const id = parseInt(JSON.parse(req.body).id)
+        const body = JSON.parse(req.body)
+        const id = parseInt(body.id)
+        
+        // ✅ Validation : s'assurer que l'ID est un nombre valide
+        if (isNaN(id) || id <= 0) {
+            return res.status(400).json({ error: 'Invalid video ID' })
+        }
 
-        let posts = []
-        posts[1] = await prisma.videos.findUniqueOrThrow({
-            where: { id: id }, select: {
+        // ✅ OPTIMISÉ : Requête 1 - Récupérer la vidéo principale
+        const video = await prisma.videos.findUniqueOrThrow({
+            where: { id: id }, 
+            select: {
                 title: true,
                 imgUrl: true,
                 videoUrl: true,
@@ -22,43 +28,71 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             },
         })
 
-        const rep: any = posts[1]
-        const channel: string = rep.channels.replace(/,.*$/, '')
-        posts[0] = await prisma.videos.count({
-            where: { channels: { contains: channel } }
-        })
+        // Extraire le premier channel
+        const channel: string = video.channels?.replace(/,.*$/, '') || ''
+        
+        const limit = 9
 
-        let lim = 9
-        posts[2] = await prisma.videos.findMany({
-            take: lim,
-            where: {
-                NOT: {
-                    id: id
-                },
-                channels: {
-                    contains: channel
-                },
-            },
-            orderBy: { id: 'desc' }
-        })
-        let test: any
-        if (posts[2].length < lim) {
-            lim = lim - posts[2].length
-            test = await prisma.videos.findMany({
-                take: lim,
+        // ✅ OPTIMISÉ : Requêtes 2 et 3 en parallèle (elles sont indépendantes)
+        const [channelVideoCount, relatedVideos] = await Promise.all([
+            // Requête 2 : Compter les vidéos du même channel
+            prisma.videos.count({
+                where: { channels: { contains: channel } }
+            }),
+            // Requête 3 : Récupérer les vidéos similaires du même channel
+            prisma.videos.findMany({
+                take: limit,
                 where: {
-                    NOT: {
-                        id: id
-                    },
+                    NOT: { id: id },
+                    channels: { contains: channel }
                 },
+                orderBy: { id: 'desc' },
+                select: {
+                    id: true,
+                    title: true,
+                    imgUrl: true,
+                    view: true,
+                    like: true,
+                    dislike: true,
+                    time: true
+                }
             })
-            posts[2] = posts[2].concat(test)
+        ])
+
+        // ✅ OPTIMISÉ : Compléter avec d'autres vidéos si nécessaire (une seule requête conditionnelle)
+        let finalRelatedVideos = relatedVideos
+        if (relatedVideos.length < limit) {
+            const remainingLimit = limit - relatedVideos.length
+            const additionalVideos = await prisma.videos.findMany({
+                take: remainingLimit,
+                where: {
+                    NOT: { id: id }
+                },
+                orderBy: { id: 'desc' },
+                select: {
+                    id: true,
+                    title: true,
+                    imgUrl: true,
+                    view: true,
+                    like: true,
+                    dislike: true,
+                    time: true
+                }
+            })
+            finalRelatedVideos = [...relatedVideos, ...additionalVideos]
         }
-        await prisma.$disconnect()
+
+        // Structure de réponse : [count, video, relatedVideos]
+        const posts = [
+            channelVideoCount,  // posts[0]
+            video,              // posts[1]
+            finalRelatedVideos  // posts[2]
+        ]
+
         res.json(posts)
     }
     catch (error) {
-        await prisma.$disconnect()
-        res.json("")
+        console.error(error)
+        res.status(500).json({ error: 'Internal server error' })
     }
 }

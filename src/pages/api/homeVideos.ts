@@ -1,50 +1,43 @@
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/prisma'
+import { getOrderClauseForVideos, calculatePagination } from '@/lib/query-helpers'
+import { VideoResult } from '@/lib/api-types'
+import { Prisma } from '@prisma/client'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
+        // ✅ FIX : Gérer le cas où req.body est déjà un objet (Next.js parse automatiquement)
+        const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body
         const numberVideoByPage = parseInt(process.env.Number_Video!)
-        const pageNbr = JSON.parse(req.body).pageNbr - 1 <= 0 ? 0 : JSON.parse(req.body).pageNbr - 1;
-        const startSearchVideo = pageNbr * numberVideoByPage
+        // ✅ OPTIMISÉ : Utilisation de la fonction utilitaire pour éviter la duplication
+        const { startSearchVideo } = calculatePagination(body.pageNbr, numberVideoByPage)
 
-        var order: string
-        switch (JSON.parse(req.body).order) {
-            case "Latest":
-                order = "ORDER BY id DESC"
-                break;
-            case "More View":
-                order = "ORDER BY view DESC"
-                break;
-            case "Most Popular":
-                order = `ORDER BY v.like DESC`
-                break;
-            case "A->Z":
-                order = "ORDER BY title ASC"
-                break;
-            case "Z->A":
-                order = "ORDER BY title DESC"
-                break;
-            default:
-                order = "ORDER BY id DESC"
-                break;
-        }
+        const order = getOrderClauseForVideos(body.order || "Latest", true)
+        
+        // ✅ SÉCURISÉ : Calcul du total une seule fois (optimisation bonus)
+        const totalCount = await prisma.videos.count()
+        
+        // ✅ SÉCURISÉ : Utilisation de Prisma.sql avec paramètres préparés
+        // ✅ OPTIMISÉ : Type TypeScript explicite au lieu de 'any'
+        // Note: order est validé par getOrderClauseForVideos qui retourne seulement des valeurs autorisées
+        const posts = await prisma.$queryRaw<VideoResult[]>(
+            Prisma.sql`
+                SELECT id, title, imgUrl, time, v.like, dislike, view, ${totalCount} AS nbr
+                FROM Videos v
+                ${Prisma.raw(order)}
+                LIMIT ${startSearchVideo}, ${numberVideoByPage}
+            `
+        )
 
-        const posts: any = await prisma.$queryRawUnsafe(`SELECT id, title, imgUrl, time, v.like, dislike, view, (SELECT COUNT(*) FROM Videos) AS nbr
-        FROM Videos v
-        ${order}
-        LIMIT ${startSearchVideo}, ${numberVideoByPage}`)
-
-        posts.forEach((element: { nbr: number; }) => {
+        posts.forEach((element) => {
             element.nbr = Number(element.nbr)
             element.nbr = Math.ceil(element.nbr / numberVideoByPage)
         });
 
-        await prisma.$disconnect()
         res.json(posts)
     }
     catch (error) {
         console.log(error)
-        await prisma.$disconnect()
+        res.status(500).json({ error: 'Internal server error' })
     }
 }

@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { PrismaClient } from "@prisma/client";
+import { prisma } from '@/lib/prisma';
 import { CHUNK } from '@/lib/sitemap-config';
 
 export const revalidate = 3600 * 12; // 12 hours - cache pour optimiser les performances
@@ -9,7 +9,6 @@ export const revalidate = 3600 * 12; // 12 hours - cache pour optimiser les perf
  * Cette fonction est appelée automatiquement par Next.js pour créer un index de sitemaps
  */
 export async function generateSitemaps() {
-    const prisma = new PrismaClient();
     
     // Récupère le nombre total de vidéos dans la base de données
     const totalVideos = await prisma.videos.count();
@@ -21,8 +20,6 @@ export async function generateSitemaps() {
     // Exemple: si 120 vidéos -> 3 sitemaps -> [{ id: 0 }, { id: 1 }, { id: 2 }]
     const sitemaps = Array.from({ length: numberOfSitemaps }, (_, i) => ({ id: i }));
     
-    await prisma.$disconnect();
-    
     return sitemaps;
 }
 
@@ -32,7 +29,6 @@ export async function generateSitemaps() {
  * @returns Un tableau d'entrées de sitemap contenant les URLs des vidéos
  */
 export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
-    const prisma = new PrismaClient();
 
     // Calcule la pagination pour ce sitemap
     // Exemple: sitemap id=0 -> vidéos 0-48999, id=1 -> vidéos 49000-97999, etc.
@@ -61,8 +57,6 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
         changeFrequency: 'daily' as const,
         priority: 0.8,
     }));
-
-    await prisma.$disconnect();
 
     return sitemapEntries;
 }
