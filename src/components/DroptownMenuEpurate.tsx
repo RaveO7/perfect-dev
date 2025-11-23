@@ -1,8 +1,16 @@
 "use client"
 
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { upperFirstLetter } from './Utils';
-import { IoCaretDownSharp, IoCaretUpSharp } from 'react-icons/io5'
+
+// ✅ OPTIMISÉ : Lazy load des icônes (affichées seulement quand le dropdown est ouvert)
+const IoCaretDownSharp = dynamic(() => import('react-icons/io5').then(mod => ({ default: mod.IoCaretDownSharp })), {
+  loading: () => null
+});
+const IoCaretUpSharp = dynamic(() => import('react-icons/io5').then(mod => ({ default: mod.IoCaretUpSharp })), {
+  loading: () => null
+});
 interface Props {
     video: Array<string>
     setPlayer: Dispatch<SetStateAction<number>>

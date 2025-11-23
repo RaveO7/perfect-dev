@@ -1,8 +1,17 @@
 import React, { Dispatch, FormEvent, SetStateAction, useCallback, useEffect, useRef, useState } from 'react'
-import { IoSearch } from 'react-icons/io5'
-import { DroptownMenu } from './DroptownMenu'
-import { RxCross2 } from "react-icons/rx";
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
+
+// ✅ OPTIMISÉ : Lazy load des icônes et composants (Modal chargé seulement quand ouvert)
+const IoSearch = dynamic(() => import('react-icons/io5').then(mod => ({ default: mod.IoSearch })), {
+  loading: () => null
+});
+const DroptownMenu = dynamic(() => import('./DroptownMenu').then(mod => ({ default: mod.DroptownMenu })), {
+  loading: () => null
+});
+const RxCross2 = dynamic(() => import("react-icons/rx").then(mod => ({ default: mod.RxCross2 })), {
+  loading: () => null
+});
 
 interface Props {
     openSearchBar: boolean
