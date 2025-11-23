@@ -26,6 +26,10 @@ const nextConfig = {
     // Compression et optimisation
     compress: true,
     poweredByHeader: false,
+    // Optimisations pour réduire les requêtes de blocage de l'affichage
+    swcMinify: true, // Utilise SWC pour la minification (plus rapide que Terser)
+    // Optimisation du CSS : Next.js minifie déjà le CSS par défaut en production
+    // Le CSS critique est automatiquement inliné dans Next.js 14
 }
 
 module.exports = nextConfig
