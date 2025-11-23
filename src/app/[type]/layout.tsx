@@ -1,4 +1,4 @@
-import { upperFirstLetter } from '@/components/Utils'
+import { upperFirstLetter, normalizeUrl } from '@/components/Utils'
 
 export const dynamicParams = false
 export async function generateStaticParams() {
@@ -12,7 +12,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params, }: { params: { id: string, type: string }; }) {
     const { type } = params;
     const typeLabel = upperFirstLetter(type);
-    const url = `${process.env.Site_URL}/${type}`;
+    const url = normalizeUrl(process.env.Site_URL || '', type);
 
     return {
         title: `${typeLabel}s | Perfect Porn`,

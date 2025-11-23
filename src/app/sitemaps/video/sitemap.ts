@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma';
 import { CHUNK } from '@/lib/sitemap-config';
+import { normalizeUrl } from '@/components/Utils';
 
 export const revalidate = 3600 * 12; // 12 hours - cache pour optimiser les performances
 
@@ -52,7 +53,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
 
     // Transforme chaque vidéo en entrée de sitemap
     const sitemapEntries = videos.map(({ id, title, createdAt }) => ({
-        url: `${process.env.Site_URL}videos/${id}?name=${encodeURIComponent(title)}`,
+        url: normalizeUrl(process.env.Site_URL || '', `videos/${id}?name=${encodeURIComponent(title)}`),
         lastModified: createdAt || new Date(),
         changeFrequency: 'daily' as const,
         priority: 0.8,

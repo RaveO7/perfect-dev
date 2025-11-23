@@ -1,3 +1,5 @@
+import { normalizeUrl } from '@/components/Utils'
+
 export async function generateMetadata({ params }: { params: { id: string, type: string }; }) {
     const { id, type } = params;
     const decodedId = decodeURI(id);
@@ -6,7 +8,7 @@ export async function generateMetadata({ params }: { params: { id: string, type:
                      type === 'categories' ? 'category' : type;
     const title = `${decodedId} - ${typeLabel.charAt(0).toUpperCase() + typeLabel.slice(1)} | Perfect Porn`;
     const description = `Discover ${decodedId} ${typeLabel} on Perfect Porn. Watch premium HD adult content featuring ${decodedId}.`;
-    const url = `${process.env.Site_URL}/${type}/${id}`;
+    const url = normalizeUrl(process.env.Site_URL || '', `${type}/${id}`);
 
     return {
         title: title,

@@ -14,6 +14,8 @@ import Footer from '@/components/Footer';
 
 const inter = Inter({ subsets: ['latin'] })
 
+import { normalizeUrl } from '@/components/Utils'
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.Site_URL as string),
   title: {
@@ -24,16 +26,16 @@ export const metadata: Metadata = {
   keywords: ['PerfectPorn', 'Perfect Porn', 'Watch Porn', 'Watch Free Porn', 'free porn', 'Free Porn Videos', 'free', 'more eighteen', 'sexe', 'videos sexe', 'porno videos', 'porno video', 'porno', 'pornographie', 'pornographique', 'xxx', 'perfectporn', 'perfect porn'],
   description: 'Explore diverse and high-quality content at Perfect Porn. Your ultimate destination for fulfilling fantasies.',
   applicationName: 'Perfectporn',
-  authors: [{ name: "Phoenix", url: `${process.env.Site_URL}` }],
+  authors: [{ name: "Phoenix", url: normalizeUrl(process.env.Site_URL || '') }],
   publisher: 'Phoenix',
-  alternates: { canonical: `${process.env.Site_URL}` },
+  alternates: { canonical: normalizeUrl(process.env.Site_URL || '') },
   robots: 'max-snippet:-1, max-image-preview:large, max-video-preview:-1',
   verification: {google: "iEbYUqh_jKgVnifPqHYfD2o2pFxUBhWVHjyFuwtl864",},
   // ✅ AMÉLIORATION OPENGRAPH : Ajout de dimensions, locale, et métadonnées complètes
   openGraph: {
     title: "Perfect Porn - Best Free HD Porn Videos",
     description: "Perfect Porn - The best porn site with all your dream videos. Watch free HD adult content including channels, pornstars, and categories.",
-    url: `${process.env.Site_URL}`,
+    url: normalizeUrl(process.env.Site_URL || ''),
     siteName: "Perfect Porn",
     locale: "en_US", // ✅ NOUVEAU : Indique la langue/zone géographique
     type: "website",

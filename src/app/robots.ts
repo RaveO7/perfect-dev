@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { normalizeUrl } from '@/components/Utils'
 
 export default function robots(): MetadataRoute.Robots {
 
@@ -10,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: '/private/',
             }
         ],
-        sitemap: `${process.env.Site_URL}sitemap.xml`,
+        sitemap: normalizeUrl(process.env.Site_URL || '', 'sitemap.xml'),
     }
 }

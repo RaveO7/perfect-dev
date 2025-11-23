@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma';
 import { CHUNK } from '@/lib/sitemap-config';
+import { normalizeUrl } from '@/components/Utils';
 
 export const revalidate = 3600 * 24; // 24 hours - cache car moins fréquemment mis à jour
 
@@ -66,7 +67,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
 
     // Transforme chaque catégorie en entrée de sitemap
     const sitemapEntries = categories.map(({ name, lastModified }) => ({
-        url: `${process.env.Site_URL}categorie/${encodeURIComponent(name)}`,
+        url: normalizeUrl(process.env.Site_URL || '', `categorie/${encodeURIComponent(name)}`),
         lastModified: lastModified || new Date(),
         changeFrequency: 'monthly' as const,
         priority: 0.45,

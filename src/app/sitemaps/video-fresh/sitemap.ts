@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma';
+import { normalizeUrl } from '@/components/Utils';
 
 export const revalidate = 3600; // 1 hour - plus fréquent car contenu très récent
 
@@ -33,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Transforme chaque vidéo en entrée de sitemap avec priority élevée
     const sitemapEntries = recentVideos.map(({ id, title, createdAt }) => ({
-        url: `${process.env.Site_URL}videos/${id}?name=${encodeURIComponent(title)}`,
+        url: normalizeUrl(process.env.Site_URL || '', `videos/${id}?name=${encodeURIComponent(title)}`),
         lastModified: createdAt || new Date(),
         changeFrequency: 'daily' as const,
         priority: 0.9, // Priority plus élevée pour les vidéos récentes

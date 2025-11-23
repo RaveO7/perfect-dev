@@ -89,3 +89,25 @@ export function formatString(str: string) {
   });
 }
 
+/**
+ * Normalise une URL en enlevant le slash final de l'URL de base et en ajoutant le chemin correctement
+ * @param baseUrl - L'URL de base (peut se terminer par / ou non)
+ * @param path - Le chemin à ajouter (peut commencer par / ou non)
+ * @returns L'URL normalisée sans double slash
+ */
+export function normalizeUrl(baseUrl: string, path: string = ''): string {
+  // Enlève le slash final de l'URL de base s'il existe
+  const cleanBase = baseUrl.replace(/\/+$/, '');
+  
+  // Si le chemin est vide, retourne juste l'URL de base nettoyée
+  if (!path) {
+    return cleanBase;
+  }
+  
+  // Enlève les slashes au début du chemin et les ajoute correctement
+  const cleanPath = path.replace(/^\/+/, '');
+  
+  // Combine l'URL de base et le chemin avec un seul slash
+  return cleanPath ? `${cleanBase}/${cleanPath}` : cleanBase;
+}
+

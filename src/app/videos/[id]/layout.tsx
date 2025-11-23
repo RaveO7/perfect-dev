@@ -1,10 +1,11 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { createGetRequest } from '@/lib/api-helpers'
+import { normalizeUrl } from '@/components/Utils'
 
 export async function generateMetadata({ params }: { params: { id: any, test: any } }, parent: ResolvingMetadata): Promise<Metadata> {
     const { id } = params;
 
-    const apiUrlEndpoint = `${process.env.Site_URL}/api/dataVideo?value=${id}`
+    const apiUrlEndpoint = normalizeUrl(process.env.Site_URL || '', `api/dataVideo?value=${id}`)
 
     // ✅ OPTIMISÉ : Utilisation de createGetRequest() au lieu de postData: any (corrige aussi le bug header → headers)
     const requestData = createGetRequest()
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: { params: { id: any, test: an
     let tableauFinal = tableauFiltre.map((mot: string) => mot.replace(/[^a-zA-Z0-9]/g, ''));
     tableauFinal.push(res.title)
 
-    const videoUrl = `${process.env.Site_URL}videos/${id}?name=${encodeURI(res.title)}`
+    const videoUrl = normalizeUrl(process.env.Site_URL || '', `videos/${id}?name=${encodeURI(res.title)}`)
 
     return {
         title: `${res.title}`,

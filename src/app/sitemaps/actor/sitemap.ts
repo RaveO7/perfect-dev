@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma';
 import { CHUNK } from '@/lib/sitemap-config';
+import { normalizeUrl } from '@/components/Utils';
 
 export const revalidate = 3600 * 24; // 24 hours - cache car moins fréquemment mis à jour
 
@@ -66,7 +67,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
 
     // Transforme chaque acteur en entrée de sitemap
     const sitemapEntries = actors.map(({ name, lastModified }) => ({
-        url: `${process.env.Site_URL}pornstar/${encodeURIComponent(name)}`,
+        url: normalizeUrl(process.env.Site_URL || '', `pornstar/${encodeURIComponent(name)}`),
         lastModified: lastModified || new Date(),
         changeFrequency: 'monthly' as const,
         priority: 0.45,
