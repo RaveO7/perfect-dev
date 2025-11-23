@@ -12,7 +12,12 @@ import MoreEighteen from '@/components/MoreEighteen'
 // import ModalPub from '@/components/ModalPub';
 import Footer from '@/components/Footer';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+  adjustFontFallback: true,
+})
 
 import { normalizeUrl } from '@/components/Utils'
 

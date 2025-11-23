@@ -6,6 +6,10 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  // Optimisation pour réduire la taille du CSS généré
+  corePlugins: {
+    preflight: true,
+  },
   theme: {
     extend: {
       backgroundImage: {

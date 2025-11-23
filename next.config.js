@@ -23,6 +23,9 @@ const nextConfig = {
         minimumCacheTTL: 60,
     },
     eslint: { ignoreDuringBuilds: true, },
+    // Compression et optimisation
+    compress: true,
+    poweredByHeader: false,
 }
 
 module.exports = nextConfig
