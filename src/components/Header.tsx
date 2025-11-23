@@ -3,22 +3,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link'
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
+import { Modal } from './Modal';
+import { DroptownMenu } from './DroptownMenu';
+import BurgerMenu from './BurgerMenu';
 import { Separateur } from './Separateur'
 import CoffeImg from '@/app/assets/images/lato-yellow.webp'
-// ✅ OPTIMISÉ : Import direct uniquement pour l'icône critique (affichée immédiatement)
 import { IoSearch } from "react-icons/io5";
-
-// ✅ OPTIMISÉ : Lazy load des composants non critiques (chargés seulement quand nécessaires)
-const Modal = dynamic(() => import('./Modal').then(mod => ({ default: mod.Modal })), {
-  loading: () => null
-})
-const DroptownMenu = dynamic(() => import('./DroptownMenu').then(mod => ({ default: mod.DroptownMenu })), {
-  loading: () => null
-})
-const BurgerMenu = dynamic(() => import('./BurgerMenu'), {
-  loading: () => null
-})
 
 export default function Header() {
     const [openSearchBar, setOpenSearchBar] = useState(false);

@@ -1,16 +1,9 @@
 import React, { useState } from 'react'
 import Link from 'next/link';
 import Image from 'next/image'
-import dynamic from 'next/dynamic';
 import { formatString, getRating } from './Utils';
-
-// ✅ OPTIMISÉ : Lazy load des icônes (affichées seulement après chargement de l'image)
-const IoMdThumbsUp = dynamic(() => import('react-icons/io').then(mod => ({ default: mod.IoMdThumbsUp })), {
-  loading: () => null
-});
-const IoEyeSharp = dynamic(() => import('react-icons/io5').then(mod => ({ default: mod.IoEyeSharp })), {
-  loading: () => null
-});
+import { IoMdThumbsUp } from 'react-icons/io';
+import { IoEyeSharp } from 'react-icons/io5';
 
 type Image = {
     id: number
@@ -55,9 +48,8 @@ function BlurImage({ image, index, type }: { image: Image, index: number, type: 
                     alt={title}
                     src={image.imgUrl}
                     fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                     style={{ objectFit: 'cover' }}
-                    quality={75}
+                    quality={80}
                     decoding="async"
                     data-nimg="1"
                     priority={index < 8 ? true : false}

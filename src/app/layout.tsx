@@ -1,25 +1,16 @@
 import type { Metadata, Viewport } from 'next'
-import dynamic from 'next/dynamic'
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/react';
 import { GoogleAnalytics } from '@next/third-parties/google'
+
 import { Inter } from 'next/font/google'
 
 import './globals.css'
 
 import Header from '../components/Header'
-
-// ✅ OPTIMISÉ : Lazy load des composants non critiques (sans ssr: false pour éviter les erreurs Suspense)
-const SpeedInsights = dynamic(() => import("@vercel/speed-insights/next").then(mod => ({ default: mod.SpeedInsights })), {
-  loading: () => null
-})
-const Analytics = dynamic(() => import('@vercel/analytics/react').then(mod => ({ default: mod.Analytics })), {
-  loading: () => null
-})
-const MoreEighteen = dynamic(() => import('@/components/MoreEighteen'), {
-  loading: () => null
-})
-const Footer = dynamic(() => import('@/components/Footer'), {
-  loading: () => null
-})
+import MoreEighteen from '@/components/MoreEighteen'
+// import ModalPub from '@/components/ModalPub';
+import Footer from '@/components/Footer';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -73,7 +64,6 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" >
-      {/* ✅ OPTIMISÉ : GoogleAnalytics est déjà optimisé par Next.js third-parties */}
       <GoogleAnalytics gaId="G-BCSQYEJTZZ" />
       <SpeedInsights />
       <Analytics />

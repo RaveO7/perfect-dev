@@ -2,29 +2,15 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 
 import { Separateur, SeparateurLigne } from '@/components/Separateur'
 import TimeDifference, { deleteCookie, formatString, getCookie, getRating, setCookie, upperFirstLetter } from '@/components/Utils';
+import DropDown from '@/components/DroptownMenuEpurate';
 import Loading from '@/components/Loading';
 import Nodata from '@/components/Nodata';
-
-// ✅ OPTIMISÉ : Lazy load des composants et icônes non critiques
-const DropDown = dynamic(() => import('@/components/DroptownMenuEpurate'), {
-  loading: () => null
-});
-const Galery = dynamic(() => import('@/components/Galery'), {
-  loading: () => null
-});
-const IoMdThumbsUp = dynamic(() => import("react-icons/io").then(mod => ({ default: mod.IoMdThumbsUp })), {
-  loading: () => null
-});
-const IoMdThumbsDown = dynamic(() => import("react-icons/io").then(mod => ({ default: mod.IoMdThumbsDown })), {
-  loading: () => null
-});
-const FaFlag = dynamic(() => import("react-icons/fa").then(mod => ({ default: mod.FaFlag })), {
-  loading: () => null
-});
+import { IoMdThumbsUp, IoMdThumbsDown } from "react-icons/io";
+import { FaFlag } from "react-icons/fa";
+import Galery from '@/components/Galery';
 
 export default function Videos({ params }: { params: { id: number } }) {
   const [dataVideo, setDataVideo] = useState([] as any)

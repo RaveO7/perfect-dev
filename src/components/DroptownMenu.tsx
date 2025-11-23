@@ -1,16 +1,8 @@
 "use client"
 
 import React, { useState, Dispatch, SetStateAction, useRef, useEffect } from 'react';
-import dynamic from 'next/dynamic';
 import { upperFirstLetter } from './Utils';
-
-// ✅ OPTIMISÉ : Lazy load des icônes (affichées seulement quand le dropdown est ouvert)
-const IoCaretDownSharp = dynamic(() => import('react-icons/io5').then(mod => ({ default: mod.IoCaretDownSharp })), {
-  loading: () => null
-});
-const IoCaretUpSharp = dynamic(() => import('react-icons/io5').then(mod => ({ default: mod.IoCaretUpSharp })), {
-  loading: () => null
-});
+import { IoCaretDownSharp, IoCaretUpSharp } from 'react-icons/io5'
 
 export function DroptownMenu({valueMenu, setValueMenu}: {valueMenu: string, setValueMenu: Dispatch<SetStateAction<string>>}) {
     const [openDropdownMenu, setOpenDropdownMenu] = useState(false);
