@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: { id: any, test: an
     let tableauFinal = tableauFiltre.map((mot: string) => mot.replace(/[^a-zA-Z0-9]/g, ''));
     tableauFinal.push(res.title)
 
-    const videoUrl = `${process.env.Site_URL}/videos/${id}?name=${encodeURI(res.title)}`
+    const videoUrl = `${process.env.Site_URL}videos/${id}?name=${encodeURI(res.title)}`
 
     return {
         title: `${res.title}`,
