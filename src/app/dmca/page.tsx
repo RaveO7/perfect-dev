@@ -5,7 +5,7 @@ export default function DMCA() {
         <div>
             <h2 className='mb-4 text-2xl underline'>DMCA</h2>
             <p>
-                Legal Disclaimerbite
+                Legal Disclaimer
                 <br />
                 The owners and operators of {process.env.Site_URL} are not the producers (as that term is defined in 18 U.S.C. Section 2257) of any of the visual content contained in the site.
                 <br /><br />
