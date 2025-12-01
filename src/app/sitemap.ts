@@ -13,6 +13,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const totalVideos = await prisma.videos.count()
     const numberOfVideoSitemaps = Math.max(1, Math.ceil(totalVideos / CHUNK))
 
+    /** ─────────── LAST VIDEO DATE ─────────── */
+    const lastVideo = await prisma.videos.findFirst({
+        select: { createdAt: true },
+        orderBy: { createdAt: "desc" },
+    })
+    const lastVideoDate = lastVideo?.createdAt ?? now
+
     /** ─────────── ACTORS COUNT ─────────── */
     const actorsCount = await prisma.$queryRaw<Array<{ count: bigint }>>`
         SELECT COUNT(*) as count FROM (
@@ -35,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         Math.ceil(Number(categoriesCount[0]?.count ?? 0) / CHUNK)
     )
 
-    /** ─────────── CHANNELS COUNT ─────────── */
+    /** ─────────── CHANNEL COUNT ─────────── */
     const channelsCount = await prisma.$queryRaw<Array<{ count: bigint }>>`
         SELECT COUNT(*) as count FROM (
             SELECT name FROM Channel GROUP BY name HAVING COUNT(*) >= 3
@@ -46,56 +53,91 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         Math.ceil(Number(channelsCount[0]?.count ?? 0) / CHUNK)
     )
 
-    /** ─────────── XML SITEMAP INDEX LIST ─────────── */
-    const items: MetadataRoute.Sitemap = []
+    /** ─────────── RETURN ALL SITEMAP ENTRIES ─────────── */
 
-    // Fresh video sitemap
-    items.push({
+    const sitemapItems: MetadataRoute.Sitemap = []
+
+    /** STATIC ROUTES — RESTORED */
+    sitemapItems.push(
+        {
+            url: urlSite,
+            lastModified: lastVideoDate,
+            changeFrequency: "monthly",
+            priority: 1
+        },
+        {
+            url: normalizeUrl(urlSite, "channel"),
+            lastModified: lastVideoDate,
+            changeFrequency: "weekly",
+            priority: 0.6
+        },
+        {
+            url: normalizeUrl(urlSite, "actor"),
+            lastModified: lastVideoDate,
+            changeFrequency: "weekly",
+            priority: 0.6
+        },
+        {
+            url: normalizeUrl(urlSite, "categorie"),
+            lastModified: lastVideoDate,
+            changeFrequency: "weekly",
+            priority: 0.6
+        },
+        {
+            url: normalizeUrl(urlSite, "search"),
+            lastModified: now,
+            changeFrequency: "monthly",
+            priority: 0.5
+        }
+    )
+
+    /** SITEMAP: Fresh videos */
+    sitemapItems.push({
         url: normalizeUrl(urlSite, 'sitemaps/video-fresh/sitemap.xml'),
-        lastModified: now,
+        lastModified: lastVideoDate,
         changeFrequency: 'daily',
         priority: 0.6
     })
 
-    // Video sitemaps
+    /** VIDEO SITEMAPS */
     for (let i = 0; i < numberOfVideoSitemaps; i++) {
-        items.push({
+        sitemapItems.push({
             url: normalizeUrl(urlSite, `sitemaps/video/sitemap/${i}.xml`),
-            lastModified: now,
+            lastModified: lastVideoDate,
             changeFrequency: 'daily',
             priority: 0.5
         })
     }
 
-    // Actor sitemaps
+    /** ACTOR SITEMAPS */
     for (let i = 0; i < numberOfActorSitemaps; i++) {
-        items.push({
+        sitemapItems.push({
             url: normalizeUrl(urlSite, `sitemaps/actor/sitemap/${i}.xml`),
-            lastModified: now,
+            lastModified: lastVideoDate,
             changeFrequency: 'weekly',
             priority: 0.4
         })
     }
 
-    // Category sitemaps
+    /** CATEGORY SITEMAPS */
     for (let i = 0; i < numberOfCategorySitemaps; i++) {
-        items.push({
+        sitemapItems.push({
             url: normalizeUrl(urlSite, `sitemaps/categorie/sitemap/${i}.xml`),
-            lastModified: now,
+            lastModified: lastVideoDate,
             changeFrequency: 'weekly',
             priority: 0.4
         })
     }
 
-    // Channel sitemaps
+    /** CHANNEL SITEMAPS */
     for (let i = 0; i < numberOfChannelSitemaps; i++) {
-        items.push({
+        sitemapItems.push({
             url: normalizeUrl(urlSite, `sitemaps/channel/sitemap/${i}.xml`),
-            lastModified: now,
+            lastModified: lastVideoDate,
             changeFrequency: 'weekly',
             priority: 0.4
         })
     }
 
-    return items
+    return sitemapItems
 }
