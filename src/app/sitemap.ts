@@ -1,89 +1,87 @@
-import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma'
 import { CHUNK } from '@/lib/sitemap-config'
 import { normalizeUrl } from '@/components/Utils'
 
-// Revalidation quotidienne
-export const revalidate = 3600 * 24
+export const revalidate = 3600 * 24 // 1 day
 
-export default async function sitemap(): Promise<MetadataRoute.SitemapIndex> {
+export async function GET() {
     const urlSite = normalizeUrl(process.env.Site_URL || '')
-    const now = new Date()
+    const now = new Date().toISOString()
 
-    // ---- Récupération des counts ----
+    // ---- Counts ----
     const totalVideos = await prisma.videos.count()
     const numberOfVideoSitemaps = Math.max(1, Math.ceil(totalVideos / CHUNK))
 
-    const actorsCountResult = await prisma.$queryRaw<Array<{ count: bigint }>>`
-        SELECT COUNT(*) as count
-        FROM (
-            SELECT name FROM Actor
-            GROUP BY name
-            HAVING COUNT(*) >= 3
-        ) as a`
-    const totalActors = Number(actorsCountResult[0]?.count ?? 0)
-    const numberOfActorSitemaps = Math.max(1, Math.ceil(totalActors / CHUNK))
+    const actorsCount = await prisma.$queryRaw<Array<{ count: bigint }>>`
+        SELECT COUNT(*) as count FROM (
+            SELECT name FROM Actor GROUP BY name HAVING COUNT(*) >= 3
+        ) as sub
+    `
+    const numberOfActorSitemaps = Math.max(
+        1,
+        Math.ceil(Number(actorsCount[0]?.count ?? 0) / CHUNK)
+    )
 
-    const categoriesCountResult = await prisma.$queryRaw<Array<{ count: bigint }>>`
-        SELECT COUNT(*) as count
-        FROM (
-            SELECT name FROM Categorie
-            GROUP BY name
-            HAVING COUNT(*) >= 3
-        ) as c`
-    const totalCategories = Number(categoriesCountResult[0]?.count ?? 0)
-    const numberOfCategorySitemaps = Math.max(1, Math.ceil(totalCategories / CHUNK))
+    const categoriesCount = await prisma.$queryRaw<Array<{ count: bigint }>>`
+        SELECT COUNT(*) as count FROM (
+            SELECT name FROM Categorie GROUP BY name HAVING COUNT(*) >= 3
+        ) as sub
+    `
+    const numberOfCategorySitemaps = Math.max(
+        1,
+        Math.ceil(Number(categoriesCount[0]?.count ?? 0) / CHUNK)
+    )
 
-    const channelsCountResult = await prisma.$queryRaw<Array<{ count: bigint }>>`
-        SELECT COUNT(*) as count
-        FROM (
-            SELECT name FROM Channel
-            GROUP BY name
-            HAVING COUNT(*) >= 3
-        ) as ch`
-    const totalChannels = Number(channelsCountResult[0]?.count ?? 0)
-    const numberOfChannelSitemaps = Math.max(1, Math.ceil(totalChannels / CHUNK))
+    const channelsCount = await prisma.$queryRaw<Array<{ count: bigint }>>`
+        SELECT COUNT(*) as count FROM (
+            SELECT name FROM Channel GROUP BY name HAVING COUNT(*) >= 3
+        ) as sub
+    `
+    const numberOfChannelSitemaps = Math.max(
+        1,
+        Math.ceil(Number(channelsCount[0]?.count ?? 0) / CHUNK)
+    )
 
-    // ---- Construction du sitemap index ----
-    const sitemapIndex: MetadataRoute.SitemapIndex = []
+    // ---- Build XML ----
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`
+    xml += `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
 
-    // Fresh Videos Sitemap
-    sitemapIndex.push({
-        url: normalizeUrl(urlSite, 'sitemaps/video-fresh/sitemap.xml'),
-        lastModified: now,
-    })
+    // Fresh videos sitemap
+    xml += `  <sitemap>
+        <loc>${normalizeUrl(urlSite, 'sitemaps/video-fresh/sitemap.xml')}</loc>
+        <lastmod>${now}</lastmod>
+    </sitemap>\n`
 
-    // Video sitemaps paginés
+    // Video sitemaps
     for (let i = 0; i < numberOfVideoSitemaps; i++) {
-        sitemapIndex.push({
-            url: normalizeUrl(urlSite, `sitemaps/video/sitemap/${i}.xml`),
-            lastModified: now,
-        })
+        xml += `  <sitemap>
+        <loc>${normalizeUrl(urlSite, `sitemaps/video/sitemap/${i}.xml`)}</loc>
+        <lastmod>${now}</lastmod>
+    </sitemap>\n`
     }
 
-    // Actor sitemaps paginés
+    // Actor sitemaps
     for (let i = 0; i < numberOfActorSitemaps; i++) {
-        sitemapIndex.push({
-            url: normalizeUrl(urlSite, `sitemaps/actor/sitemap/${i}.xml`),
-            lastModified: now,
-        })
+        xml += `  <sitemap>
+        <loc>${normalizeUrl(urlSite, `sitemaps/actor/sitemap/${i}.xml`)}</loc>
+        <lastmod>${now}</lastmod>
+    </sitemap>\n`
     }
 
-    // Category sitemaps paginés
+    // Category sitemaps
     for (let i = 0; i < numberOfCategorySitemaps; i++) {
-        sitemapIndex.push({
-            url: normalizeUrl(urlSite, `sitemaps/categorie/sitemap/${i}.xml`),
-            lastModified: now,
-        })
+        xml += `  <sitemap>
+        <loc>${normalizeUrl(urlSite, `sitemaps/categorie/sitemap/${i}.xml`)}</loc>
+        <lastmod>${now}</lastmod>
+    </sitemap>\n`
     }
 
-    // Channel sitemaps paginés
+    // Channel sitemaps
     for (let i = 0; i < numberOfChannelSitemaps; i++) {
-        sitemapIndex.push({
-            url: normalizeUrl(urlSite, `sitemaps/channel/sitemap/${i}.xml`),
-            lastModified: now,
-        })
+        xml += `  <sitemap>
+        <loc>${normalizeUrl(urlSite, `sitemaps/channel/sitemap/${i}.xml`)}</loc>
+        <lastmod>${now}</lastmod>
+    </sitemap>\n`
     }
 
-    return sitemapIndex
-}
+    xml += `</site
