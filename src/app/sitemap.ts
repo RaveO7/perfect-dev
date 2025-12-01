@@ -48,40 +48,47 @@ export async function GET() {
 
     // Fresh videos sitemap
     xml += `  <sitemap>
-        <loc>${normalizeUrl(urlSite, 'sitemaps/video-fresh/sitemap.xml')}</loc>
-        <lastmod>${now}</lastmod>
-    </sitemap>\n`
+    <loc>${normalizeUrl(urlSite, 'sitemaps/video-fresh/sitemap.xml')}</loc>
+    <lastmod>${now}</lastmod>
+  </sitemap>\n`
 
     // Video sitemaps
     for (let i = 0; i < numberOfVideoSitemaps; i++) {
         xml += `  <sitemap>
-        <loc>${normalizeUrl(urlSite, `sitemaps/video/sitemap/${i}.xml`)}</loc>
-        <lastmod>${now}</lastmod>
-    </sitemap>\n`
+    <loc>${normalizeUrl(urlSite, `sitemaps/video/sitemap/${i}.xml`)}</loc>
+    <lastmod>${now}</lastmod>
+  </sitemap>\n`
     }
 
     // Actor sitemaps
     for (let i = 0; i < numberOfActorSitemaps; i++) {
         xml += `  <sitemap>
-        <loc>${normalizeUrl(urlSite, `sitemaps/actor/sitemap/${i}.xml`)}</loc>
-        <lastmod>${now}</lastmod>
-    </sitemap>\n`
+    <loc>${normalizeUrl(urlSite, `sitemaps/actor/sitemap/${i}.xml`)}</loc>
+    <lastmod>${now}</lastmod>
+  </sitemap>\n`
     }
 
     // Category sitemaps
     for (let i = 0; i < numberOfCategorySitemaps; i++) {
         xml += `  <sitemap>
-        <loc>${normalizeUrl(urlSite, `sitemaps/categorie/sitemap/${i}.xml`)}</loc>
-        <lastmod>${now}</lastmod>
-    </sitemap>\n`
+    <loc>${normalizeUrl(urlSite, `sitemaps/categorie/sitemap/${i}.xml`)}</loc>
+    <lastmod>${now}</lastmod>
+  </sitemap>\n`
     }
 
     // Channel sitemaps
     for (let i = 0; i < numberOfChannelSitemaps; i++) {
         xml += `  <sitemap>
-        <loc>${normalizeUrl(urlSite, `sitemaps/channel/sitemap/${i}.xml`)}</loc>
-        <lastmod>${now}</lastmod>
-    </sitemap>\n`
+    <loc>${normalizeUrl(urlSite, `sitemaps/channel/sitemap/${i}.xml`)}</loc>
+    <lastmod>${now}</lastmod>
+  </sitemap>\n`
     }
 
-    xml += `</site
+    xml += `</sitemapindex>`
+
+    return new Response(xml, {
+        headers: {
+            'Content-Type': 'application/xml',
+        },
+    })
+}
