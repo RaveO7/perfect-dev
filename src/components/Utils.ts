@@ -23,24 +23,24 @@ export default function TimeDifference({ date }: any) {
   const years: any = days / 365.24;
 
   if (years >= 1) {
-    let result = `${parseInt(years)} an${years !== 1 ? 's' : ''}`;
+    let result = `${parseInt(years)} year${years !== 1 ? 's' : ''}`;
     const remainingMonths: any = months % 12;
 
-    if (remainingMonths >= 1) { result += ` ${parseInt(remainingMonths)} mois`; }
+    if (remainingMonths >= 1) { result += ` ${parseInt(remainingMonths)} month${parseInt(remainingMonths) !== 1 ? 's' : ''}`; }
 
     return result;
   } else if (months >= 1) {
-    return `${parseInt(months)} mois`;
+    return `${parseInt(months)} month${parseInt(months) !== 1 ? 's' : ''}`;
   } else if (week >= 1) {
-    return `${parseInt(week)} semaine${week !== 1 ? 's' : ''}`;
+    return `${parseInt(week)} week${parseInt(week) !== 1 ? 's' : ''}`;
   } else if (days >= 1) {
-    return `${parseInt(days)} jour${days !== 1 ? 's' : ''}`;
+    return `${parseInt(days)} day${parseInt(days) !== 1 ? 's' : ''}`;
   } else if (hours >= 1) {
-    return `${parseInt(hours)} heure${hours !== 1 ? 's' : ''}`;
+    return `${parseInt(hours)} hour${parseInt(hours) !== 1 ? 's' : ''}`;
   } else if (minutes >= 1) {
-    return `${parseInt(minutes)} minute${minutes !== 1 ? 's' : ''}`;
+    return `${parseInt(minutes)} minute${parseInt(minutes) !== 1 ? 's' : ''}`;
   } else {
-    return `${parseInt(seconds)} seconde${seconds !== 1 ? 's' : ''}`;
+    return `${parseInt(seconds)} second${parseInt(seconds) !== 1 ? 's' : ''}`;
   }
 };
 

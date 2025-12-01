@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import PageListVideo from '@/components/PageListVideo';
+import { createPostRequest } from '@/lib/api-helpers'
 
 export default function SearchPage({ params, searchParams, }: {
   params: { type: string, name: string; }
@@ -22,22 +23,23 @@ export default function SearchPage({ params, searchParams, }: {
       try {
         setLoading(true)
         const apiUrlEndpoint = "/api/searchVideos"
-        const postData: any = {
-          method: "POST",
-          header: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            type: type,
-            search: search,
-            pageNbr: pageNbr,
-            order: valueMenu,
-          })
-        }
+        const postData = createPostRequest({
+          type: type,
+          search: search,
+          pageNbr: pageNbr,
+          order: valueMenu,
+        })
         const response = await fetch(apiUrlEndpoint, postData)
         const res = await response.json()
 
         setDatasVideos(res)
-        setNbrPage(res[0].nbrPage)
-        setNbrVideos(res[0].nbr)
+        if (res && res.length > 0) {
+          setNbrPage(res[0].nbrPage || 0)
+          setNbrVideos(res[0].nbr || 0)
+        } else {
+          setNbrPage(0)
+          setNbrVideos(0)
+        }
         setLoading(false)
       }
       catch {

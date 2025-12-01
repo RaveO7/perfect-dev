@@ -116,7 +116,7 @@ export function Modal(props: Props) {
                         focus:ring-4 focus:outline-none font-medium rounded-lg text-sm-center 
                         text-white bg-pink-600 hover:bg-pink-700 focus:ring-pink-300
                         dark:text-white dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
-                        <p className='w-full py-3 hover:cursor-pointer'>Valider</p>
+                        <p className='w-full py-3 hover:cursor-pointer'>Search</p>
                     </button>
 
                 </form>

@@ -11,6 +11,7 @@ import Nodata from '@/components/Nodata';
 import { IoMdThumbsUp, IoMdThumbsDown } from "react-icons/io";
 import { FaFlag } from "react-icons/fa";
 import Galery from '@/components/Galery';
+import { createPostRequest } from '@/lib/api-helpers'
 
 export default function Videos({ params }: { params: { id: number } }) {
   const [dataVideo, setDataVideo] = useState([] as any)
@@ -28,13 +29,9 @@ export default function Videos({ params }: { params: { id: number } }) {
         setLoading(true)
         const apiUrlEndpoint = "/api/video"
 
-        const postData: any = {
-          method: "POST",
-          header: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: id
-          })
-        }
+        const postData = createPostRequest({
+          id: id
+        })
         const response = await fetch(apiUrlEndpoint, postData)
         const res = await response.json()
 
@@ -53,13 +50,9 @@ export default function Videos({ params }: { params: { id: number } }) {
       try {
         const apiUrlEndpoint = "/api/addViewVideo"
 
-        const postData: any = {
-          method: "POST",
-          header: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: id
-          })
-        }
+        const postData = createPostRequest({
+          id: id
+        })
         await fetch(apiUrlEndpoint, postData)
       }
       catch { return; }
@@ -149,14 +142,10 @@ export default function Videos({ params }: { params: { id: number } }) {
   async function addValVideoData(value: any) {
     try {
       const apiUrlEndpoint = "/api/addValVideoData"
-      const postData: any = {
-        method: "POST",
-        header: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: id,
-          cookie: value,
-        }),
-      };
+      const postData = createPostRequest({
+        id: id,
+        cookie: value,
+      })
       await fetch(apiUrlEndpoint, postData)
     }
     catch {
@@ -193,7 +182,7 @@ export default function Videos({ params }: { params: { id: number } }) {
 
                 <Separateur height={7}/>
 
-                <div>Il y a {date}</div>
+                <div>{date} ago</div>
 
               </div>
 

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import PageListVideo from '@/components/PageListVideo'
+import { createPostRequest } from '@/lib/api-helpers'
 
 export default function Test({ params, searchParams, }: { params: { type: string; }, searchParams: { page: number } }) {
     const tableau = ["channels", "pornstars", "categories"]
@@ -20,15 +21,11 @@ export default function Test({ params, searchParams, }: { params: { type: string
                 setLoading(true)
                 const apiUrlEndpoint = "/api/type"
 
-                const postData: any = {
-                    method: "POST",
-                    header: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        type: type,
-                        pageNbr: pageNbr,
-                        order: valueMenu,
-                    })
-                }
+                const postData = createPostRequest({
+                    type: type,
+                    pageNbr: pageNbr,
+                    order: valueMenu,
+                })
 
                 const response = await fetch(apiUrlEndpoint, postData)
                 const res = await response.json()
