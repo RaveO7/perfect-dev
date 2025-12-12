@@ -18,10 +18,11 @@ interface Props {
     scrollTarget?: React.RefObject<HTMLDivElement>,
     showFilter?: boolean, // Nouveau prop pour afficher/masquer le filtre
     categoryType?: string, // Type de catégorie pour le menu
+    categoryName?: string, // Nom de la catégorie pour le menu
 }
 
 export default function PageListVideo(props: Props) {
-    const { setValueMenu, videos, type, nbrVideo, loading, loadingMore = false, hasMore = false, scrollTarget, showFilter = true, categoryType } = props;
+    const { setValueMenu, videos, type, nbrVideo, loading, loadingMore = false, hasMore = false, scrollTarget, showFilter = true, categoryType, categoryName } = props;
 
     if (loading && videos.length === 0) return <Loading />
     if (!loading && videos.length === 0) return (<Nodata />)

@@ -6,7 +6,8 @@ import { Prisma } from '@prisma/client'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const body = JSON.parse(req.body)
+        // ✅ FIX : Gérer le cas où req.body est déjà un objet (Next.js parse automatiquement)
+        const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body
         const numberVideoByPage = parseInt(process.env.Number_Video!)
         // ✅ OPTIMISÉ : Utilisation de la fonction utilitaire pour éviter la duplication
         const { startSearchVideo } = calculatePagination(body.pageNbr, numberVideoByPage)
