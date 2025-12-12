@@ -29,12 +29,25 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             `
         )
 
-        posts.forEach((element) => {
-            element.nbr = Number(element.nbr)
-            element.nbr = Math.ceil(element.nbr / numberVideoByPage)
+        // Calculer le nombre de pages une seule fois
+        const totalVideos = Number(totalCount)
+        const totalPages = Math.ceil(totalVideos / numberVideoByPage)
+        
+        // Créer de nouveaux objets avec le nombre de pages correct
+        const postsWithPages = posts.map((element) => {
+            return {
+                id: element.id,
+                title: element.title,
+                imgUrl: element.imgUrl,
+                time: element.time,
+                like: element.like,
+                dislike: element.dislike,
+                view: element.view,
+                nbr: totalPages
+            }
         });
 
-        res.json(posts)
+        res.json(postsWithPages)
     }
     catch (error) {
         console.log(error)

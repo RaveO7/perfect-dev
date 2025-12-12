@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import Galery from './Galery'
-import NavPage from './NavPage'
 import Loading from './Loading'
 import Nodata from './Nodata'
 import BurgerMenuIndexPage from './DroptwonFilter'
@@ -11,21 +10,24 @@ interface Props {
     valueMenu: string,
     setValueMenu: Dispatch<SetStateAction<string>>,
     videos: Array<any>,
-    page: number,
-    numberPage: number,
     type: string,
     nbrVideo: number,
     loading: boolean,
+    loadingMore?: boolean,
+    hasMore?: boolean,
+    scrollTarget?: React.RefObject<HTMLDivElement>,
+    showFilter?: boolean, // Nouveau prop pour afficher/masquer le filtre
+    categoryType?: string, // Type de catégorie pour le menu
 }
 
 export default function PageListVideo(props: Props) {
-    const { setValueMenu, videos, page, numberPage, type, nbrVideo, loading } = props;
+    const { setValueMenu, videos, type, nbrVideo, loading, loadingMore = false, hasMore = false, scrollTarget, showFilter = true, categoryType } = props;
 
-    if (loading) return <Loading />
-    if (!videos.length) return (<Nodata />)
+    if (loading && videos.length === 0) return <Loading />
+    if (!loading && videos.length === 0) return (<Nodata />)
 
     let list
-    if (!videos[0].title) { list = ["Latest", "A->Z", "Z->A",]; }
+    if (videos.length > 0 && !videos[0].title) { list = ["Latest", "A->Z", "Z->A",]; }
     else { list = ["Latest", "More View", "Most Popular", "A->Z", "Z->A",]; }
 
     const valueMenu = props.valueMenu ? list.includes(props.valueMenu) ? props.valueMenu : "Latest" : props.valueMenu
@@ -38,12 +40,17 @@ export default function PageListVideo(props: Props) {
                     :
                     <h2 className='text-xl md:text-5xl'>{upperFirstLetter(type)} : {nbrVideo}</h2>
                 }
-                {valueMenu && <BurgerMenuIndexPage valueMenu={valueMenu} setValueMenu={setValueMenu} list={list} />}
+                {valueMenu && showFilter && <BurgerMenuIndexPage valueMenu={valueMenu} setValueMenu={setValueMenu} list={list} categoryType={categoryType} />}
             </div>
 
             <Galery images={videos} type={type} />
 
-            <NavPage page={page} numberPage={numberPage} />
+            {/* Zone de détection pour le scroll infini */}
+            {hasMore && (
+                <div ref={scrollTarget} className="w-full h-32 flex items-center justify-center py-8">
+                    {loadingMore && <Loading />}
+                </div>
+            )}
         </div >
     )
 }

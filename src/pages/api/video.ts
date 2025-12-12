@@ -3,7 +3,8 @@ import { prisma } from '@/lib/prisma'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const body = JSON.parse(req.body)
+        // ✅ FIX : Gérer le cas où req.body est déjà un objet (Next.js parse automatiquement)
+        const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body
         const id = parseInt(body.id)
         
         // ✅ Validation : s'assurer que l'ID est un nombre valide
@@ -12,7 +13,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         }
 
         // ✅ OPTIMISÉ : Requête 1 - Récupérer la vidéo principale
-        const video = await prisma.videos.findUniqueOrThrow({
+        const video = await prisma.Videos.findUniqueOrThrow({
             where: { id: id }, 
             select: {
                 title: true,
@@ -36,11 +37,11 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         // ✅ OPTIMISÉ : Requêtes 2 et 3 en parallèle (elles sont indépendantes)
         const [channelVideoCount, relatedVideos] = await Promise.all([
             // Requête 2 : Compter les vidéos du même channel
-            prisma.videos.count({
+            prisma.Videos.count({
                 where: { channels: { contains: channel } }
             }),
             // Requête 3 : Récupérer les vidéos similaires du même channel
-            prisma.videos.findMany({
+            prisma.Videos.findMany({
                 take: limit,
                 where: {
                     NOT: { id: id },
@@ -63,7 +64,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         let finalRelatedVideos = relatedVideos
         if (relatedVideos.length < limit) {
             const remainingLimit = limit - relatedVideos.length
-            const additionalVideos = await prisma.videos.findMany({
+            const additionalVideos = await prisma.Videos.findMany({
                 take: remainingLimit,
                 where: {
                     NOT: { id: id }

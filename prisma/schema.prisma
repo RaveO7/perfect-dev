@@ -25,6 +25,8 @@ model Videos {
   view        Int      @default(0)
   repport     Int      @default(0)
   createdAt   DateTime @default(now())
+
+  @@map("videos")
 }
 
 model Actor {
@@ -32,16 +34,19 @@ model Actor {
   name    String
 
   @@id([idVideo, name])
+  @@map("actor")
 }
 model Channel {
   idVideo Int
   name    String
 
   @@id([idVideo, name])
+  @@map("channel")
 }
 model Categorie {
   idVideo Int
   name    String
 
   @@id([idVideo, name])
+  @@map("categorie")
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link';
 
 import { Separateur, SeparateurLigne } from '@/components/Separateur'
@@ -13,8 +13,8 @@ import { FaFlag } from "react-icons/fa";
 import Galery from '@/components/Galery';
 import { createPostRequest } from '@/lib/api-helpers'
 
-export default function Videos({ params }: { params: { id: number } }) {
-  const [dataVideo, setDataVideo] = useState([] as any)
+export default function Videos({ params }: { params: { id: string } }) {
+  const [dataVideo, setDataVideo] = useState(null as any)
   const [dataMoreVideo, setDataMoreVideo] = useState([])
   const [dataNbrVideo, setDataNbrVideo] = useState([])
   const [isLoading, setLoading] = useState(true)
@@ -22,8 +22,14 @@ export default function Videos({ params }: { params: { id: number } }) {
   const [cookieLike, setCookieLike] = useState<any>('');
   const [repport, setRepport] = useState<any>('false');
 
-  const id = params.id
+  // Utiliser useMemo pour stabiliser l'id et éviter les re-renders
+  const id = useMemo(() => {
+    const parsedId = parseInt(params.id);
+    return isNaN(parsedId) ? 0 : parsedId;
+  }, [params.id]);
+
   useEffect(() => {
+    if (!id || id === 0) return; // Ne pas exécuter si l'id est invalide
     const getSelectedVideo = async () => {
       try {
         setLoading(true)
@@ -33,15 +39,27 @@ export default function Videos({ params }: { params: { id: number } }) {
           id: id
         })
         const response = await fetch(apiUrlEndpoint, postData)
+        
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`)
+        }
+        
         const res = await response.json()
 
-        setDataNbrVideo(res[0])
-        setDataVideo(res[1])
-        setDataMoreVideo(res[2])
+        // Vérifier que la réponse est valide
+        if (res && Array.isArray(res) && res.length >= 2 && res[1]) {
+          setDataNbrVideo(res[0])
+          setDataVideo(res[1])
+          setDataMoreVideo(res[2] || [])
+        } else {
+          throw new Error('Invalid API response')
+        }
         setLoading(false)
       }
-      catch {
+      catch (error) {
+        console.error('Error fetching video:', error)
         setLoading(false)
+        setDataVideo(null)
         return;
       }
     }
@@ -62,25 +80,26 @@ export default function Videos({ params }: { params: { id: number } }) {
 
     if (!getCookie(id)) { setCookie(id, 'true', 7, '/'); getAddOneView(); }
 
-  }, [])
+  }, [id])
 
   useEffect(() => {
+    if (!id || id === 0) return;
     if (getCookie(id + 'like')) {
       setCookieLike(getCookie(id + 'like'))
     }
     if (getCookie(id + 'repport')) {
       setRepport(getCookie(id + 'repport'))
     }
-  }, [cookieLike, repport])
+  }, [id]) // Seulement quand l'id change, pas quand cookieLike ou repport changent
 
   if (isLoading) return <Loading />
   if (!dataVideo) return <Nodata />
 
-  const title: string = dataVideo.title;
-  const videos: Array<string> = modifierLiens(dataVideo.videoUrl.split(','));
-  const channel: string = dataVideo.channels.replace(/,.*$/, '')
-  const acteurs: Array<string> = dataVideo.actors.split(',');
-  const tags: Array<string> = dataVideo.categories.split(',');
+  const title: string = dataVideo.title || '';
+  const videos: Array<string> = modifierLiens((dataVideo.videoUrl || '').split(','));
+  const channel: string = (dataVideo.channels || '').replace(/,.*$/, '')
+  const acteurs: Array<string> = (dataVideo.actors || '').split(',').filter(a => a.trim() !== '');
+  const tags: Array<string> = (dataVideo.categories || '').split(',').filter(c => c.trim() !== '');
 
   const like: number = dataVideo.like
   let dislike: number = dataVideo.dislike
@@ -217,7 +236,7 @@ export default function Videos({ params }: { params: { id: number } }) {
                 }
 
                 <div className='flex-1 w-full max-h-[107px] overflow-hidden '>
-                  {acteurs[0].length !== 0 &&
+                  {acteurs.length > 0 && acteurs[0] && acteurs[0].length !== 0 &&
                     <>
                       <p className='text-dessous text-[15px] mb-[5px]'>Pornstars</p>
 
@@ -228,7 +247,7 @@ export default function Videos({ params }: { params: { id: number } }) {
                       ))}
                     </>
                   }
-                  {(acteurs[0].length == 0 && tags[0].length > 0) &&
+                  {((acteurs.length === 0 || !acteurs[0] || acteurs[0].length == 0) && tags.length > 0 && tags[0] && tags[0].length > 0) &&
                     <>
                       <p className='text-dessous text-[15px] mb-[5px]'>Categories</p>
                       {tags.map((categorie: string, id: React.Key) => (
@@ -241,7 +260,7 @@ export default function Videos({ params }: { params: { id: number } }) {
                 </div>
               </div>
 
-              {(acteurs[0].length !== 0 && tags[0].length > 0) &&
+              {(acteurs.length > 0 && acteurs[0] && acteurs[0].length !== 0 && tags.length > 0 && tags[0] && tags[0].length > 0) &&
                 <>
                   <div className='w-full border-b-2 opacity-10 border-red-50 my-3'></div>
                   <div>
