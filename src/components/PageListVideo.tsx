@@ -6,7 +6,6 @@ import Nodata from './Nodata'
 import BurgerMenuIndexPage from './DroptwonFilter'
 import { upperFirstLetter } from './Utils'
 
-
 interface Props {
     valueMenu: string,
     setValueMenu: Dispatch<SetStateAction<string>>,
@@ -44,6 +43,7 @@ export default function PageListVideo(props: Props) {
             <Galery images={videos} type={type} />
 
             <NavPage page={page} numberPage={numberPage} />
+            
         </div >
     )
 }

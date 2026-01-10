@@ -9,7 +9,6 @@ import './globals.css'
 
 import Header from '../components/Header'
 import MoreEighteen from '@/components/MoreEighteen'
-// import ModalPub from '@/components/ModalPub';
 import Footer from '@/components/Footer';
 
 const inter = Inter({ 
@@ -20,6 +19,7 @@ const inter = Inter({
 })
 
 import { normalizeUrl } from '@/components/Utils'
+import AdBanner from '@/components/pubs/AdBanner';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.Site_URL as string),
@@ -60,6 +60,9 @@ export const metadata: Metadata = {
     images: ['/opengraph-image.png'], // ✅ Image principale pour Twitter
     // creator: '@PerfectPorn', // Optionnel : votre compte Twitter si disponible
     // site: '@PerfectPorn' // Optionnel : compte Twitter du site
+  },
+  other: {
+    "6a97888e-site-verification": "07bc72bd8d75f7e97c8be4156fee565a",
   }
 }
 
@@ -76,7 +79,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <Analytics />
       <body className={inter.className} suppressHydrationWarning={true}>
         <MoreEighteen />
-{/*         <ModalPub /> */}
         <main className="flex min-h-screen flex-col items-center">
           <Header />
           <section className="w-full mt-[72px] py-6 lg:px-12 min-h-[calc(100vh-92px)] ">

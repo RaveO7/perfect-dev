@@ -11,6 +11,8 @@ import Nodata from '@/components/Nodata';
 import { IoMdThumbsUp, IoMdThumbsDown } from "react-icons/io";
 import { FaFlag } from "react-icons/fa";
 import Galery from '@/components/Galery';
+import AdBannerVideos from '@/components/pubs/AdBannerVideos';
+import AdBannerVideosTwo from '@/components/pubs/AdBannerVideosTwo';
 
 export default function Videos({ params }: { params: { id: number } }) {
   const [dataVideo, setDataVideo] = useState([] as any)
@@ -177,6 +179,13 @@ export default function Videos({ params }: { params: { id: number } }) {
           >
           </iframe>
         </div>
+
+
+
+        <div className='w-[25%] h-full flex justify-center'>
+          <AdBannerVideos />
+        </div>
+
       </div>
 
       <div className='flex'>
@@ -187,11 +196,11 @@ export default function Videos({ params }: { params: { id: number } }) {
               <div className='flex items-center '>
                 <p>{nbrView} Vues</p>
 
-                <Separateur height={7}/>
+                <Separateur height={7} />
 
                 <div className='flex items-center'><IoMdThumbsUp className="mr-1" /> {Math.ceil(rating)} %</div>
 
-                <Separateur height={7}/>
+                <Separateur height={7} />
 
                 <div>Il y a {date}</div>
 
@@ -202,12 +211,12 @@ export default function Videos({ params }: { params: { id: number } }) {
                   {`${cookieLike == 'true' ? "text-blue-500" : "hover:text-blue-500"} flex items-center duration-300`}
                   onClick={() => setUpdate('l')}>
                   <IoMdThumbsUp className="mr-1" />{cookieLike == 'true' ? like + 1 : like}</button>
-                <Separateur height={7}/>
+                <Separateur height={7} />
                 <button role="button" name="dislike" aria-label={'Button Add Dislike Number Like' + dislike} className=
                   {`${cookieLike == 'false' ? "text-red-500" : "hover:text-red-500"} flex items-center duration-300`}
                   onClick={() => setUpdate('d')}>
                   <IoMdThumbsDown className="mr-1" />{cookieLike == 'false' ? dislike + 1 : dislike}</button>
-                <Separateur height={7}/>
+                <Separateur height={7} />
                 <button role="button" name="repport" aria-label='Repport Video' className=
                   {`${repport == 'true' ? "text-red-700" : "hover:text-red-700"} flex items-center duration-300`}
                   onClick={() => setUpdate('r')}> <FaFlag className="mr-2" /> <span className='block mm:hidden md:block'>Repport</span>
@@ -227,7 +236,7 @@ export default function Videos({ params }: { params: { id: number } }) {
                   </Link>
                 }
 
-                <div className='flex-1 w-full max-h-[107px] overflow-hidden '>
+                <div className='flex-1 w-full max-h-[107px] overflow-hidden'>
                   {acteurs[0].length !== 0 &&
                     <>
                       <p className='text-dessous text-[15px] mb-[5px]'>Pornstars</p>
@@ -274,6 +283,12 @@ export default function Videos({ params }: { params: { id: number } }) {
             </section>
           </div>
         </div>
+
+        <div className='w-[25%] h-full flex justify-center mt-[-10px]'>
+          <AdBannerVideosTwo />
+        </div>
+
+
       </div>
     </div >
   )
