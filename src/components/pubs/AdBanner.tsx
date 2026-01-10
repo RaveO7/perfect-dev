@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
-import Script from 'next/script'
+import { useEffect, useState } from 'react'
 
 declare global {
   interface Window {
@@ -10,45 +9,42 @@ declare global {
 }
 
 export default function AdBanner() {
+  const [isMounted, setIsMounted] = useState(false)
+
   useEffect(() => {
-    // Initialiser AdProvider immédiatement et pousser la commande serve
-    // (comme dans le code original: (AdProvider = window.AdProvider || []).push({"serve": {}}))
-    // Cela permet de stocker les commandes même si le script externe n'est pas encore chargé
+    setIsMounted(true)
+    
+    // Initialiser AdProvider et pousser la commande serve
+    // Le script est déjà chargé dans le layout, donc on peut directement utiliser AdProvider
     if (typeof window !== 'undefined') {
+      // S'assurer que AdProvider est initialisé
       window.AdProvider = window.AdProvider || []
-      // Pousser la configuration immédiatement - sera traitée quand le script se chargera
-      window.AdProvider.push({ serve: {} })
+      
+      // Fonction pour servir les pubs après un délai pour s'assurer que le script est chargé
+      const initAds = () => {
+        if (window.AdProvider && typeof window.AdProvider.push === 'function') {
+          window.AdProvider.push({ serve: {} })
+        } else {
+          // Si AdProvider n'est pas encore disponible, réessayer après un court délai
+          setTimeout(initAds, 100)
+        }
+      }
+      
+      // Attendre un peu que le script se charge si ce n'est pas déjà fait
+      setTimeout(initAds, 500)
     }
   }, [])
 
-  const handleScriptLoad = () => {
-    // Si le script vient de se charger et qu'AdProvider n'a pas encore été initialisé
-    // (cas rare où useEffect n'a pas encore été exécuté), initialiser maintenant
-    if (typeof window !== 'undefined') {
-      if (!window.AdProvider) {
-        window.AdProvider = []
-        window.AdProvider.push({ serve: {} })
-      }
-    }
+  // Ne pas rendre le contenu côté serveur pour éviter les problèmes d'hydration
+  if (!isMounted) {
+    return null
   }
 
   return (
-    <>
-      {/* Script externe pour charger ad-provider.js */}
-      <Script
-        src="https://a.magsrv.com/ad-provider.js"
-        strategy="afterInteractive"
-        async
-        onLoad={handleScriptLoad}
-        onError={() => console.error('Failed to load ad-provider.js')}
-      />
-      
-      {/* Conteneur pour la bannière publicitaire */}
-      <ins 
-        className="eas6a97888e2" 
-        data-zoneid="5820858"
-        style={{ display: 'block', textAlign: 'center' }}
-      />
-    </>
+    <ins 
+      className="eas6a97888e2" 
+      data-zoneid="5820858"
+      style={{ display: 'block', textAlign: 'center', minHeight: '100px' }}
+    />
   )
 }

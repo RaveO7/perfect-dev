@@ -20,6 +20,7 @@ const inter = Inter({
 
 import { normalizeUrl } from '@/components/Utils'
 import AdBanner from '@/components/pubs/AdBanner';
+import AdProviderScript from '@/components/pubs/AdProviderScript';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.Site_URL as string),
@@ -77,6 +78,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <GoogleAnalytics gaId="G-BCSQYEJTZZ" />
       <SpeedInsights />
       <Analytics />
+      {/* Charger le script ad-provider une seule fois globalement */}
+      <AdProviderScript />
       <body className={inter.className} suppressHydrationWarning={true}>
         <MoreEighteen />
         <main className="flex min-h-screen flex-col items-center">
