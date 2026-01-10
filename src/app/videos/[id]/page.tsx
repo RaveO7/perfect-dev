@@ -182,9 +182,9 @@ export default function Videos({ params }: { params: { id: number } }) {
 
 
 
-        <div className='w-[25%] h-full flex justify-center'>
+        {/* <div className='w-[25%] h-full flex justify-center hidden lg:flex '>
           <AdBannerVideos />
-        </div>
+        </div> */}
 
       </div>
 
@@ -284,9 +284,9 @@ export default function Videos({ params }: { params: { id: number } }) {
           </div>
         </div>
 
-        <div className='w-[25%] h-full flex justify-center mt-[-10px]'>
+        {/* <div className='w-[25%] h-full flex justify-center mt-[-10px] hidden lg:flex'>
           <AdBannerVideosTwo />
-        </div>
+        </div> */}
 
 
       </div>

@@ -84,6 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <section className="w-full mt-[72px] py-6 lg:px-12 min-h-[calc(100vh-92px)] ">
             {children}
           </section>
+          <AdBanner />
           <Footer />
         </main>
 
