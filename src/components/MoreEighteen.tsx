@@ -5,13 +5,24 @@ import { getCookie, setCookie } from './Utils';
 
 const MoreEighteen = () => {
   const [morenMoreEighteen, setMorenMoreEighteen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => { if (!getCookie('moreEighteen')) { setMorenMoreEighteen(true); } }, []);
+  useEffect(() => {
+    setIsMounted(true);
+    if (!getCookie('moreEighteen')) {
+      setMorenMoreEighteen(true);
+    }
+  }, []);
 
   const handleModalClick = () => {
     setMorenMoreEighteen(false);
     setCookie('moreEighteen', 'true', 0.2, '/')
   };
+
+  // Ne pas rendre côté serveur pour éviter les problèmes d'hydratation
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     morenMoreEighteen && (

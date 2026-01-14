@@ -1,17 +1,20 @@
 import React from 'react'
 
 export default function DMCA() {
+    // Sécuriser l'URL pour éviter les problèmes avec les caractères spéciaux
+    const siteUrl = process.env.Site_URL || 'this website'
+    
     return (
         <div>
             <h2 className='mb-4 text-2xl underline'>DMCA</h2>
             <p>
                 Legal Disclaimer
                 <br />
-                The owners and operators of {process.env.Site_URL} are not the producers (as that term is defined in 18 U.S.C. Section 2257) of any of the visual content contained in the site.
+                The owners and operators of {siteUrl} are not the producers (as that term is defined in 18 U.S.C. Section 2257) of any of the visual content contained in the site.
                 <br /><br />
-                The owners and operators of {process.env.Site_URL} are not U.S. citizens. {process.env.Site_URL} doesn’t host any content.
+                The owners and operators of {siteUrl} are not U.S. citizens. {siteUrl} doesn't host any content.
                 <br /><br />
-                All {process.env.Site_URL} does is use link or embed content that was uploaded to popular Online Video hosting. All popular Online Video hosting users signed a contract with the sites when they set up their accounts which force them not to upload illegal content. By clicking on any Links to videos while surfing on {process.env.Site_URL} you watch content hosted on third parties and {process.env.Site_URL} can’t take the responsibility for any content hosted on other sites.
+                All {siteUrl} does is use link or embed content that was uploaded to popular Online Video hosting. All popular Online Video hosting users signed a contract with the sites when they set up their accounts which force them not to upload illegal content. By clicking on any Links to videos while surfing on {siteUrl} you watch content hosted on third parties and {siteUrl} can't take the responsibility for any content hosted on other sites.
                 <br /><br />
                 We do not upload any videos nor do we know who and where videos are coming from. We do not promote any illegal conduct of any kind. Links to the videos are submitted by users and managed by users.
                 <br /><br />

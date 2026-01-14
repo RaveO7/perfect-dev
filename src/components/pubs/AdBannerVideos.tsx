@@ -43,6 +43,7 @@ export default function AdBannerVideos() {
       className="eas6a97888e2" 
       data-zoneid="5824414"
       style={{ display: 'block', textAlign: 'center' }}
+      suppressHydrationWarning
     />
   )
 }
