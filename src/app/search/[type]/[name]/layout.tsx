@@ -1,16 +1,17 @@
 import type { Metadata } from 'next'
-import { upperFirstLetter, normalizeUrl } from '@/components/Utils'
+import { upperFirstLetter, normalizeUrl, getSiteUrl } from '@/components/Utils'
 
 type Props = { params: { name: string, type: string } }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const siteUrl = getSiteUrl('https://perfectpornsite.com')
     const decodedName = decodeURI(params.name);
     const typeLabel = params.type === 'videos' ? 'videos' : 
                      params.type === 'pornstars' ? 'pornstars' :
                      params.type === 'channels' ? 'channels' : 'categories';
     const title = `Search: ${decodedName} - ${upperFirstLetter(typeLabel)} | Perfect Porn`;
     const description = `Search results for "${decodedName}" in ${typeLabel} on Perfect Porn. Browse premium HD adult content.`;
-    const url = normalizeUrl(process.env.Site_URL || '', `search/${params.type}/${params.name}`);
+    const url = normalizeUrl(siteUrl, `search/${params.type}/${params.name}`);
 
     return {
         title: title,

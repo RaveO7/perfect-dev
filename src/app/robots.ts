@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next'
-import { normalizeUrl } from '@/components/Utils'
+import { normalizeUrl, getSiteUrl } from '@/components/Utils'
 
 export default function robots(): MetadataRoute.Robots {
-
+    const siteUrl = getSiteUrl('https://perfectpornsite.com')
+    
     return {
         rules: [
             {
@@ -11,6 +12,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: '/private/',
             }
         ],
-        sitemap: normalizeUrl(process.env.Site_URL || '', 'sitemap.xml'),
+        sitemap: normalizeUrl(siteUrl, 'sitemap.xml'),
     }
 }

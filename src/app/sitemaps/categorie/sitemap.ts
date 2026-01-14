@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma';
 import { CHUNK } from '@/lib/sitemap-config';
-import { normalizeUrl } from '@/components/Utils';
+import { normalizeUrl, getSiteUrl } from '@/components/Utils';
 
 export const revalidate = 3600 * 24; // 24 hours - cache car moins fréquemment mis à jour
 
@@ -41,6 +41,7 @@ export async function generateSitemaps() {
  * @returns Un tableau d'entrées de sitemap contenant les URLs des catégories
  */
 export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
+    const siteUrl = getSiteUrl('https://perfectpornsite.com')
 
     // Calcule la plage de catégories pour ce sitemap avec pagination
     // Exemple: sitemap id=0 -> catégories 0-48999, id=1 -> catégories 49000-97999, etc.
@@ -67,7 +68,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
 
     // Transforme chaque catégorie en entrée de sitemap
     const sitemapEntries = categories.map(({ name, lastModified }) => ({
-        url: normalizeUrl(process.env.Site_URL || '', `categorie/${encodeURIComponent(name)}`),
+        url: normalizeUrl(siteUrl, `categorie/${encodeURIComponent(name)}`),
         lastModified: lastModified || new Date(),
         changeFrequency: 'monthly' as const,
         priority: 0.45,

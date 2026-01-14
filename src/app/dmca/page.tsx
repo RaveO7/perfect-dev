@@ -1,8 +1,9 @@
 import React from 'react'
+import { getSiteUrl } from '@/components/Utils'
 
 export default function DMCA() {
     // Sécuriser l'URL pour éviter les problèmes avec les caractères spéciaux
-    const siteUrl = process.env.Site_URL || 'this website'
+    const siteUrl = getSiteUrl('this website')
     
     return (
         <div>

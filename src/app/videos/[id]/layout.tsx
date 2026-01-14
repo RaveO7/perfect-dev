@@ -1,9 +1,10 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { createGetRequest } from '@/lib/api-helpers'
-import { normalizeUrl } from '@/components/Utils'
+import { normalizeUrl, getSiteUrl } from '@/components/Utils'
 
 export async function generateMetadata({ params }: { params: { id: any, test: any } }, parent: ResolvingMetadata): Promise<Metadata> {
     const { id } = params;
+    const siteUrl = getSiteUrl('https://perfectpornsite.com')
 
     // ✅ FIX : Valeurs par défaut pour éviter les erreurs si l'API échoue
     let res: any = {
@@ -14,7 +15,7 @@ export async function generateMetadata({ params }: { params: { id: any, test: an
     };
 
     try {
-        const apiUrlEndpoint = normalizeUrl(process.env.Site_URL || '', `api/dataVideo?value=${id}`)
+        const apiUrlEndpoint = normalizeUrl(siteUrl, `api/dataVideo?value=${id}`)
         
         // ✅ OPTIMISÉ : Utilisation de createGetRequest() au lieu de postData: any (corrige aussi le bug header → headers)
         const requestData = createGetRequest()
@@ -45,7 +46,7 @@ export async function generateMetadata({ params }: { params: { id: any, test: an
     let tableauFinal = tableauFiltre.map((mot: string) => mot.replace(/[^a-zA-Z0-9]/g, ''));
     tableauFinal.push(title)
 
-    const videoUrl = normalizeUrl(process.env.Site_URL || '', `videos/${id}?name=${encodeURI(title)}`)
+    const videoUrl = normalizeUrl(siteUrl, `videos/${id}?name=${encodeURI(title)}`)
 
     return {
         title: title,

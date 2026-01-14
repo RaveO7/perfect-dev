@@ -111,3 +111,22 @@ export function normalizeUrl(baseUrl: string, path: string = ''): string {
   return cleanPath ? `${cleanBase}/${cleanPath}` : cleanBase;
 }
 
+/**
+ * Obtient l'URL du site de manière sécurisée depuis les variables d'environnement
+ * @param fallback - URL de fallback si Site_URL n'est pas défini
+ * @returns L'URL du site validée
+ */
+export function getSiteUrl(fallback: string = 'https://perfectpornsite.com'): string {
+  const siteUrl = process.env.Site_URL || process.env.NEXT_PUBLIC_Site_URL || fallback;
+  
+  // Valider que l'URL est bien formée
+  try {
+    const url = new URL(siteUrl);
+    return url.origin;
+  } catch (error) {
+    // Si l'URL n'est pas valide, utiliser le fallback
+    console.warn(`Invalid Site_URL: ${siteUrl}, using fallback: ${fallback}`);
+    return fallback;
+  }
+}
+

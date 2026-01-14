@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma';
 import { CHUNK } from '@/lib/sitemap-config';
-import { normalizeUrl } from '@/components/Utils';
+import { normalizeUrl, getSiteUrl } from '@/components/Utils';
 
 export const revalidate = 3600 * 12; // 12 hours - cache pour optimiser les performances
 
@@ -30,6 +30,7 @@ export async function generateSitemaps() {
  * @returns Un tableau d'entrées de sitemap contenant les URLs des vidéos
  */
 export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
+    const siteUrl = getSiteUrl('https://perfectpornsite.com')
 
     // Calcule la pagination pour ce sitemap
     // Exemple: sitemap id=0 -> vidéos 0-48999, id=1 -> vidéos 49000-97999, etc.
@@ -53,7 +54,7 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
 
     // Transforme chaque vidéo en entrée de sitemap
     const sitemapEntries = videos.map(({ id, title, createdAt }) => ({
-        url: normalizeUrl(process.env.Site_URL || '', `videos/${id}?name=${encodeURIComponent(title)}`),
+        url: normalizeUrl(siteUrl, `videos/${id}?name=${encodeURIComponent(title)}`),
         lastModified: createdAt || new Date(),
         changeFrequency: 'daily' as const,
         priority: 0.8,

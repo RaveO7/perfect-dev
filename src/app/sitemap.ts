@@ -1,13 +1,13 @@
 import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma';
 import { CHUNK } from '@/lib/sitemap-config';
-import { normalizeUrl } from '@/components/Utils';
+import { normalizeUrl, getSiteUrl } from '@/components/Utils';
 
 export const revalidate = 3600*24; // 1 day
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Base URL du site utilisé pour préfixer toutes les routes
-    const urlSite: string = normalizeUrl(process.env.Site_URL || '')
+    const urlSite: string = getSiteUrl('https://perfectpornsite.com')
     // Date courante réutilisée pour les routes statiques
     const now = new Date()
 

@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma';
-import { normalizeUrl } from '@/components/Utils';
+import { normalizeUrl, getSiteUrl } from '@/components/Utils';
 
 export const revalidate = 3600; // 1 hour - plus fréquent car contenu très récent
 
@@ -9,6 +9,7 @@ export const revalidate = 3600; // 1 hour - plus fréquent car contenu très ré
  * Ces vidéos ont une priority plus élevée pour être indexées rapidement
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    const siteUrl = getSiteUrl('https://perfectpornsite.com')
 
     // Date d'il y a 7 jours
     const sevenDaysAgo = new Date();
@@ -34,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Transforme chaque vidéo en entrée de sitemap avec priority élevée
     const sitemapEntries = recentVideos.map(({ id, title, createdAt }) => ({
-        url: normalizeUrl(process.env.Site_URL || '', `videos/${id}?name=${encodeURIComponent(title)}`),
+        url: normalizeUrl(siteUrl, `videos/${id}?name=${encodeURIComponent(title)}`),
         lastModified: createdAt || new Date(),
         changeFrequency: 'daily' as const,
         priority: 0.9, // Priority plus élevée pour les vidéos récentes

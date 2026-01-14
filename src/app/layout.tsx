@@ -18,12 +18,16 @@ const inter = Inter({
   adjustFontFallback: true,
 })
 
-import { normalizeUrl } from '@/components/Utils'
+import { normalizeUrl, getSiteUrl } from '@/components/Utils'
 import AdBanner from '@/components/pubs/AdBanner';
 import AdProviderScript from '@/components/pubs/AdProviderScript';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+
+// Obtenir l'URL du site de manière sécurisée
+const siteUrl = getSiteUrl('https://perfectpornsite.com');
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.Site_URL as string),
+  metadataBase: new URL(siteUrl),
   title: {
     absolute: '',
     default: 'Perfect Porn | The site for fulfilling your Fantasies.',
@@ -32,16 +36,16 @@ export const metadata: Metadata = {
   keywords: ['PerfectPorn', 'Perfect Porn', 'Watch Porn', 'Watch Free Porn', 'free porn', 'Free Porn Videos', 'free', 'more eighteen', 'sexe', 'videos sexe', 'porno videos', 'porno video', 'porno', 'pornographie', 'pornographique', 'xxx', 'perfectporn', 'perfect porn'],
   description: 'Explore diverse and high-quality content at Perfect Porn. Your ultimate destination for fulfilling fantasies.',
   applicationName: 'Perfectporn',
-  authors: [{ name: "Phoenix", url: normalizeUrl(process.env.Site_URL || '') }],
+  authors: [{ name: "Phoenix", url: normalizeUrl(siteUrl) }],
   publisher: 'Phoenix',
-  alternates: { canonical: normalizeUrl(process.env.Site_URL || '') },
+  alternates: { canonical: normalizeUrl(siteUrl) },
   robots: 'max-snippet:-1, max-image-preview:large, max-video-preview:-1',
   verification: {google: "iEbYUqh_jKgVnifPqHYfD2o2pFxUBhWVHjyFuwtl864",},
   // ✅ AMÉLIORATION OPENGRAPH : Ajout de dimensions, locale, et métadonnées complètes
   openGraph: {
     title: "Perfect Porn - Best Free HD Porn Videos",
     description: "Perfect Porn - The best porn site with all your dream videos. Watch free HD adult content including channels, pornstars, and categories.",
-    url: normalizeUrl(process.env.Site_URL || ''),
+    url: normalizeUrl(siteUrl),
     siteName: "Perfect Porn",
     locale: "en_US", // ✅ NOUVEAU : Indique la langue/zone géographique
     type: "website",
@@ -74,23 +78,24 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" >
       <GoogleAnalytics gaId="G-BCSQYEJTZZ" />
       <SpeedInsights />
       <Analytics />
       {/* Charger le script ad-provider une seule fois globalement */}
       <AdProviderScript />
-      <body className={inter.className} suppressHydrationWarning>
-        <MoreEighteen />
-        <main className="flex min-h-screen flex-col items-center">
-          <Header />
-          <section className="w-full mt-[72px] py-6 lg:px-12 min-h-[calc(100vh-92px)] ">
-            {children}
-          </section>
-          <AdBanner />
-          <Footer />
-        </main>
-
+      <body className={inter.className} suppressHydrationWarning={true}>
+        <ErrorBoundary>
+          <MoreEighteen />
+          <main className="flex min-h-screen flex-col items-center">
+            <Header />
+            <section className="w-full mt-[72px] py-6 lg:px-12 min-h-[calc(100vh-92px)] ">
+              {children}
+            </section>
+            <AdBanner />
+            <Footer />
+          </main>
+        </ErrorBoundary>
       </body>
     </html>
   )
