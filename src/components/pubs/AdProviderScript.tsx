@@ -10,9 +10,12 @@ declare global {
 
 export default function AdProviderScript() {
   const handleScriptLoad = () => {
+    // Utiliser requestAnimationFrame pour s'assurer que le DOM est prêt
     if (typeof window !== 'undefined') {
-      window.AdProvider = window.AdProvider || []
-      window.AdProvider.push({ serve: {} })
+      requestAnimationFrame(() => {
+        window.AdProvider = window.AdProvider || []
+        window.AdProvider.push({ serve: {} })
+      })
     }
   }
 
@@ -22,7 +25,11 @@ export default function AdProviderScript() {
       src="https://a.magsrv.com/ad-provider.js"
       strategy="afterInteractive"
       onLoad={handleScriptLoad}
-      onError={() => console.error('Failed to load ad-provider.js')}
+      onError={() => {
+        if (typeof window !== 'undefined' && typeof console !== 'undefined') {
+          console.error('Failed to load ad-provider.js')
+        }
+      }}
     />
   )
 }

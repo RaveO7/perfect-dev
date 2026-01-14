@@ -74,13 +74,13 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" >
+    <html lang="en" suppressHydrationWarning>
       <GoogleAnalytics gaId="G-BCSQYEJTZZ" />
       <SpeedInsights />
       <Analytics />
       {/* Charger le script ad-provider une seule fois globalement */}
       <AdProviderScript />
-      <body className={inter.className} suppressHydrationWarning={true}>
+      <body className={inter.className} suppressHydrationWarning>
         <MoreEighteen />
         <main className="flex min-h-screen flex-col items-center">
           <Header />

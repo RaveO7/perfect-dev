@@ -8,15 +8,25 @@ const MoreEighteen = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
-    if (!getCookie('moreEighteen')) {
-      setMorenMoreEighteen(true);
-    }
+    // Utiliser requestAnimationFrame pour s'assurer que le DOM est prêt
+    const rafId = requestAnimationFrame(() => {
+      setIsMounted(true);
+      // Vérifier le cookie uniquement après le montage
+      if (typeof window !== 'undefined' && !getCookie('moreEighteen')) {
+        setMorenMoreEighteen(true);
+      }
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const handleModalClick = () => {
     setMorenMoreEighteen(false);
-    setCookie('moreEighteen', 'true', 0.2, '/')
+    if (typeof window !== 'undefined') {
+      setCookie('moreEighteen', 'true', 0.2, '/')
+    }
   };
 
   // Ne pas rendre côté serveur pour éviter les problèmes d'hydratation
@@ -24,11 +34,20 @@ const MoreEighteen = () => {
     return null;
   }
 
+  if (!morenMoreEighteen) {
+    return null;
+  }
+
   return (
-    morenMoreEighteen && (
-      <div data-modal-backdrop="static" aria-hidden="true" className={`
-      fixed top-0 right-0 left-0 bottom-0 justify-center items-center md:inset-0 
-      w-full h-full  bg-bgBody/90 backdrop-blur-md z-[100] overflow-hidden`} >
+    <div 
+      data-modal-backdrop="static" 
+      aria-hidden="true" 
+      className={`
+        fixed top-0 right-0 left-0 bottom-0 justify-center items-center md:inset-0 
+        w-full h-full bg-bgBody/90 backdrop-blur-md z-[100] overflow-hidden
+      `}
+      suppressHydrationWarning
+    >
         <div className="p-4 md:p-0 h-screen m-auto flex justify-center items-center">
           <div
             className='p-4 md:p-5 md:min-w-[650px] h-auto max-w-2xl w-full relative bg-gray-700 dark:bg-gray-700 rounded-lg shadow'>
@@ -49,7 +68,6 @@ const MoreEighteen = () => {
           </div>
         </div>
       </div>
-    )
   );
 };
 
