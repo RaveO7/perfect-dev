@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from '@vercel/analytics/react';
 import { GoogleAnalytics } from '@next/third-parties/google'
+import Script from 'next/script'
 
 import { Inter } from 'next/font/google'
 
@@ -68,6 +69,7 @@ export const metadata: Metadata = {
   },
   other: {
     "6a97888e-site-verification": "07bc72bd8d75f7e97c8be4156fee565a",
+    "juicyads-site-verification": "ff4a7fc6693682a4ee5d5c6066845033"
   }
 }
 
@@ -79,6 +81,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" >
+      <Script 
+        async 
+        src="//d.smopy.com/d/?resource=pubJS" 
+        strategy="afterInteractive"
+      />
       <GoogleAnalytics gaId="G-BCSQYEJTZZ" />
       <SpeedInsights />
       <Analytics />
