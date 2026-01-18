@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   },
   other: {
     "6a97888e-site-verification": "07bc72bd8d75f7e97c8be4156fee565a",
-    "juicyads-site-verification": "ff4a7fc6693682a4ee5d5c6066845033"
+    // "juicyads-site-verification": "ff4a7fc6693682a4ee5d5c6066845033"
   }
 }
 
@@ -81,11 +81,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" >
-      <Script 
+      {/* <Script 
         async 
         src="//d.smopy.com/d/?resource=pubJS" 
         strategy="afterInteractive"
-      />
+      /> */}
       <GoogleAnalytics gaId="G-BCSQYEJTZZ" />
       <SpeedInsights />
       <Analytics />
