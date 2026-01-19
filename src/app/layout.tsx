@@ -12,7 +12,7 @@ import Header from '../components/Header'
 import MoreEighteen from '@/components/MoreEighteen'
 import Footer from '@/components/Footer';
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   preload: true,
@@ -22,6 +22,7 @@ const inter = Inter({
 import { normalizeUrl, getSiteUrl } from '@/components/Utils'
 import AdBanner from '@/components/pubs/AdBanner';
 import AdProviderScript from '@/components/pubs/AdProviderScript';
+import PopupAdScript from '@/components/pubs/PopupAdScript';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 // Obtenir l'URL du site de manière sécurisée
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
   publisher: 'Phoenix',
   alternates: { canonical: normalizeUrl(siteUrl) },
   robots: 'max-snippet:-1, max-image-preview:large, max-video-preview:-1',
-  verification: {google: "iEbYUqh_jKgVnifPqHYfD2o2pFxUBhWVHjyFuwtl864",},
+  verification: { google: "iEbYUqh_jKgVnifPqHYfD2o2pFxUBhWVHjyFuwtl864", },
   // ✅ AMÉLIORATION OPENGRAPH : Ajout de dimensions, locale, et métadonnées complètes
   openGraph: {
     title: "Perfect Porn - Best Free HD Porn Videos",
@@ -86,11 +87,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         src="//d.smopy.com/d/?resource=pubJS" 
         strategy="afterInteractive"
       /> */}
+
+
+
+
       <GoogleAnalytics gaId="G-BCSQYEJTZZ" />
       <SpeedInsights />
       <Analytics />
       {/* Charger le script ad-provider une seule fois globalement */}
       <AdProviderScript />
+      {/* Script popup de pub */}
+      <PopupAdScript />
       <body className={inter.className} suppressHydrationWarning={true}>
         <ErrorBoundary>
           <MoreEighteen />
