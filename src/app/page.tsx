@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import PageListVideo from '../components/PageListVideo'
+import JsonLd from '../components/JsonLd'
 import { createPostRequest } from '@/lib/api-helpers'
 
 export default function Home({ searchParams }: { searchParams: { page: number } }) {
@@ -43,15 +44,18 @@ export default function Home({ searchParams }: { searchParams: { page: number } 
   }, [pageNbr, valueMenu])
 
   return (
-    <PageListVideo
-      valueMenu={valueMenu}
-      setValueMenu={setValueMenu}
-      videos={videos}
-      page={pageNbr}
-      numberPage={nbrPage}
-      type={""}
-      nbrVideo={0}
-      loading={loading}
-    />
+    <>
+      <JsonLd type="home" data={{ videos }} />
+      <PageListVideo
+        valueMenu={valueMenu}
+        setValueMenu={setValueMenu}
+        videos={videos}
+        page={pageNbr}
+        numberPage={nbrPage}
+        type={""}
+        nbrVideo={0}
+        loading={loading}
+      />
+    </>
   )
 }
