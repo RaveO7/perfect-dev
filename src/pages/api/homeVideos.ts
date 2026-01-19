@@ -22,7 +22,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         // Note: order est validé par getOrderClauseForVideos qui retourne seulement des valeurs autorisées
         const posts = await prisma.$queryRaw<VideoResult[]>(
             Prisma.sql`
-                SELECT id, title, imgUrl, time, v.like, dislike, view, ${totalCount} AS nbr
+                SELECT id, title, imgUrl, time, v.like, dislike, view, v.description, v.createdAt, ${totalCount} AS nbr
                 FROM Videos v
                 ${Prisma.raw(order)}
                 LIMIT ${startSearchVideo}, ${numberVideoByPage}

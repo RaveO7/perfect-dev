@@ -73,7 +73,17 @@ export default function JsonLd({ type = 'home', data }: JsonLdProps) {
               "@id": `${baseUrl}/videos/${video.id}#video`,
               "name": video.title,
               "thumbnailUrl": getAbsoluteUrl(video.imgUrl),
-              "isFamilyFriendly": false
+              "isFamilyFriendly": false,
+              // Champ uploadDate (obligatoire) - utilise la vraie date de création
+              "uploadDate": video.createdAt 
+                ? new Date(video.createdAt).toISOString() 
+                : new Date().toISOString(), // Fallback sur la date actuelle si non disponible
+              // Champ description (facultatif mais recommandé) - utilise la vraie description de la vidéo
+              "description": video.description || video.title || "",
+              // Champ contentUrl (facultatif mais recommandé) - exemple avec URL de la vidéo
+              "contentUrl": video.videoUrl 
+                ? getAbsoluteUrl(video.videoUrl) 
+                : `${baseUrl}/videos/${video.id}`
             }
 
             if (video.time) videoItem.duration = video.time

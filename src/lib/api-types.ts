@@ -14,6 +14,8 @@ export interface VideoResult {
     like: number;
     dislike: number;
     view: number;
+    description?: string | null; // Description de la vidéo (optionnelle)
+    createdAt?: Date | string; // Date de création de la vidéo
     nbr: number; // Nombre total de pages
 }
 
