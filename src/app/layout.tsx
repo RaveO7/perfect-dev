@@ -22,7 +22,7 @@ const inter = Inter({
 import { normalizeUrl, getSiteUrl } from '@/components/Utils'
 import AdBanner from '@/components/pubs/AdBanner';
 import AdProviderScript from '@/components/pubs/AdProviderScript';
-import PopupAdScript from '@/components/pubs/PopupAdScript';
+import PopMagicAd from '@/components/pubs/PopMagicAd';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 // Obtenir l'URL du site de manière sécurisée
@@ -82,22 +82,12 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" >
-      {/* <Script 
-        async 
-        src="//d.smopy.com/d/?resource=pubJS" 
-        strategy="afterInteractive"
-      /> */}
-
-
-
-
+      <PopMagicAd />
       <GoogleAnalytics gaId="G-BCSQYEJTZZ" />
       <SpeedInsights />
       <Analytics />
       {/* Charger le script ad-provider une seule fois globalement */}
       <AdProviderScript />
-      {/* Script popup de pub */}
-      <PopupAdScript />
       <body className={inter.className} suppressHydrationWarning={true}>
         <ErrorBoundary>
           <MoreEighteen />
