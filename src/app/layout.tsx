@@ -82,7 +82,6 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" >
-      <PopMagicAd />
       <GoogleAnalytics gaId="G-BCSQYEJTZZ" />
       <SpeedInsights />
       <Analytics />
@@ -90,6 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <AdProviderScript />
       <body className={inter.className} suppressHydrationWarning={true}>
         <ErrorBoundary>
+          <PopMagicAd />
           <MoreEighteen />
           <main className="flex min-h-screen flex-col items-center">
             <Header />
