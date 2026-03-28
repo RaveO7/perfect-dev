@@ -69,7 +69,8 @@ export const metadata: Metadata = {
     // site: '@PerfectPorn' // Optionnel : compte Twitter du site
   },
   other: {
-    "6a97888e-site-verification": "07bc72bd8d75f7e97c8be4156fee565a",
+    "admaven-placement": "Bqjw7pdY4",
+    // "6a97888e-site-verification": "07bc72bd8d75f7e97c8be4156fee565a",
     // "juicyads-site-verification": "ff4a7fc6693682a4ee5d5c6066845033"
   }
 }
